@@ -18,13 +18,13 @@ export const login = async (payload: TLogin) => {
 
     setCookie(
       "access_token",
-      data.access_token,
+      data?.access_token,
       (access_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS
     );
 
     setCookie(
       "refresh_token",
-      data.refresh_token,
+      data?.refresh_token,
       (refresh_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS
     );
     return response.data;
