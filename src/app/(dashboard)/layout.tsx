@@ -1,5 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Sidebar } from "@/features/dashboard/components/";
+import { Sidebar, Topbar } from "@/features/dashboard/components/";
 
 export default function DashboardLayout({
   children,
@@ -10,7 +10,10 @@ export default function DashboardLayout({
     <section>
       <SidebarProvider>
         <Sidebar />
-        <main className="p-6">{children}</main>
+        <main className="w-full">
+          <Topbar />
+          <div className="p-6">{children}</div>
+        </main>
       </SidebarProvider>
     </section>
   );
