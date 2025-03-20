@@ -6,7 +6,7 @@ import { AXIOS_TIMEOUT } from "@/constants/app";
 import envConfig from "@/config/env";
 
 const instance = axios.create({
-  baseURL: envConfig.API_BASE_URL,
+  baseURL: envConfig.NEXT_PUBLIC_API_BASE_URL,
   withCredentials: true,
   timeout: AXIOS_TIMEOUT,
 });
