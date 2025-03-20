@@ -4,7 +4,6 @@ import {
   LuHouse,
   LuMusic,
   LuPersonStanding,
-  LuSettings,
   LuUser,
 } from "react-icons/lu";
 
@@ -33,11 +32,6 @@ export const items = [
     title: "Songs",
     url: "/songs",
     icon: LuMusic,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: LuSettings,
   },
   {
     title: "Help",
