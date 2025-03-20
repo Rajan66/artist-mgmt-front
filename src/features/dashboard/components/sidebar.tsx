@@ -12,6 +12,7 @@ import {
 import SidebarItems from "./sidebar-items";
 
 import logo from "@/app/favicon.ico";
+import Link from "next/link";
 
 const DashboardSidebar = () => {
   const { state } = useSidebar();
@@ -24,7 +25,7 @@ const DashboardSidebar = () => {
         } as React.CSSProperties
       }
     >
-      <div className="flex items-center gap-4 p-3">
+      <Link href="/" className="flex items-center gap-4 p-3">
         <Image
           src={logo || "/placeholder.svg"}
           alt="VoxCloud logo"
@@ -34,14 +35,14 @@ const DashboardSidebar = () => {
         {state === "expanded" && (
           <h2 className="text-lg font-semibold">VoxCloud</h2>
         )}
-      </div>
+      </Link>
       <SidebarContent>
         <SidebarGroup>
           <SidebarItems />
         </SidebarGroup>
       </SidebarContent>
       {state === "expanded" && (
-        <SidebarTrigger className="absolute top-4 right-4" />
+        <SidebarTrigger className="absolute top-4 right-4 hidden cursor-pointer md:block" />
       )}
       <SidebarRail />
     </Sidebar>
