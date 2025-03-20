@@ -16,8 +16,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
+import { login } from "../actions";
+import { useRouter } from "next/navigation";
+
+import { setCookie } from "cookies-next";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
+  const router = useRouter();
   const form = useForm<TLogin>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -26,8 +32,16 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = () => {
-    console.log("Form is submitting");
+  const onSubmit = async (data: TLogin) => {
+    try {
+      const response = await login(data);
+      const user = await response?.data;
+      setCookie("user_id", user?.id);
+      toast.success("Login successful");
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
