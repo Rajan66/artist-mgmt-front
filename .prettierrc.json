@@ -3,6 +3,6 @@
   "semi": true,
   "tabWidth": 2,
   "singleQuote": false,
-  "jsxSingleQuote": true,
+  "jsxSingleQuote": false,
   "plugins": ["prettier-plugin-tailwindcss"]
 }
