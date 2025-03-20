@@ -30,7 +30,11 @@ const ThemeToggle = () => {
       className="border-foreground bg-background text-foreground hover:bg-primary/20 size-8 border-none shadow-none focus:ring-0 focus:ring-offset-0 focus:outline-none"
     >
       <span className="sr-only">Toggle Theme</span>
-      {resolvedTheme === "dark" ? <LuMoon /> : <LuSun />}
+      {resolvedTheme === "dark" ? (
+        <LuMoon className="size-5" />
+      ) : (
+        <LuSun className="size-5" />
+      )}
     </Button>
   );
 };
