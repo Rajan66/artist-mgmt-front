@@ -1,26 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
+import { decodeJwt } from "jose";
+
 import { setCookie, getCookie } from "@/actions/cookies";
 import { getRefreshToken } from "@/features/auth/actions";
-import { decodeJwt } from "jose";
 import { cookieExpiry } from "@/constants/app";
-
-const adminRoutes = ["/", "/users"];
-const managerRoutes = ["/", "/artists"];
-const publicRoutes = ["/free"];
-const authRoutes = ["/login", "/register"];
+import {
+  authRoutes,
+  // adminRoutes,
+  publicRoutes,
+  protectedRoutes,
+} from "@/utils/routes";
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
   const isAuthRoute = authRoutes.includes(pathname);
-  const isAdminRoute = adminRoutes.includes(pathname);
-  const isManagerRoute = managerRoutes.includes(pathname);
+  // const isAdminRoute = adminRoutes.includes(pathname);
+  const isProtectedRoute = protectedRoutes.includes(pathname);
   const isPublicRoute = publicRoutes.includes(pathname);
 
   if (isPublicRoute) {
     return NextResponse.next();
   }
 
-  if (isAdminRoute) {
+  if (isProtectedRoute) {
     const access_token = await getCookie("access_token");
     if (!access_token) {
       const refresh_token = await getCookie("refresh_token");
@@ -50,7 +53,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (isManagerRoute) {
+  if (isAuthRoute) {
     return NextResponse.next();
   }
 
