@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 
 import { ToastContainer } from "react-toastify";
+import ThemeProvider from "@/components/theme-provider";
 
 import "./globals.css";
 
@@ -24,8 +25,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${raleway.variable} antialiased`}>
-        <ToastContainer />
-        {children}
+        <ThemeProvider
+          defaultTheme="system"
+          attribute="class"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ToastContainer />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
