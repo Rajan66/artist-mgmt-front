@@ -1,6 +1,7 @@
 "use client";
-import { getSongs } from "@/features/songs/actions/get";
 import React, { useEffect } from "react";
+
+import { getSongs } from "@/features/songs/actions/get";
 
 const page = () => {
   useEffect(() => {
