@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 
 import { setCookie } from "cookies-next";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const LoginForm = () => {
   return (
     <div className="flex flex-1 items-center justify-center p-6 md:p-12">
       <div className="w-full max-w-md">
-        <div className="mb-6 space-y-2">
+        <div className="mb-8 space-y-2">
           <h2 className="text-3xl font-bold">Welcome back</h2>
           <p className="text-primary text-base">{`See what's trending today.`}</p>
           <p className="text-muted-foreground">
@@ -57,12 +58,12 @@ const LoginForm = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-4">
-              <div className="space-y-2">
+              <div className="space-y-6">
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="space-y-2">
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
@@ -80,14 +81,10 @@ const LoginForm = () => {
                   control={form.control}
                   name="password"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="space-y-2">
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <PasswordInput
-                          className="text-xl"
-                          placeholder="********"
-                          {...field}
-                        />
+                        <PasswordInput placeholder="********" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -96,17 +93,17 @@ const LoginForm = () => {
               </div>
             </div>
             <div className="mt-6 flex flex-col">
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="text-background w-full">
                 Sign in
               </Button>
               <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a
-                  href="#"
+                <Link
+                  href="/register"
                   className="text-primary hover:text-primary/90 underline"
                 >
                   Sign up
-                </a>
+                </Link>
               </div>
             </div>
           </form>
