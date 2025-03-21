@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { LuLogOut, LuSettings } from "react-icons/lu";
 import { FaUserTie } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -18,6 +20,20 @@ import {
 import { logout } from "@/features/auth/actions/logout.action";
 
 const UserAvatar = () => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const status = await logout();
+      if (status !== 204) {
+        throw new Error("Logout failed! Please try again.");
+      }
+      router.replace("/login");
+    } catch (error) {
+      toast.error(error.toString());
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -61,7 +77,7 @@ const UserAvatar = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
-            onClick={() => logout()}
+            onClick={handleLogout}
           >
             <LuLogOut />
             Logout
