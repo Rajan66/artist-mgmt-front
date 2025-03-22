@@ -73,6 +73,15 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isAuthRoute) {
+    try {
+      const access_token = await getCookie("access_token");
+      const refresh_token = await getCookie("refresh_token");
+      if (access_token || refresh_token) {
+        return NextResponse.redirect(new URL("/", request.nextUrl));
+      }
+    } catch (error) {
+      console.error("Error checking auth state:", error);
+    }
     return NextResponse.next();
   }
 
