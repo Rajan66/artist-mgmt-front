@@ -16,6 +16,7 @@ const ArtistTable = () => {
       <DataTable<TArtist, string[]>
         columns={columns}
         data={(data?.data ?? []) as TArtist[]}
+        searchValue="name"
       />
     </div>
   );
