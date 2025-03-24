@@ -24,21 +24,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { items } from "@/constants/sidebar";
 
 interface DataTableProps<TData, TValue> {
-  // data: type ie. Artist, value: headers ie. name
   columns: ColumnDef<TData, TValue>[];
-  // TArtist[]
   data: TData[];
+  searchValue: string;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
+  searchValue,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0, // change to 1
+    pageSize: 10,
+  });
 
   const table = useReactTable({
     data,
@@ -52,59 +55,73 @@ const DataTable = <TData, TValue>({
     state: {
       sorting,
       columnFilters,
+      pagination,
     },
   });
 
   return (
     <div className="w-full">
+      {/* Filter Input */}
       <div className="flex items-center py-4">
         <Input
           placeholder={"Search by names"}
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn(`${searchValue}`)?.getFilterValue() as string) ??
+            ""
+          }
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table
+              .getColumn(`${searchValue}`)
+              ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
       </div>
+
+      {/* Table */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder ? null : (
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                          header.column.getToggleSortingHandler();
+                        }}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: " 🔼",
+                          desc: " 🔽",
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                    )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <>
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </>
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))
             ) : (
               <TableRow>
@@ -112,7 +129,7 @@ const DataTable = <TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {`No results found.`}
+                  No results found.
                 </TableCell>
               </TableRow>
             )}
@@ -128,6 +145,10 @@ const DataTable = <TData, TValue>({
           disabled={!table.getCanPreviousPage()}
         >
           {"Previous"}
+        </Button>
+
+        <Button size="sm" variant="outline">
+          {table.getState().pagination.pageIndex}
         </Button>
         <Button
           variant="outline"
