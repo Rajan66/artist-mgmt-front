@@ -1,5 +1,6 @@
-import axios from "@/lib/axios/interceptor";
 import { isAxiosError } from "axios";
+
+import axios from "@/lib/axios/interceptor";
 
 export const getRefreshToken = async (token: string) => {
   try {

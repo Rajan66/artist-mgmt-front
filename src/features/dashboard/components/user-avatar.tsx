@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { LuLogOut, LuSettings } from "react-icons/lu";
 import { FaUserTie } from "react-icons/fa6";
+import { LuLogOut, LuSettings } from "react-icons/lu";
 import { toast } from "react-toastify";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,10 +13,9 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { logout } from "@/features/auth/actions/logout.action";
 
 const UserAvatar = () => {
@@ -30,7 +29,11 @@ const UserAvatar = () => {
       }
       router.replace("/login");
     } catch (error) {
-      toast.error(error.toString());
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

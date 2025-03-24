@@ -7,10 +7,10 @@ import {
   ColumnFiltersState,
   SortingState,
   flexRender,
+  getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 

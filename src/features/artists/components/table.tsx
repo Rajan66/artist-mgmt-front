@@ -1,10 +1,12 @@
 "use client";
-import DataTable from "@/components/data-table";
+
 import React from "react";
 
-import { TArtist } from "../types/artists";
-import { useGetArtists } from "../hooks/use-queries";
+import DataTable from "@/components/data-table";
 import { columns } from "@/features/artists/utils/columns";
+
+import { useGetArtists } from "../hooks/use-queries";
+import { TArtist } from "../types/artists";
 
 const ArtistTable = () => {
   const { data } = useGetArtists();
