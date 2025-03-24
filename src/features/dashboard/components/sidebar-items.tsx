@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 
 import {
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
 import { items } from "@/constants/sidebar";
 import { cn } from "@/lib/utils";
 

@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { decodeJwt } from "jose";
 
-import { setCookie, getCookie } from "@/actions/cookies";
-import { getRefreshToken } from "@/features/auth/actions";
+import { getCookie, setCookie } from "@/actions/cookies";
 import { cookieExpiry } from "@/constants/app";
+import { getRefreshToken } from "@/features/auth/actions";
 import {
   authRoutes,
+  protectedRoutes,
   // adminRoutes,
   publicRoutes,
-  protectedRoutes,
 } from "@/utils/routes";
 
 export async function middleware(request: NextRequest) {

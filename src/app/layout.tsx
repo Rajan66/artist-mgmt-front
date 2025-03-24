@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 
 import { ToastContainer } from "react-toastify";
+
 import ThemeProvider from "@/components/theme-provider";
 import QueryProvider from "@/lib/tanstack-query/query-provider";
 

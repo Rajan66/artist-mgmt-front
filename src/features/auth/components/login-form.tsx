@@ -1,16 +1,14 @@
 "use client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
-import { toast } from "react-toastify";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { setCookie } from "cookies-next";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-
-import { login } from "../actions";
 import {
   Form,
   FormControl,
@@ -19,7 +17,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+
+import { login } from "../actions";
 import { LoginSchema, TLogin } from "../schemas/login.schema";
 
 const LoginForm = () => {

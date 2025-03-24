@@ -1,18 +1,19 @@
 "use client";
-import Image from "next/image";
 
+import Image from "next/image";
+import Link from "next/link";
+
+import logo from "@/app/favicon.ico";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarTrigger,
   SidebarRail,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import SidebarItems from "./sidebar-items";
 
-import logo from "@/app/favicon.ico";
-import Link from "next/link";
+import SidebarItems from "./sidebar-items";
 
 const DashboardSidebar = () => {
   const { state } = useSidebar();

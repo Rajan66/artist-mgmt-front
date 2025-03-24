@@ -1,5 +1,7 @@
 "use server";
+
 import { cookies } from "next/headers";
+
 import { TCookie } from "@/types";
 
 export const setCookie = async (name: TCookie, value: string, date: number) => {

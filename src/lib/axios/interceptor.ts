@@ -1,9 +1,8 @@
 import axios from "axios";
 
 import { getCookie } from "@/actions/cookies";
-import { AXIOS_TIMEOUT } from "@/constants/app";
-
 import envConfig from "@/config/env";
+import { AXIOS_TIMEOUT } from "@/constants/app";
 
 const instance = axios.create({
   baseURL: envConfig.NEXT_PUBLIC_API_BASE_URL,

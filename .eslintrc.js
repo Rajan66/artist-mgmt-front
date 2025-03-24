@@ -38,7 +38,6 @@ module.exports = {
     "plugin:react-hooks/recommended",
   ],
 
-
   rules: {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
@@ -71,4 +70,4 @@ module.exports = {
     "no-nested-ternary": "off",
     "import/prefer-default-export": "off",
   },
-}
+};
