@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+
 import axios from "./interceptor";
 
 export const api = process.env.NEXT_PUBLIC_API;

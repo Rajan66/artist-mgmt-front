@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 
 import { ToastContainer } from "react-toastify";
+
 import ThemeProvider from "@/components/theme-provider";
+import QueryProvider from "@/lib/tanstack-query/query-provider";
 
 import "./globals.css";
 
@@ -25,15 +27,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${raleway.variable} antialiased`}>
-        <ThemeProvider
-          defaultTheme="system"
-          attribute="class"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ToastContainer />
-          {children}
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider
+            defaultTheme="system"
+            attribute="class"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ToastContainer />
+            {children}
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,7 +1,11 @@
-import React from 'react';
+import { ArtistTable } from "@/features/artists/components";
 
 const page = () => {
-  return <div>artists page</div>;
+  return (
+    <div>
+      <ArtistTable />
+    </div>
+  );
 };
 
 export default page;

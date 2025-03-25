@@ -1,27 +1,27 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema, TLogin } from "../schemas/login.schema";
+import { setCookie } from "cookies-next";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { login } from "../actions";
-import { useRouter } from "next/navigation";
 
-import { setCookie } from "cookies-next";
-import { toast } from "react-toastify";
-import Link from "next/link";
+import { login } from "../actions";
+import { LoginSchema, TLogin } from "../schemas/login.schema";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -39,7 +39,7 @@ const LoginForm = () => {
       const user = await response?.data;
       setCookie("user_id", user?.id);
       toast.success("Login successful");
-      router.push("/");
+      router.replace("/");
     } catch (error) {
       console.error(error);
     }

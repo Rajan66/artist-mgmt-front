@@ -11,22 +11,22 @@ export const login = async (payload: TLogin) => {
       ...payload,
     });
 
-    const data = await response.data.data;
+    const data = await response.data?.data;
 
     const access_token_exp = decodeJwt(data?.access_token)?.exp;
     const refresh_token_exp = decodeJwt(data?.refresh_token)?.exp;
 
-    setCookie(
+    await setCookie(
+      "refresh_token",
+      data?.refresh_token,
+      (refresh_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS
+    );
+    await setCookie(
       "access_token",
       data?.access_token,
       (access_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS
     );
 
-    setCookie(
-      "refresh_token",
-      data?.refresh_token,
-      (refresh_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS
-    );
     return response.data;
   } catch (error) {
     console.error(error);

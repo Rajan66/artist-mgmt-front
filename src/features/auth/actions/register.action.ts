@@ -7,7 +7,6 @@ export const register = async (payload: TRegister) => {
       body: payload,
     });
     const data = response.data;
-    console.log(data);
     return response;
   } catch (error) {
     console.error(error);
