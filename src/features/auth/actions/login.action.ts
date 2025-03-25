@@ -30,5 +30,6 @@ export const login = async (payload: TLogin) => {
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

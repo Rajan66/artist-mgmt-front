@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import { setCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -41,7 +42,16 @@ const LoginForm = () => {
       toast.success("Login successful");
       router.replace("/");
     } catch (error) {
-      console.error(error);
+      if (error instanceof AxiosError) {
+        console.error("Axios error:", error.message);
+        toast.error(error.message || "Login failed. Please try again.");
+      } else if (error instanceof Error) {
+        console.error("Custom error:", error.message);
+        toast.error(error.message);
+      } else {
+        console.error("Unknown error:", error);
+        toast.error("Something went wrong...");
+      }
     }
   };
 
