@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import {
@@ -29,12 +30,16 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchValue: string;
+  url: string;
+  title: string;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
   searchValue,
+  url,
+  title,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -62,22 +67,28 @@ const DataTable = <TData, TValue>({
   return (
     <div className="w-full">
       {/* Filter Input */}
-      <div className="flex items-center py-4">
-        <Input
-          placeholder={"Search by names"}
-          value={
-            (table.getColumn(`${searchValue}`)?.getFilterValue() as string) ??
-            ""
-          }
-          onChange={(event) =>
-            table
-              .getColumn(`${searchValue}`)
-              ?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex justify-between items-center">
+        <div className="flex items-center py-4 w-full">
+          <Input
+            placeholder={"Search by names"}
+            value={
+              (table.getColumn(`${searchValue}`)?.getFilterValue() as string) ??
+              ""
+            }
+            onChange={(event) =>
+              table
+                .getColumn(`${searchValue}`)
+                ?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <Link href={url} className="cursor-pointer">
+          <Button variant="outline" className="cursor-pointer">
+            Add {title}
+          </Button>
+        </Link>
       </div>
-
       {/* Table */}
       <div className="rounded-md border">
         <Table>
