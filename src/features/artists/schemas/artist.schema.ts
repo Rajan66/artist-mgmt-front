@@ -8,6 +8,15 @@ export const ArtistSchema = z.object({
     .string({ required_error: "Email is required." })
     .email({ message: "Invalid email." })
     .min(1, "Must not be empty."),
+  password: z
+    .string()
+    .min(8, { message: "Must be at least 8 characters long" })
+    .regex(/[a-zA-Z]/, { message: "Must contain at least one letter." })
+    .regex(/[0-9]/, { message: "Must contain at least one number." })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Must contain at least one special character.",
+    })
+    .trim(),
   name: z
     .string({
       message: "Invalid name.",
@@ -17,17 +26,20 @@ export const ArtistSchema = z.object({
   first_release_year: zodInputStringPipe(
     z
       .number({ required_error: "Debut year is required." })
+      .positive({ message: "Year cannot be a negative value." })
       .int()
       .min(1980, { message: "Year must be at least 1980." })
       .max(new Date().getFullYear(), {
         message: "Year cannot be in the future.",
       })
   ),
-
-  no_of_albums_released: z.coerce
-    .number({ required_error: "Albums released is required." })
-    .int()
-    .min(1, { message: "Must be at least 1 album." }),
+  no_of_albums_released: zodInputStringPipe(
+    z
+      .number({ required_error: "Albums released is required." })
+      .positive()
+      .int()
+      .min(1, { message: "Must be at least 1 album." })
+  ),
   dob: z
     .date({
       required_error: "Date of birth is required.",
