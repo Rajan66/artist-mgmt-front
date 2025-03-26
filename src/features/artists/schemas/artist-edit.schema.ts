@@ -2,20 +2,11 @@ import { z } from "zod";
 
 import { zodInputStringPipe } from "@/utils/zod-number";
 
-export const ArtistSchema = z.object({
+export const ArtistEditSchema = z.object({
   email: z
     .string({ required_error: "Email is required." })
     .email({ message: "Invalid email." })
     .min(1, "Must not be empty."),
-  password: z
-    .string()
-    .min(8, { message: "Must be at least 8 characters long" })
-    .regex(/[a-zA-Z]/, { message: "Must contain at least one letter." })
-    .regex(/[0-9]/, { message: "Must contain at least one number." })
-    .regex(/[^a-zA-Z0-9]/, {
-      message: "Must contain at least one special character.",
-    })
-    .trim(),
   name: z
     .string({
       message: "Invalid name.",
@@ -52,4 +43,4 @@ export const ArtistSchema = z.object({
   last_name: z.string().optional(),
 });
 
-export type TArtistSchema = z.infer<typeof ArtistSchema>;
+export type TArtistEditSchema = z.infer<typeof ArtistEditSchema>;
