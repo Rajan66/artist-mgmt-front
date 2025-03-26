@@ -11,24 +11,27 @@ export const login = async (payload: TLogin) => {
       ...payload,
     });
 
-    const data = await response.data?.data;
+    const obj = await response.data?.data;
+    const data = await response.data;
 
-    const access_token_exp = decodeJwt(data?.access_token)?.exp;
-    const refresh_token_exp = decodeJwt(data?.refresh_token)?.exp;
+    const access_token_exp = decodeJwt(obj?.access_token)?.exp;
+    const refresh_token_exp = decodeJwt(obj?.refresh_token)?.exp;
 
-    await setCookie(
-      "refresh_token",
-      data?.refresh_token,
-      (refresh_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS
-    );
     await setCookie(
       "access_token",
-      data?.access_token,
+      obj?.access_token,
       (access_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS
     );
 
-    return response.data;
+    await setCookie(
+      "refresh_token",
+      obj?.refresh_token,
+      (refresh_token_exp ?? 0) * 1000 || cookieExpiry.REFRESH
+    );
+
+    return data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
