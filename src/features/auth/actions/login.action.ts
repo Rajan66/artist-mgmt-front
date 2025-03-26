@@ -13,8 +13,8 @@ export const login = async (payload: TLogin) => {
 
     const data = await response.data?.data;
 
-      const access_token_exp = decodeJwt(data?.access_token)?.exp;
-      const refresh_token_exp = decodeJwt(data?.refresh_token)?.exp;
+    const access_token_exp = decodeJwt(data?.access_token)?.exp;
+    const refresh_token_exp = decodeJwt(data?.refresh_token)?.exp;
 
     await setCookie(
       "refresh_token",
@@ -30,5 +30,6 @@ export const login = async (payload: TLogin) => {
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

@@ -1,5 +1,6 @@
 import { isAxiosError } from "axios";
 
+import { removeCookie } from "@/actions/cookies";
 import axios from "@/lib/axios/interceptor";
 
 export const getRefreshToken = async (token: string) => {
@@ -18,6 +19,9 @@ export const getRefreshToken = async (token: string) => {
   } catch (error) {
     if (isAxiosError(error)) {
       console.error(error.response?.data?.message || "An error occurred");
+      removeCookie("refresh_token");
+      removeCookie("access_token");
+      removeCookie("user_id");
       return error.response?.data.message;
     } else {
       console.error("Something went wrong", error);

@@ -10,12 +10,15 @@ import { TArtist } from "../types/artists";
 
 const ArtistTable = () => {
   const { data } = useGetArtists();
-  console.log(data?.data);
+
   return (
     <div>
       <DataTable<TArtist, string[]>
         columns={columns}
         data={(data?.data ?? []) as TArtist[]}
+        searchValue="name"
+        url="/artists/add"
+        title="Artist"
       />
     </div>
   );

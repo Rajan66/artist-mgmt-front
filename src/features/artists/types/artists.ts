@@ -4,7 +4,7 @@ export type TArtist = {
   id: string;
   user: TUser;
   name: string;
-  first_release_year: Date;
+  first_release_year: number;
   no_of_albums_released: number;
   first_name: string;
   last_name: string;
