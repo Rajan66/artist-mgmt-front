@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { format, getMonth, getYear, setMonth, setYear } from "date-fns";
 import { LuCalendar } from "react-icons/lu";
@@ -23,8 +23,21 @@ import { cn } from "@/lib/utils";
 
 import { months } from "../utils/months";
 
-const DatePicker = ({ field }: any) => {
+type DatePickerProps = {
+  field: any;
+  isEdit?: boolean;
+};
+const DatePicker = ({ field, isEdit = false }: DatePickerProps) => {
   const [date, setDate] = useState<Date>(new Date(2012, 0));
+
+  useEffect(() => {
+    if (isEdit && field?.value) {
+      const parsedDate = new Date(field.value);
+      if (!isNaN(parsedDate.getTime())) {
+        setDate(parsedDate);
+      }
+    }
+  }, [isEdit, field?.value]);
 
   const startYear = 1800;
   const endYear = 2012;

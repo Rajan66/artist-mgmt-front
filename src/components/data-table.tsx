@@ -43,10 +43,10 @@ const DataTable = <TData, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0, // change to 1
-    pageSize: 10,
-  });
+  // const [pagination, setPagination] = useState({
+  //   pageIndex: 0, // change to 1
+  //   pageSize: 10,
+  // });
 
   const table = useReactTable({
     data,
@@ -60,7 +60,7 @@ const DataTable = <TData, TValue>({
     state: {
       sorting,
       columnFilters,
-      pagination,
+      // pagination,
     },
   });
 
