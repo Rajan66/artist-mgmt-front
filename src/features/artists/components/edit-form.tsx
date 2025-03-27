@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PasswordInput } from "@/components/ui/password-input";
 import {
   Select,
   SelectContent,
@@ -27,26 +26,55 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import { createArtist } from "../actions/artists.action";
-import { ArtistSchema, TArtistSchema } from "../schemas/artist.schema";
+import { updateArtist } from "../actions/artists.action";
+import { useGetArtist } from "../hooks/use-queries";
+import {
+  ArtistEditSchema,
+  TArtistEditSchema,
+} from "../schemas/artist-edit.schema";
 import DatePicker from "./date-picker";
 
-const ArtistForm = () => {
+const ArtistEditForm = () => {
   const router = useRouter();
-  const form = useForm<TArtistSchema>({
-    resolver: zodResolver(ArtistSchema),
+  const { id: id } = useParams();
+  const artistId = id as string;
+  const { data, error } = useGetArtist(artistId);
+
+  const artist = data?.data;
+
+  const form = useForm<TArtistEditSchema>({
+    resolver: zodResolver(ArtistEditSchema),
     defaultValues: {
-      email: "",
-      password: "",
-      name: "",
-      first_name: "",
-      last_name: "",
-      address: "",
+      email: artist?.user.email || "",
+      name: artist?.name || "",
+      first_release_year: artist?.first_release_year || "",
+      no_of_albums_released: artist?.no_of_albums_released || "",
+      dob: artist?.dob || "",
+      first_name: artist?.first_name || "",
+      last_name: artist?.last_name || "",
+      address: artist?.address || "",
+      gender: artist?.gender || "",
     },
   });
 
+  useEffect(() => {
+    if (artist) {
+      form.reset({
+        email: artist?.user.email || "",
+        name: artist?.name || "",
+        first_release_year: artist?.first_release_year.toString() || "",
+        no_of_albums_released: artist?.no_of_albums_released.toString() || "",
+        dob: new Date(artist?.dob) || "",
+        first_name: artist?.first_name || "",
+        last_name: artist?.last_name || "",
+        address: artist?.address || "",
+        gender: artist?.gender || "",
+      });
+    }
+  }, [artist, form]);
+
   const { mutate, isPending } = useMutation({
-    mutationFn: createArtist,
+    mutationFn: updateArtist,
     onSuccess: () => {
       toast.success("Artist created successful");
       form.reset();
@@ -55,16 +83,13 @@ const ArtistForm = () => {
     onError: (error) => toast.error(`Failed to create a new artist: ${error}.`),
   });
 
-  const onSubmit = async (data: TArtistSchema) => {
-    const formattedData = {
-      email: data.email,
-      password: data.password,
-      role: "ARTIST",
-      is_active: true,
-      artist: { ...data },
-    };
-    mutate(formattedData);
+  const onSubmit = async (formData: TArtistEditSchema) => {
+    mutate({ id: artistId, payload: formData });
   };
+
+  if (error) {
+    toast.error("Failed to fetch artist! Please try again later.");
+  }
 
   return (
     <Form {...form}>
@@ -74,29 +99,13 @@ const ArtistForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email**</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter artist email..."
                   {...field}
                   value={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password**</FormLabel>
-              <FormControl>
-                <PasswordInput
-                  placeholder="Enter artist password..."
-                  {...field}
-                  value={field.value}
+                  disabled
                 />
               </FormControl>
               <FormMessage />
@@ -224,7 +233,7 @@ const ArtistForm = () => {
                 <FormItem className="w-full">
                   <FormLabel>DOB**</FormLabel>
                   <FormControl>
-                    <DatePicker field={field} />
+                    <DatePicker field={field} isEdit={true} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -257,4 +266,4 @@ const ArtistForm = () => {
   );
 };
 
-export default ArtistForm;
+export default ArtistEditForm;

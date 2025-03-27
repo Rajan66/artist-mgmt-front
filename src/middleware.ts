@@ -74,6 +74,14 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isAuthRoute) {
+    const referer = request.headers.get("referer");
+    const refererUrl = referer ? new URL(referer) : null;
+    const fromLoginPage = refererUrl?.pathname === "/login";
+
+    if (fromLoginPage) {
+      return NextResponse.next();
+    }
+
     try {
       const access_token = await getCookie("access_token");
       const refresh_token = await getCookie("refresh_token");
