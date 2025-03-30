@@ -3,24 +3,23 @@
 import React from "react";
 
 import DataTable from "@/components/data-table";
-import { columns } from "@/features/artists/utils/columns";
+import { columns } from "@/features/artists/components";
 
 import { useGetArtists } from "../hooks/use-queries";
-import { TArtist } from "../types/artists";
+import { TArtist } from "../types/artists.type";
 
 const ArtistTable = () => {
   const { data } = useGetArtists();
 
   return (
-    <div>
-      <DataTable<TArtist, string[]>
-        columns={columns}
-        data={(data?.data ?? []) as TArtist[]}
-        searchValue="name"
-        url="/artists/add"
-        title="Artist"
-      />
-    </div>
+    <DataTable<TArtist, string[]>
+      columns={columns}
+      data={(data?.data ?? []) as TArtist[]}
+      searchFilter={{
+        column: "name",
+        placeholder: "Search by artist name...",
+      }}
+    />
   );
 };
 

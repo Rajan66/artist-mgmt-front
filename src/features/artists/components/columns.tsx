@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { deleteArtist } from "@/features/artists/actions/artists.action";
 
-import { TArtist } from "../types/artists";
+import { TArtist } from "../types/artists.type";
 
 export const columns: ColumnDef<TArtist>[] = [
   {
