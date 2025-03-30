@@ -1,18 +1,20 @@
+import React from "react";
+
 import { LuCirclePlus } from "react-icons/lu";
 
 import PageTitle from "@/components/page-title";
-import { ArtistTable } from "@/features/artists/components";
+import { AlbumTable } from "@/features/albums/components";
 
 const page = () => {
   return (
     <div className="flex flex-col space-y-4">
       <PageTitle
-        title="Artists"
-        url="/artists/add"
-        btnTitle="Add Artist"
+        title="Albums"
+        url="/albums/add"
+        btnTitle="Add Album"
         Icon={LuCirclePlus}
       />
-      <ArtistTable />
+      <AlbumTable />
     </div>
   );
 };

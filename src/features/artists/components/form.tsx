@@ -6,9 +6,11 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
 import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
+import DatePicker from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -27,12 +29,13 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import { createArtist } from "../actions/artists.action";
+import { createArtist } from "../actions/artist.action";
 import { ArtistSchema, TArtistSchema } from "../schemas/artist.schema";
-import DatePicker from "./date-picker";
 
 const ArtistForm = () => {
   const router = useRouter();
+  const manager = getCookie("user_id");
+
   const form = useForm<TArtistSchema>({
     resolver: zodResolver(ArtistSchema),
     defaultValues: {
@@ -61,7 +64,7 @@ const ArtistForm = () => {
       password: data.password,
       role: "ARTIST",
       is_active: true,
-      artist: { ...data },
+      artist: { ...data, manager_id: manager, _email: data.email },
     };
     mutate(formattedData);
   };
@@ -224,7 +227,7 @@ const ArtistForm = () => {
                 <FormItem className="w-full">
                   <FormLabel>DOB**</FormLabel>
                   <FormControl>
-                    <DatePicker field={field} />
+                    <DatePicker field={field} startYear={1800} endYear={2012} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -250,7 +253,7 @@ const ArtistForm = () => {
           />
         </div>
         <Button type="submit" variant="outline" disabled={isPending}>
-          Submit
+          {isPending ? `Submitting` : `Submit`}
         </Button>
       </form>
     </Form>

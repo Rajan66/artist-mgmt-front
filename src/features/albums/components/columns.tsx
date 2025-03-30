@@ -18,7 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,45 +27,44 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteArtist } from "@/features/artists/actions/artists.action";
+import { deleteAlbum } from "@/features/albums/actions/album.action";
+import { cn } from "@/utils/response";
 
-import { TArtist } from "../types/artists";
+import { TAlbum } from "../types/album.type";
 
-export const columns: ColumnDef<TArtist>[] = [
+export const columns: ColumnDef<TAlbum>[] = [
   {
-    accessorKey: "name",
-    header: "Artist Name",
-  },
-  { accessorKey: "first_name", header: "First Name" },
-  {
-    accessorKey: "last_name",
-    header: "Last name",
-  },
-
-  {
-    accessorKey: "first_release_year",
-    header: "First release year",
-  },
-
-  {
-    accessorKey: "no_of_albums_released",
-    header: "Album count",
+    accessorKey: "title",
+    header: "Title",
   },
   {
-    accessorKey: "address",
-    header: "Address",
+    accessorKey: "artist",
+    header: "Artist",
+    cell: ({ row }) => row.original.artist.name,
+  },
+  {
+    accessorKey: "release_date",
+    header: "Release Date",
+  },
+  {
+    accessorKey: "album_type",
+    header: "Album Type",
+  },
+  {
+    accessorKey: "total_tracks",
+    header: "Total Tracks",
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const artist = row.original;
+      const album = row.original;
       const router = useRouter();
       const queryClient = useQueryClient();
       const { mutate, isPending: Deleting } = useMutation({
-        mutationFn: deleteArtist,
+        mutationFn: deleteAlbum,
         onSuccess: () => {
-          toast.success("Artist deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["artists"] });
+          toast.success("Album deleted successfully");
+          queryClient.invalidateQueries({ queryKey: ["albums"] });
         },
       });
 
@@ -81,35 +80,37 @@ export const columns: ColumnDef<TArtist>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard?.writeText(artist.name.toString())
+                navigator.clipboard?.writeText(album.title.toString())
               }
             >
-              Copy artist name
+              Copy album title
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => router.push(`/artists/${artist.id}`)}
+              onClick={() => router.push(`/albums/${album.id}`)}
             >
-              Edit artist
+              Edit album
             </DropdownMenuItem>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  {Deleting ? "Deleting..." : "Delete Artist"}
+                  {Deleting ? "Deleting..." : "Delete Album"}
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Delete artist?</AlertDialogTitle>
+                  <AlertDialogTitle>Delete album?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this artist?
+                    Are you sure you want to delete this album? This will also
+                    delete all the songs inside the album!
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
-                    onClick={() => mutate(artist.id)}
+                    onClick={() => mutate(album.id)}
                     disabled={Deleting}
+                    className={cn(buttonVariants({ variant: "destructive" }))}
                   >
                     Continue
                   </AlertDialogAction>
