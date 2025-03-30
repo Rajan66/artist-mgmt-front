@@ -15,12 +15,33 @@ export const getAlbum = async (id: string) => {
 };
 
 export const createAlbum = async (payload: any) => {
-  return asyncHandler(() => PostRequest("/api/v1/albums/", { ...payload }));
+  return asyncHandler(() =>
+    PostRequest(
+      "/api/v1/albums/",
+      {
+        ...payload,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file uploads
+        },
+      }
+    )
+  );
 };
 
 export const updateAlbum = async (data: { payload: any; id: string }) => {
+  console.log(data.payload.release_date);
   return asyncHandler(() =>
-    PutRequest(`/api/v1/albums/${data.id}/`, { ...data.payload })
+    PutRequest(
+      `/api/v1/albums/${data.id}/`,
+      { ...data.payload },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
   );
 };
 
