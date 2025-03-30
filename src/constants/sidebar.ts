@@ -24,7 +24,7 @@ export const items = [
     icon: LuPersonStanding,
   },
   {
-    title: "Album",
+    title: "Albums",
     url: "/albums",
     icon: LuAlbum,
   },
