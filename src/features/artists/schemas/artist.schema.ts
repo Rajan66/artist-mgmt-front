@@ -34,7 +34,7 @@ export const ArtistSchema = z.object({
   ),
   no_of_albums_released: zodInputStringPipe(
     z
-      .number({ required_error: "Albums released is required." })
+      .number({ required_error: "Number of Albums released is required." })
       .positive()
       .int()
       .min(1, { message: "Must be at least 1 album." })

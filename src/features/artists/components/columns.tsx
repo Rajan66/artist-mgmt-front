@@ -27,9 +27,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteArtist } from "@/features/artists/actions/artists.action";
+import { deleteArtist } from "@/features/artists/actions/artist.action";
 
-import { TArtist } from "../types/artists.type";
+import { TArtist } from "../types/artist.type";
 
 export const columns: ColumnDef<TArtist>[] = [
   {

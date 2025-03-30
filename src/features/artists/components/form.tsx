@@ -28,7 +28,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import { createArtist } from "../actions/artists.action";
+import { createArtist } from "../actions/artist.action";
 import { ArtistSchema, TArtistSchema } from "../schemas/artist.schema";
 import DatePicker from "./date-picker";
 
@@ -227,7 +227,7 @@ const ArtistForm = () => {
                 <FormItem className="w-full">
                   <FormLabel>DOB**</FormLabel>
                   <FormControl>
-                    <DatePicker field={field} />
+                    <DatePicker field={field} startYear={1800} endYear={2012} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

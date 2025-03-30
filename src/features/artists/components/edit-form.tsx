@@ -26,7 +26,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import { updateArtist } from "../actions/artists.action";
+import { updateArtist } from "../actions/artist.action";
 import { useGetArtist } from "../hooks/use-queries";
 import {
   ArtistEditSchema,

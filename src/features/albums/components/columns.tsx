@@ -27,21 +27,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteAlbum } from "@/features/albums/actions/albums.action";
+import { deleteAlbum } from "@/features/albums/actions/album.action";
 
-import { TAlbum } from "../types/albums.type";
+import { TAlbum } from "../types/album.type";
 
 export const columns: ColumnDef<TAlbum>[] = [
   {
     accessorKey: "title",
-    header: "Album Title",
+    header: "Title",
   },
   {
     accessorKey: "artist",
     header: "Artist",
     cell: ({ row }) => row.original.artist.name,
   },
-
   {
     accessorKey: "release_date",
     header: "Release Date",
@@ -83,7 +82,7 @@ export const columns: ColumnDef<TAlbum>[] = [
                 navigator.clipboard?.writeText(album.title.toString())
               }
             >
-              Copy album name
+              Copy album title
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -101,7 +100,8 @@ export const columns: ColumnDef<TAlbum>[] = [
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete album?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this album?
+                    Are you sure you want to delete this album? This will also
+                    delete all the songs inside the album!
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

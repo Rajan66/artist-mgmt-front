@@ -26,9 +26,16 @@ import { months } from "../utils/months";
 type DatePickerProps = {
   field: any;
   isEdit?: boolean;
+  startYear: number;
+  endYear: number;
 };
-const DatePicker = ({ field, isEdit = false }: DatePickerProps) => {
-  const [date, setDate] = useState<Date>(new Date(2012, 0));
+const DatePicker = ({
+  field,
+  isEdit = false,
+  startYear,
+  endYear,
+}: DatePickerProps) => {
+  const [date, setDate] = useState<Date>(new Date(endYear, 0));
 
   useEffect(() => {
     if (isEdit && field?.value) {
@@ -39,8 +46,6 @@ const DatePicker = ({ field, isEdit = false }: DatePickerProps) => {
     }
   }, [isEdit, field?.value]);
 
-  const startYear = 1800;
-  const endYear = 2012;
   const years = Array.from(
     { length: endYear - startYear + 1 },
     (_, i) => startYear + i
