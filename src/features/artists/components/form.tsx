@@ -6,6 +6,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
 import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -33,6 +34,8 @@ import DatePicker from "./date-picker";
 
 const ArtistForm = () => {
   const router = useRouter();
+  const manager = getCookie("user_id");
+
   const form = useForm<TArtistSchema>({
     resolver: zodResolver(ArtistSchema),
     defaultValues: {
@@ -61,7 +64,7 @@ const ArtistForm = () => {
       password: data.password,
       role: "ARTIST",
       is_active: true,
-      artist: { ...data },
+      artist: { ...data, manager_id: manager, _email: data.email },
     };
     mutate(formattedData);
   };
