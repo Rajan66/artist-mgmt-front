@@ -12,7 +12,7 @@ export default function DashboardLayout({
         <Sidebar />
         <main className="w-full">
           <Topbar />
-          <div className="px-10 py-4">{children}</div>
+          <div className="px-10 pt-4 pb-10 ">{children}</div>
         </main>
       </SidebarProvider>
     </section>
