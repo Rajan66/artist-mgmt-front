@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getAlbum, getAlbums } from "@/features/albums/actions/albums.action";
+import { getAlbum, getAlbums } from "@/features/albums/actions/album.action";
 
 export const useGetAlbums = () => {
   const { data, isPending, error } = useQuery({

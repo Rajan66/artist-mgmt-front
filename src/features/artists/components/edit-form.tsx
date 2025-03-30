@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
+import DatePicker from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,13 +27,12 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import { updateArtist } from "../actions/artists.action";
+import { updateArtist } from "../actions/artist.action";
 import { useGetArtist } from "../hooks/use-queries";
 import {
   ArtistEditSchema,
   TArtistEditSchema,
 } from "../schemas/artist-edit.schema";
-import DatePicker from "./date-picker";
 
 const ArtistEditForm = () => {
   const router = useRouter();
@@ -233,7 +233,12 @@ const ArtistEditForm = () => {
                 <FormItem className="w-full">
                   <FormLabel>DOB**</FormLabel>
                   <FormControl>
-                    <DatePicker field={field} isEdit={true} />
+                    <DatePicker
+                      field={field}
+                      isEdit={true}
+                      startYear={1800}
+                      endYear={2012}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -259,7 +264,7 @@ const ArtistEditForm = () => {
           />
         </div>
         <Button type="submit" variant="outline" disabled={isPending}>
-          Submit
+          {isPending ? `Updating` : `Update`}
         </Button>
       </form>
     </Form>

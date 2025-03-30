@@ -6,9 +6,9 @@ import DataTable from "@/components/data-table";
 import { columns } from "@/features/albums/components";
 
 import { useGetAlbums } from "../hooks/use-queries";
-import { TAlbum } from "../types/albums";
+import { TAlbum } from "../types/album.type";
 
-const ArtistTable = () => {
+const AlbumTable = () => {
   const { data } = useGetAlbums();
   console.log("data: ", data);
 
@@ -17,11 +17,11 @@ const ArtistTable = () => {
       columns={columns}
       data={(data?.data ?? []) as TAlbum[]}
       searchFilter={{
-        column: "name",
+        column: "title",
         placeholder: "Search by name...",
       }}
     />
   );
 };
 
-export default ArtistTable;
+export default AlbumTable;

@@ -10,6 +10,7 @@ import { getCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
+import DatePicker from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,9 +29,8 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import { createArtist } from "../actions/artists.action";
+import { createArtist } from "../actions/artist.action";
 import { ArtistSchema, TArtistSchema } from "../schemas/artist.schema";
-import DatePicker from "./date-picker";
 
 const ArtistForm = () => {
   const router = useRouter();
@@ -227,7 +227,7 @@ const ArtistForm = () => {
                 <FormItem className="w-full">
                   <FormLabel>DOB**</FormLabel>
                   <FormControl>
-                    <DatePicker field={field} />
+                    <DatePicker field={field} startYear={1800} endYear={2012} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -253,7 +253,7 @@ const ArtistForm = () => {
           />
         </div>
         <Button type="submit" variant="outline" disabled={isPending}>
-          Submit
+          {isPending ? `Submitting` : `Submit`}
         </Button>
       </form>
     </Form>

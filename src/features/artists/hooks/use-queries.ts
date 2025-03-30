@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getArtist,
   getArtists,
-} from "@/features/artists/actions/artists.action";
+} from "@/features/artists/actions/artist.action";
 
 export const useGetArtists = () => {
   const { data, isPending, error } = useQuery({
