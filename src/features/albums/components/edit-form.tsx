@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React from "react";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
@@ -10,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import DatePicker from "@/components/date-picker";
+import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,35 +31,62 @@ import {
 import { useGetArtists } from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
 
-import { createAlbum } from "../actions/album.action";
+import { updateAlbum } from "../actions/album.action";
+import { useGetAlbum } from "../hooks/use-queries";
 import { AlbumSchema, TAlbumSchema } from "../schemas/album.schema";
 
-const AlbumForm = () => {
+const AlbumEditForm = () => {
   const router = useRouter();
+  const { id: id } = useParams();
+  const albumId = id?.toString();
+
   const { data: artists } = useGetArtists();
+  const { data: album, isPending: isLoading } = useGetAlbum(albumId || "");
+  const [image, setImage] = useState<string | null>("");
 
   const form = useForm<TAlbumSchema>({
     resolver: zodResolver(AlbumSchema),
     defaultValues: {
-      title: "",
-      album_type: "",
+      title: album?.data?.title || "",
+      artist: album?.data?.artist.id || "",
+      release_date: album?.data?.release_date || "",
       cover_image: "",
     },
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createAlbum,
+    mutationFn: updateAlbum,
     onSuccess: () => {
-      toast.success("Album created successful");
+      toast.success("Album update successful");
       form.reset();
       router.replace("/albums");
     },
-    onError: (error) => toast.error(`Failed to create a new album: ${error}.`),
+    onError: (error) => toast.error(`Failed to update album: ${error}.`),
   });
 
   const onSubmit = async (data: TAlbumSchema) => {
-    mutate(data);
+    mutate({
+      payload: { ...data },
+      id: albumId || "",
+    });
   };
+
+  useEffect(() => {
+    if (album?.data?.cover_image) {
+      setImage(album?.data.cover_image);
+    }
+    if (album?.data) {
+      form.reset({
+        title: album?.data?.title,
+        artist: album?.data?.artist.id,
+        release_date: album?.data?.release_date,
+      });
+    }
+  }, [album]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Form {...form}>
@@ -122,6 +151,7 @@ const AlbumForm = () => {
                 <FormControl>
                   <DatePicker
                     field={field}
+                    isEdit={true}
                     startYear={1820}
                     endYear={currentYear}
                     endMonth={currentMonth + 2}
@@ -146,10 +176,19 @@ const AlbumForm = () => {
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       field.onChange(file);
+                      setImage(null);
                     }}
                     title="Browse files"
                   />
                 </FormControl>
+                {image && (
+                  <Image
+                    src={`http://localhost:8000${album?.data.cover_image}`}
+                    alt="Cover Image"
+                    width={300}
+                    height={300}
+                  />
+                )}
                 <FormMessage />
               </FormItem>
             );
@@ -163,4 +202,4 @@ const AlbumForm = () => {
   );
 };
 
-export default AlbumForm;
+export default AlbumEditForm;

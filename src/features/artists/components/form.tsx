@@ -100,6 +100,7 @@ const ArtistForm = () => {
                   placeholder="Enter artist password..."
                   {...field}
                   value={field.value}
+                  className="h-10"
                 />
               </FormControl>
               <FormMessage />
