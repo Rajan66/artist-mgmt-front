@@ -18,7 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,6 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteAlbum } from "@/features/albums/actions/album.action";
+import { cn } from "@/utils/response";
 
 import { TAlbum } from "../types/album.type";
 
@@ -109,6 +110,7 @@ export const columns: ColumnDef<TAlbum>[] = [
                   <AlertDialogAction
                     onClick={() => mutate(album.id)}
                     disabled={Deleting}
+                    className={cn(buttonVariants({ variant: "destructive" }))}
                   >
                     Continue
                   </AlertDialogAction>

@@ -18,7 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,6 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteArtist } from "@/features/artists/actions/artist.action";
+import { cn } from "@/utils/response";
 
 import { TArtist } from "../types/artist.type";
 
@@ -72,7 +73,7 @@ export const columns: ColumnDef<TArtist>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
@@ -110,6 +111,7 @@ export const columns: ColumnDef<TArtist>[] = [
                   <AlertDialogAction
                     onClick={() => mutate(artist.id)}
                     disabled={Deleting}
+                    className={cn(buttonVariants({ variant: "destructive" }))}
                   >
                     Continue
                   </AlertDialogAction>

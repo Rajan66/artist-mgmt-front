@@ -20,20 +20,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-
-import { months } from "../utils/months";
+import { months } from "@/utils/months";
 
 type DatePickerProps = {
   field: any;
   isEdit?: boolean;
   startYear: number;
   endYear: number;
+  endMonth?: number;
 };
+
 const DatePicker = ({
   field,
   isEdit = false,
   startYear,
   endYear,
+  endMonth,
 }: DatePickerProps) => {
   const [date, setDate] = useState<Date>(new Date(endYear, 0));
 
@@ -129,9 +131,9 @@ const DatePicker = ({
             handleSelect(date);
           }}
           initialFocus
-          fromDate={new Date(1980, 1)}
-          toDate={new Date(2012, 12)}
-          defaultMonth={new Date(2012, 1)}
+          fromDate={new Date(startYear, 1)}
+          toDate={new Date(endYear, endMonth ?? 1)}
+          defaultMonth={new Date(endYear, 1)}
           month={date}
           onMonthChange={setDate}
         />
