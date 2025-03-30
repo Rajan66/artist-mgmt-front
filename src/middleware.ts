@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
 
   const isAuthRoute = authRoutes.includes(pathname);
   // const isAdminRoute = adminRoutes.includes(pathname);
-  const isProtectedRoute = !authRoutes.includes(pathname);
+  const isProtectedRoute = protectedRoutes.includes(pathname);
   const isPublicRoute = publicRoutes.includes(pathname);
 
   if (isPublicRoute) {
