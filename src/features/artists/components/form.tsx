@@ -10,6 +10,7 @@ import { getCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
+import DatePicker from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,7 +31,6 @@ import {
 
 import { createArtist } from "../actions/artist.action";
 import { ArtistSchema, TArtistSchema } from "../schemas/artist.schema";
-import DatePicker from "./date-picker";
 
 const ArtistForm = () => {
   const router = useRouter();
@@ -253,7 +253,7 @@ const ArtistForm = () => {
           />
         </div>
         <Button type="submit" variant="outline" disabled={isPending}>
-          Submit
+          {isPending ? `Submitting` : `Submit`}
         </Button>
       </form>
     </Form>
