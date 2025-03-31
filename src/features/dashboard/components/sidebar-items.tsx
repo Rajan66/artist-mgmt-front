@@ -41,7 +41,8 @@ const SidebarItems = () => {
                 href={item.url}
                 className="flex h-full w-full items-center justify-start gap-6"
               >
-                <item.icon size={30} />
+                <item.icon size={30} className="shrink-0" />{" "}
+                {/* Ensure icons are visible */}
                 <p className="font-medium">{item.title}</p>
               </Link>
             </div>
