@@ -41,6 +41,8 @@ export const ArtistEditSchema = z.object({
   address: z.string().optional(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
+  profile_image: z.any().optional(),
+  cover_image: z.any().optional(),
 });
 
 export type TArtistEditSchema = z.infer<typeof ArtistEditSchema>;

@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
@@ -40,6 +41,9 @@ const ArtistEditForm = () => {
   const artistId = id as string;
   const { data, error } = useGetArtist(artistId);
 
+  const [profileImage, setProfileImage] = useState<string | null>("");
+  const [coverImage, setCoverImage] = useState<string | null>("");
+
   const artist = data?.data;
 
   const form = useForm<TArtistEditSchema>({
@@ -54,10 +58,18 @@ const ArtistEditForm = () => {
       last_name: artist?.last_name || "",
       address: artist?.address || "",
       gender: artist?.gender || "",
+      cover_image: artist?.cover_image || "",
+      profile_image: artist?.profile_image || "",
     },
   });
 
   useEffect(() => {
+    if (artist?.profile_image) {
+      setProfileImage(artist?.profile_image);
+    }
+    if (artist?.cover_image) {
+      setCoverImage(artist?.cover_image);
+    }
     if (artist) {
       form.reset({
         email: artist?.user.email || "",
@@ -263,6 +275,81 @@ const ArtistEditForm = () => {
             )}
           />
         </div>
+        <div className="flex flex-col space-y-4 ">
+          <div className="flex space-x-4">
+            <FormField
+              control={form.control}
+              name="cover_image"
+              render={({ field }) => {
+                return (
+                  <FormItem className="w-full flex flex-col">
+                    <FormLabel>Profile Image</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/jpeg, image/jpg, image/png"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          field.onChange(file);
+                          setProfileImage(null);
+                        }}
+                      />
+                    </FormControl>
+                    {profileImage && (
+                      <div className="flex flex-col justify-center items-start space-y-4">
+                        <Image
+                          src={`http://localhost:8000/${artist?.profile_image}`}
+                          alt="Profile Image"
+                          width={300}
+                          height={300}
+                          className="rounded-full size-40"
+                        />
+                      </div>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="cover_image"
+              render={({ field }) => {
+                return (
+                  <FormItem className="w-full flex flex-col">
+                    <FormLabel>Cover Image</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/jpeg, image/jpg, image/png"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          field.onChange(file);
+                          setCoverImage(null);
+                        }}
+                      />
+                    </FormControl>
+                    {coverImage && (
+                      <Image
+                        src={`http://localhost:8000/${artist?.cover_image}`}
+                        alt="Cover Image"
+                        width={300}
+                        height={300}
+                      />
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          </div>
+          {(profileImage || coverImage) && (
+            <span className="text-sm text-orange-400 italic">
+              *Default image—keep it unchanged to retain the default*
+            </span>
+          )}
+        </div>
+
         <Button type="submit" variant="outline" disabled={isPending}>
           {isPending ? `Updating` : `Update`}
         </Button>

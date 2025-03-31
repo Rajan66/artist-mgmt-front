@@ -28,10 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  useGetArtists,
-  useGetManagerArtists,
-} from "@/features/artists/hooks/use-queries";
+import { useGetManagerArtists } from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
 import { getUser } from "@/utils/get-user";
 
@@ -184,16 +181,21 @@ const AlbumEditForm = () => {
                       field.onChange(file);
                       setImage(null);
                     }}
-                    title="Browse files"
                   />
                 </FormControl>
                 {image && (
-                  <Image
-                    src={`http://localhost:8000${album?.data.cover_image}`}
-                    alt="Cover Image"
-                    width={300}
-                    height={300}
-                  />
+                  <div className="flex flex-col space-y-4 justify-center items-start">
+                    <Image
+                      src={`http://localhost:8000${album?.data.cover_image}`}
+                      alt="Cover Image"
+                      width={300}
+                      height={300}
+                    />
+
+                    <span className="text-sm text-orange-400 italic">
+                      *Default image—keep it unchanged to retain the default*
+                    </span>
+                  </div>
                 )}
                 <FormMessage />
               </FormItem>
