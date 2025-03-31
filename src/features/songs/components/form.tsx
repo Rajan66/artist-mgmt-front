@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SelectValue } from "@radix-ui/react-select";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -25,37 +24,39 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
-import { useGetArtists } from "@/features/artists/hooks/use-queries";
-import { TArtist } from "@/features/artists/types/artist.type";
+import { useGetAlbums } from "@/features/albums/hooks/use-queries";
+import { TAlbum } from "@/features/albums/types/album.type";
 
-import { createAlbum } from "../actions/album.action";
-import { AlbumSchema, TAlbumSchema } from "../schemas/album.schema";
+import { createSong } from "../actions/song.action";
+import { SongSchema, TSongSchema } from "../schemas/song.schema";
+import { genreList } from "../utils/genre";
 
-const AlbumForm = () => {
+const SongForm = () => {
   const router = useRouter();
-  const { data: artists } = useGetArtists();
+  const { data: albums } = useGetAlbums();
 
-  const form = useForm<TAlbumSchema>({
-    resolver: zodResolver(AlbumSchema),
+  const form = useForm<TSongSchema>({
+    resolver: zodResolver(SongSchema),
     defaultValues: {
       title: "",
-      album_type: "",
-      cover_image: "",
+      genre: "",
+      release_date: new Date(),
     },
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createAlbum,
+    mutationFn: createSong,
     onSuccess: () => {
-      toast.success("Album created successfully");
+      toast.success("Song created successfully");
       form.reset();
-      router.replace("/albums");
+      router.replace("/songs");
     },
-    onError: (error) => toast.error(`Failed to create a new album: ${error}.`),
+    onError: (error) => toast.error(`Failed to create a new song: ${error}.`),
   });
 
-  const onSubmit = async (data: TAlbumSchema) => {
+  const onSubmit = async (data: TSongSchema) => {
     mutate(data);
   };
 
@@ -70,7 +71,7 @@ const AlbumForm = () => {
               <FormLabel>Title**</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter album title..."
+                  placeholder="Enter song title..."
                   {...field}
                   value={field.value}
                 />
@@ -81,10 +82,10 @@ const AlbumForm = () => {
         />
         <FormField
           control={form.control}
-          name="artist"
+          name="genre"
           render={({ field }) => (
-            <FormItem className="w-full ">
-              <FormLabel>Artist**</FormLabel>
+            <FormItem>
+              <FormLabel>Genre**</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -92,13 +93,43 @@ const AlbumForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="w-full h-full">
-                    <SelectValue placeholder="Select an artist" />
+                    <SelectValue placeholder="Select a genre" />
                   </SelectTrigger>
                   <SelectContent>
-                    {artists?.data.map((artist: TArtist) => {
+                    {genreList.map((genre) => {
                       return (
-                        <SelectItem value={artist?.id} key={artist?.id}>
-                          {artist?.name}
+                        <SelectItem value={genre?.value} key={genre.name}>
+                          {genre.name}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="album_id"
+          render={({ field }) => (
+            <FormItem className="w-full ">
+              <FormLabel>Album**</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full h-full">
+                    <SelectValue placeholder="Select an album" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {albums?.data.map((album: TAlbum) => {
+                      return (
+                        <SelectItem value={album?.id} key={album?.id}>
+                          {album?.title}
                         </SelectItem>
                       );
                     })}
@@ -132,29 +163,6 @@ const AlbumForm = () => {
             );
           }}
         />
-        <FormField
-          control={form.control}
-          name="cover_image"
-          render={({ field }) => {
-            return (
-              <FormItem className="w-full flex flex-col">
-                <FormLabel>Album Cover Image</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/jpeg, image/jpg, image/png"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      field.onChange(file);
-                    }}
-                    title="Browse files"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
         <Button type="submit" variant="outline" disabled={isPending}>
           {isPending ? `Submitting` : `Submit`}
         </Button>
@@ -163,4 +171,4 @@ const AlbumForm = () => {
   );
 };
 
-export default AlbumForm;
+export default SongForm;

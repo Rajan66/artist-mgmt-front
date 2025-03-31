@@ -28,61 +28,60 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetArtists } from "@/features/artists/hooks/use-queries";
-import { TArtist } from "@/features/artists/types/artist.type";
+import { useGetAlbums } from "@/features/albums/hooks/use-queries";
+import { TAlbum } from "@/features/albums/types/album.type";
 
-import { updateAlbum } from "../actions/album.action";
-import { useGetAlbum } from "../hooks/use-queries";
-import { AlbumSchema, TAlbumSchema } from "../schemas/album.schema";
+import { updateSong } from "../actions/song.action";
+import { useGetSong } from "../hooks/use-queries";
+import { SongSchema, TSongSchema } from "../schemas/song.schema";
+import { genreList } from "../utils/genre";
 
-const AlbumEditForm = () => {
+const SongEditForm = () => {
   const router = useRouter();
   const { id: id } = useParams();
-  const albumId = id?.toString();
+  const songId = id?.toString();
 
-  const { data: artists } = useGetArtists();
-  const { data: album, isPending: isLoading } = useGetAlbum(albumId || "");
-  const [image, setImage] = useState<string | null>("");
+  const { data: albums } = useGetAlbums();
+  const { data: song, isPending: isLoading } = useGetSong(songId || "");
 
-  const form = useForm<TAlbumSchema>({
-    resolver: zodResolver(AlbumSchema),
+  const form = useForm<TSongSchema>({
+    resolver: zodResolver(SongSchema),
     defaultValues: {
-      title: album?.data?.title || "",
-      artist: album?.data?.artist.id || "",
-      release_date: new Date(album?.data?.release_date),
-      cover_image: "",
+      title: song?.data.title || "",
+      genre: song?.data.genre || "",
+      album_id: song?.data.album_id || "",
+      release_date: new Date(),
     },
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: updateAlbum,
+    mutationFn: updateSong,
     onSuccess: () => {
-      toast.success("Album update successful");
+      toast.success("Song updated successfully");
       form.reset();
-      router.replace("/albums");
+      router.replace("/songs");
     },
-    onError: (error) => toast.error(`Failed to update album: ${error}.`),
+    onError: (error) => toast.error(`Failed to update song: ${error}.`),
   });
 
-  const onSubmit = async (data: TAlbumSchema) => {
+  const onSubmit = async (data: TSongSchema) => {
+    console.log(data);
     mutate({
       payload: { ...data },
-      id: albumId || "",
+      id: songId || "",
     });
   };
 
   useEffect(() => {
-    if (album?.data?.cover_image) {
-      setImage(album?.data.cover_image);
-    }
-    if (album?.data) {
+    if (song?.data) {
       form.reset({
-        title: album?.data?.title,
-        artist: album?.data?.artist?.id,
-        release_date: new Date(album?.data?.release_date),
+        title: song?.data?.title,
+        genre: song?.data?.genre,
+        album_id: song?.data?.album_id,
+        release_date: new Date(song?.data?.release_date),
       });
     }
-  }, [album]);
+  }, [song]);
 
   if (isLoading) {
     return <Loading />;
@@ -99,7 +98,7 @@ const AlbumEditForm = () => {
               <FormLabel>Title**</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter album title..."
+                  placeholder="Enter song title..."
                   {...field}
                   value={field.value}
                 />
@@ -110,10 +109,10 @@ const AlbumEditForm = () => {
         />
         <FormField
           control={form.control}
-          name="artist"
+          name="genre"
           render={({ field }) => (
-            <FormItem className="w-full ">
-              <FormLabel>Artist**</FormLabel>
+            <FormItem>
+              <FormLabel>Genre**</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -121,13 +120,43 @@ const AlbumEditForm = () => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="w-full h-full">
-                    <SelectValue placeholder="Select an artist" />
+                    <SelectValue placeholder="Select a genre" />
                   </SelectTrigger>
                   <SelectContent>
-                    {artists?.data.map((artist: TArtist) => {
+                    {genreList.map((genre) => {
                       return (
-                        <SelectItem value={artist?.id} key={artist?.id}>
-                          {artist?.name}
+                        <SelectItem value={genre?.value} key={genre.name}>
+                          {genre.name}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="album_id"
+          render={({ field }) => (
+            <FormItem className="w-full ">
+              <FormLabel>Album**</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full h-full">
+                    <SelectValue placeholder="Select an album" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {albums?.data.map((album: TAlbum) => {
+                      return (
+                        <SelectItem value={album?.id} key={album?.id}>
+                          {album?.title}
                         </SelectItem>
                       );
                     })}
@@ -162,38 +191,6 @@ const AlbumEditForm = () => {
             );
           }}
         />
-        <FormField
-          control={form.control}
-          name="cover_image"
-          render={({ field }) => {
-            return (
-              <FormItem className="w-full flex flex-col">
-                <FormLabel>Album Cover Image</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/jpeg, image/jpg, image/png"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      field.onChange(file);
-                      setImage(null);
-                    }}
-                    title="Browse files"
-                  />
-                </FormControl>
-                {image && (
-                  <Image
-                    src={`http://localhost:8000${album?.data.cover_image}`}
-                    alt="Cover Image"
-                    width={300}
-                    height={300}
-                  />
-                )}
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
         <Button type="submit" variant="outline" disabled={isPending}>
           {isPending ? `Submitting` : `Submit`}
         </Button>
@@ -202,4 +199,4 @@ const AlbumEditForm = () => {
   );
 };
 
-export default AlbumEditForm;
+export default SongEditForm;
