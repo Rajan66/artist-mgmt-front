@@ -10,23 +10,20 @@ export const AlbumSchema = z.object({
   artist: z
     .string({ required_error: "Artist is required." })
     .min(1, { message: "Must be at least 1 character long" }),
-  album_type: z
-    .string({ required_error: "Album type is required." })
-    .optional(), // remove this from form
   release_date: z.date({
     required_error: "Release date is required.",
   }),
-  cover_image: z.any().optional(),
-  // cover_image: z
-  //   .any()
-  //   .refine((file) => {
-  //     return file?.size <= MAX_FILE_SIZE;
-  //   }, `Max image size is 5MB.`)
-  //   .refine(
-  //     (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-  //     "Only .jpg, .jpeg, .png and .webp formats are supported."
-  //   )
-  //   .optional(),
+  cover_image: z
+    .any()
+    .optional()
+    .refine(
+      (file) => !file || file.size <= MAX_FILE_SIZE,
+      "Max image size is 5MB."
+    )
+    .refine(
+      (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
+      "Only .jpg, .jpeg, .png, and .webp formats are supported."
+    ),
 });
 
 export type TAlbumSchema = z.infer<typeof AlbumSchema>;
