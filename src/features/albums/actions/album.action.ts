@@ -4,6 +4,7 @@ import {
   PostRequest,
   PutRequest,
 } from "@/lib/axios/axios";
+import { convertPayloadToFormData } from "@/utils/form-data";
 import { asyncHandler } from "@/utils/response";
 
 export const getAlbums = async () => {
@@ -14,34 +15,29 @@ export const getAlbum = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/albums/${id}/`));
 };
 
+export const getManagerAlbums = async (id: string) => {
+  return asyncHandler(() => GetRequest(`/api/v1/albums/managers/${id}`));
+};
+
 export const createAlbum = async (payload: any) => {
+  const formData = convertPayloadToFormData(payload);
   return asyncHandler(() =>
-    PostRequest(
-      "/api/v1/albums/",
-      {
-        ...payload,
+    PostRequest("/api/v1/albums/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Important for file uploads
       },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data", // Important for file uploads
-        },
-      }
-    )
+    })
   );
 };
 
 export const updateAlbum = async (data: { payload: any; id: string }) => {
-  console.log(data.payload.release_date);
+  const formData = convertPayloadToFormData(data.payload);
   return asyncHandler(() =>
-    PutRequest(
-      `/api/v1/albums/${data.id}/`,
-      { ...data.payload },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
+    PutRequest(`/api/v1/albums/${data.id}/`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
   );
 };
 

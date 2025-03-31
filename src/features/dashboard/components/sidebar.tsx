@@ -25,6 +25,7 @@ const DashboardSidebar = () => {
           "--sidebar-width-icon": "4rem",
         } as React.CSSProperties
       }
+      className="z-50"
     >
       <Link href="/" className="flex items-center gap-4 p-3">
         <Image

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { getCookie } from "cookies-next";
 import { FaUserTie } from "react-icons/fa6";
 import { LuLogOut, LuSettings } from "react-icons/lu";
 import { toast } from "react-toastify";
@@ -20,6 +21,10 @@ import { logout } from "@/features/auth/actions/logout.action";
 
 const UserAvatar = () => {
   const router = useRouter();
+
+  const userCookie = getCookie("user");
+  const user = typeof userCookie === "string" ? JSON.parse(userCookie) : "";
+  // TODO hit profile based on the role, i need to get image and the initials
 
   const handleLogout = async () => {
     try {
@@ -42,8 +47,9 @@ const UserAvatar = () => {
       <DropdownMenuTrigger>
         <div className="bg-primary-foreground/30 flex size-10 items-center justify-center rounded-full cursor-pointer">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback>
+              {user?.email.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </div>
       </DropdownMenuTrigger>
@@ -53,7 +59,7 @@ const UserAvatar = () => {
             rajan
           </DropdownMenuItem>
           <DropdownMenuItem className="flex cursor-pointer items-center gap-2">
-            rajanmaharjan@gmail.com
+            {user?.email}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
