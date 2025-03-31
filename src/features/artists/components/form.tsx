@@ -6,7 +6,6 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
 import { useMutation } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -46,6 +45,8 @@ const ArtistForm = () => {
       first_name: "",
       last_name: "",
       address: "",
+      profile_image: "",
+      cover_image: "",
     },
   });
 
@@ -252,6 +253,52 @@ const ArtistForm = () => {
                 </FormControl>
               </FormItem>
             )}
+          />
+        </div>
+        <div className="flex space-x-4">
+          <FormField
+            control={form.control}
+            name="profile_image"
+            render={({ field }) => {
+              return (
+                <FormItem className="w-full flex flex-col">
+                  <FormLabel>Profile Image</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/jpeg, image/jpg, image/png"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        field.onChange(file);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
+            name="cover_image"
+            render={({ field }) => {
+              return (
+                <FormItem className="w-full flex flex-col">
+                  <FormLabel>Cover Image</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/jpeg, image/jpg, image/png"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        field.onChange(file);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
         </div>
         <Button type="submit" variant="outline" disabled={isPending}>
