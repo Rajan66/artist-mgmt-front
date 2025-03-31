@@ -4,12 +4,14 @@ import React from "react";
 
 import DataTable from "@/components/data-table";
 import { columns } from "@/features/artists/components";
+import { getUser } from "@/utils/get-user";
 
-import { useGetArtists } from "../hooks/use-queries";
-import { TArtist } from "../types/artists.type";
+import { useGetManagerArtists } from "../hooks/use-queries";
+import { TArtist } from "../types/artist.type";
 
 const ArtistTable = () => {
-  const { data } = useGetArtists();
+  const manager = getUser();
+  const { data } = useGetManagerArtists(manager.id);
 
   return (
     <DataTable<TArtist, string[]>
