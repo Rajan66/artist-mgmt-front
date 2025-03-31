@@ -28,8 +28,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetAlbums } from "@/features/albums/hooks/use-queries";
+import {
+  useGetAlbums,
+  useGetManagerAlbums,
+} from "@/features/albums/hooks/use-queries";
 import { TAlbum } from "@/features/albums/types/album.type";
+import { getUser } from "@/utils/get-user";
 
 import { updateSong } from "../actions/song.action";
 import { useGetSong } from "../hooks/use-queries";
@@ -41,7 +45,8 @@ const SongEditForm = () => {
   const { id: id } = useParams();
   const songId = id?.toString();
 
-  const { data: albums } = useGetAlbums();
+  const manager = getUser();
+  const { data: albums } = useGetManagerAlbums(manager.id);
   const { data: song, isPending: isLoading } = useGetSong(songId || "");
 
   const form = useForm<TSongSchema>({
