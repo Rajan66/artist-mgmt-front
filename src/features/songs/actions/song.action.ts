@@ -15,6 +15,10 @@ export const getSong = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/songs/${id}/`));
 };
 
+export const getManagerSongs = async (id: string) => {
+  return asyncHandler(() => GetRequest(`/api/v1/songs/managers/${id}`));
+};
+
 export const createSong = async (payload: any) => {
   return asyncHandler(() => PostRequest("/api/v1/songs/", payload));
 };

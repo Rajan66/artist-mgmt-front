@@ -26,8 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetAlbums } from "@/features/albums/hooks/use-queries";
+import { useGetManagerAlbums } from "@/features/albums/hooks/use-queries";
 import { TAlbum } from "@/features/albums/types/album.type";
+import { getUser } from "@/utils/get-user";
 
 import { createSong } from "../actions/song.action";
 import { SongSchema, TSongSchema } from "../schemas/song.schema";
@@ -35,7 +36,8 @@ import { genreList } from "../utils/genre";
 
 const SongForm = () => {
   const router = useRouter();
-  const { data: albums } = useGetAlbums();
+  const manager = getUser();
+  const { data: albums } = useGetManagerAlbums(manager.id);
 
   const form = useForm<TSongSchema>({
     resolver: zodResolver(SongSchema),

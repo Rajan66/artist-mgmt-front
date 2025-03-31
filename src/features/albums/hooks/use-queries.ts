@@ -1,6 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getAlbum, getAlbums } from "@/features/albums/actions/album.action";
+import {
+  getAlbum,
+  getAlbums,
+  getManagerAlbums,
+} from "@/features/albums/actions/album.action";
 
 export const useGetAlbums = () => {
   const { data, isPending, error } = useQuery({
@@ -16,5 +20,14 @@ export const useGetAlbum = (id: string) => {
     queryKey: ["album", id],
     queryFn: () => getAlbum(id),
   });
+  return { data, isPending, error };
+};
+
+export const useGetManagerAlbums = (id: string) => {
+  const { data, isPending, error } = useQuery({
+    queryKey: ["albums"],
+    queryFn: () => getManagerAlbums(id),
+  });
+
   return { data, isPending, error };
 };

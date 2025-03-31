@@ -28,13 +28,14 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
+import { getUser } from "@/utils/get-user";
 
 import { createArtist } from "../actions/artist.action";
 import { ArtistSchema, TArtistSchema } from "../schemas/artist.schema";
 
 const ArtistForm = () => {
   const router = useRouter();
-  const manager = getCookie("user_id");
+  const manager = getUser();
 
   const form = useForm<TArtistSchema>({
     resolver: zodResolver(ArtistSchema),
@@ -62,9 +63,9 @@ const ArtistForm = () => {
     const formattedData = {
       email: data.email,
       password: data.password,
-      role: "ARTIST",
+      role: "artist",
       is_active: true,
-      artist: { ...data, manager_id: manager, _email: data.email },
+      artist: { ...data, manager_id: manager.id, _email: data.email },
     };
     mutate(formattedData);
   };

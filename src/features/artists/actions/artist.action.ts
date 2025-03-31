@@ -14,6 +14,10 @@ export const getArtist = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/artists/${id}/`));
 };
 
+export const getManagerArtists = async (id: string) => {
+  return asyncHandler(() => GetRequest(`/api/v1/artists/managers/${id}`));
+};
+
 export const createArtist = async (payload: any) => {
   return asyncHandler(() => PostRequest("/api/v1/users/", { ...payload }));
 };

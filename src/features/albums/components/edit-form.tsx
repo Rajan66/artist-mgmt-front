@@ -28,8 +28,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetArtists } from "@/features/artists/hooks/use-queries";
+import {
+  useGetArtists,
+  useGetManagerArtists,
+} from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
+import { getUser } from "@/utils/get-user";
 
 import { updateAlbum } from "../actions/album.action";
 import { useGetAlbum } from "../hooks/use-queries";
@@ -40,7 +44,9 @@ const AlbumEditForm = () => {
   const { id: id } = useParams();
   const albumId = id?.toString();
 
-  const { data: artists } = useGetArtists();
+  const manager = getUser();
+  const { data: artists } = useGetManagerArtists(manager.id);
+
   const { data: album, isPending: isLoading } = useGetAlbum(albumId || "");
   const [image, setImage] = useState<string | null>("");
 
