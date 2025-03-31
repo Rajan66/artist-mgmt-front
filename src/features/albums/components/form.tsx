@@ -26,21 +26,23 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { useGetArtists } from "@/features/artists/hooks/use-queries";
+import { useGetManagerArtists } from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
+import { getUser } from "@/utils/get-user";
 
 import { createAlbum } from "../actions/album.action";
 import { AlbumSchema, TAlbumSchema } from "../schemas/album.schema";
 
 const AlbumForm = () => {
   const router = useRouter();
-  const { data: artists } = useGetArtists();
+
+  const manager = getUser();
+  const { data: artists } = useGetManagerArtists(manager.id);
 
   const form = useForm<TAlbumSchema>({
     resolver: zodResolver(AlbumSchema),
     defaultValues: {
       title: "",
-      album_type: "",
       cover_image: "",
     },
   });

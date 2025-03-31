@@ -15,6 +15,10 @@ export const getAlbum = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/albums/${id}/`));
 };
 
+export const getManagerAlbums = async (id: string) => {
+  return asyncHandler(() => GetRequest(`/api/v1/albums/managers/${id}`));
+};
+
 export const createAlbum = async (payload: any) => {
   const formData = convertPayloadToFormData(payload);
   return asyncHandler(() =>
