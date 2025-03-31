@@ -4,6 +4,7 @@ import {
   PostRequest,
   PutRequest,
 } from "@/lib/axios/axios";
+import { convertPayloadToFormData } from "@/utils/form-data";
 import { asyncHandler } from "@/utils/response";
 
 export const getArtists = async () => {
@@ -19,12 +20,25 @@ export const getManagerArtists = async (id: string) => {
 };
 
 export const createArtist = async (payload: any) => {
-  return asyncHandler(() => PostRequest("/api/v1/users/", { ...payload }));
+  const formData = convertPayloadToFormData(payload);
+  console.log(formData);
+  return asyncHandler(() =>
+    PostRequest("/api/v1/users/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Important for file uploads
+      },
+    })
+  );
 };
 
 export const updateArtist = async (data: { payload: any; id: string }) => {
+  const formData = convertPayloadToFormData(data.payload);
   return asyncHandler(() =>
-    PutRequest(`/api/v1/artists/${data.id}/`, { ...data.payload })
+    PutRequest(`/api/v1/artists/${data.id}/`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
   );
 };
 
