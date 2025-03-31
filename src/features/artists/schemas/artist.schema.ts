@@ -2,6 +2,9 @@ import { z } from "zod";
 
 import { zodInputStringPipe } from "@/utils/zod-number";
 
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+
 export const ArtistSchema = z.object({
   email: z
     .string({ required_error: "Email is required." })
@@ -50,6 +53,28 @@ export const ArtistSchema = z.object({
   address: z.string().optional(),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
+  profile_image: z
+    .any()
+    .optional()
+    .refine(
+      (file) => !file || file.size <= MAX_FILE_SIZE,
+      "Max image size is 5MB."
+    )
+    .refine(
+      (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
+      "Only .jpg, .jpeg, .png, and .webp formats are supported."
+    ),
+  cover_image: z
+    .any()
+    .optional()
+    .refine(
+      (file) => !file || file.size <= MAX_FILE_SIZE,
+      "Max image size is 5MB."
+    )
+    .refine(
+      (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
+      "Only .jpg, .jpeg, .png, and .webp formats are supported."
+    ),
 });
 
 export type TArtistSchema = z.infer<typeof ArtistSchema>;

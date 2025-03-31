@@ -42,7 +42,15 @@ export const columns: ColumnDef<TArtist>[] = [
     accessorKey: "last_name",
     header: "Last name",
   },
-
+  {
+    accessorKey: "gender",
+    header: "Gender",
+    cell: ({ row }) => (
+      <div className="rounded-xl bg-primary/10 w-fit py-1 px-3">
+        {row.original.gender === "M" ? "Male" : "Female"}
+      </div>
+    ),
+  },
   {
     accessorKey: "first_release_year",
     header: "First release year",
@@ -86,6 +94,11 @@ export const columns: ColumnDef<TArtist>[] = [
               }
             >
               Copy artist name
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push(`/artists/detail/${artist.id}`)}
+            >
+              View details
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
