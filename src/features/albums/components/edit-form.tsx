@@ -49,7 +49,7 @@ const AlbumEditForm = () => {
     defaultValues: {
       title: album?.data?.title || "",
       artist: album?.data?.artist.id || "",
-      release_date: album?.data?.release_date || "",
+      release_date: new Date(album?.data?.release_date),
       cover_image: "",
     },
   });
@@ -78,8 +78,8 @@ const AlbumEditForm = () => {
     if (album?.data) {
       form.reset({
         title: album?.data?.title,
-        artist: album?.data?.artist.id,
-        release_date: album?.data?.release_date,
+        artist: album?.data?.artist?.id,
+        release_date: new Date(album?.data?.release_date),
       });
     }
   }, [album]);

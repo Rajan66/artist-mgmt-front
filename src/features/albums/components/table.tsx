@@ -10,7 +10,6 @@ import { TAlbum } from "../types/album.type";
 
 const AlbumTable = () => {
   const { data } = useGetAlbums();
-  console.log("data: ", data);
 
   return (
     <DataTable<TAlbum, string[]>
@@ -18,7 +17,7 @@ const AlbumTable = () => {
       data={(data?.data ?? []) as TAlbum[]}
       searchFilter={{
         column: "title",
-        placeholder: "Search by name...",
+        placeholder: "Search by title...",
       }}
     />
   );
