@@ -38,7 +38,14 @@ const LoginForm = () => {
     try {
       const response = await login(data);
       const user = await response?.data;
-      setCookie("user_id", user?.id);
+      setCookie(
+        "user",
+        JSON.stringify({
+          id: user?.id,
+          email: user?.email,
+          role: user?.role,
+        })
+      );
       toast.success("Login successful");
       router.replace("/");
     } catch (error) {
