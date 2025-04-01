@@ -9,6 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const ApiResponse = <T>(response: AxiosResponse<T>) => ({
+  //@ts-ignore
   data: response?.data.data || null,
   status: response.status,
   statusText: response.statusText,

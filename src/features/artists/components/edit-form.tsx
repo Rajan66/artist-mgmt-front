@@ -27,6 +27,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
+import { api_image } from "@/constants/api";
 
 import { updateArtist } from "../actions/artist.action";
 import { useGetArtist } from "../hooks/use-queries";
@@ -279,7 +280,7 @@ const ArtistEditForm = () => {
           <div className="flex space-x-4">
             <FormField
               control={form.control}
-              name="cover_image"
+              name="profile_image"
               render={({ field }) => {
                 return (
                   <FormItem className="w-full flex flex-col">
@@ -298,7 +299,7 @@ const ArtistEditForm = () => {
                     {profileImage && (
                       <div className="flex flex-col justify-center items-start space-y-4">
                         <Image
-                          src={`http://localhost:8000/${artist?.profile_image}`}
+                          src={`${api_image}/${artist?.profile_image}`}
                           alt="Profile Image"
                           width={300}
                           height={300}
@@ -331,7 +332,7 @@ const ArtistEditForm = () => {
                     </FormControl>
                     {coverImage && (
                       <Image
-                        src={`http://localhost:8000/${artist?.cover_image}`}
+                        src={`${api_image}/${artist?.cover_image}`}
                         alt="Cover Image"
                         width={300}
                         height={300}

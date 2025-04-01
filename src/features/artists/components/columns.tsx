@@ -1,12 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { LuUser } from "react-icons/lu";
 import { toast } from "react-toastify";
 
+import defaultImage from "@/assets/default_male.jpg";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,12 +30,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { api_image } from "@/constants/api";
 import { deleteArtist } from "@/features/artists/actions/artist.action";
 import { cn } from "@/utils/response";
 
 import { TArtist } from "../types/artist.type";
 
 export const columns: ColumnDef<TArtist>[] = [
+  {
+    accessorKey: "profile_image",
+    header: "",
+    cell: ({ row }) => (
+      <div>
+        {row.original.profile_image ? (
+          <Image
+            src={`${api_image}/${row.original.profile_image}` || defaultImage}
+            alt="Profile Image"
+            width={80}
+            height={50}
+            className="rounded-full w-10 h-10"
+          />
+        ) : (
+          <div className="rounded-full bg-primary/80 text-background size-10 flex justify-center items-center">
+            <LuUser className="size-6" />
+          </div>
+        )}
+      </div>
+    ),
+  },
   {
     accessorKey: "name",
     header: "Artist Name",

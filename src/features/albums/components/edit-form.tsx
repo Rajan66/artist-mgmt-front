@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { api_image } from "@/constants/api";
 import { useGetManagerArtists } from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
 import { getUser } from "@/utils/get-user";
@@ -186,7 +187,7 @@ const AlbumEditForm = () => {
                 {image && (
                   <div className="flex flex-col space-y-4 justify-center items-start">
                     <Image
-                      src={`http://localhost:8000${album?.data.cover_image}`}
+                      src={`${api_image}/${album?.data.cover_image}`}
                       alt="Cover Image"
                       width={300}
                       height={300}
