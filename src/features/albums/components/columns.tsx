@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -27,12 +28,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { api_image } from "@/constants/api";
 import { deleteAlbum } from "@/features/albums/actions/album.action";
 import { cn } from "@/utils/response";
 
 import { TAlbum } from "../types/album.type";
 
 export const columns: ColumnDef<TAlbum>[] = [
+  {
+    accessorKey: "profile_image",
+    header: "",
+    cell: ({ row }) => (
+      <div>
+        <Image
+          src={
+            row.original.cover_image
+              ? `${api_image}/${row.original.cover_image}`
+              : `/images/album.png`
+          }
+          alt="Cover Image"
+          width={80}
+          height={50}
+          className="rounded-lg w-10 h-10"
+        />
+      </div>
+    ),
+  },
   {
     accessorKey: "title",
     header: "Title",
