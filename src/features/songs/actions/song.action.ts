@@ -4,7 +4,6 @@ import {
   PostRequest,
   PutRequest,
 } from "@/lib/axios/axios";
-import { convertPayloadToFormData } from "@/utils/form-data";
 import { asyncHandler } from "@/utils/response";
 
 export const getSongs = async () => {
@@ -13,6 +12,10 @@ export const getSongs = async () => {
 
 export const getSong = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/songs/${id}/`));
+};
+
+export const getArtistSongs = async (id: string) => {
+  return asyncHandler(() => GetRequest(`/api/v1/songs/artists/${id}`));
 };
 
 export const getManagerSongs = async (id: string) => {

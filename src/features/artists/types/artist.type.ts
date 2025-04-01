@@ -13,4 +13,6 @@ export type TArtist = {
   address: string;
   created_at: Date;
   updated_at: Date;
+  profile_image: string;
+  cover_image: string;
 };
