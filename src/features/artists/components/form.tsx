@@ -215,6 +215,7 @@ const ArtistForm = () => {
                     <SelectContent>
                       <SelectItem value="M">Male</SelectItem>
                       <SelectItem value="F">Female</SelectItem>
+                      <SelectItem value="O">Others</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>

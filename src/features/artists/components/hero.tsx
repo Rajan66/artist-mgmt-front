@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -11,14 +11,14 @@ import cover from "@/assets/weeknd.jpeg";
 import Loading from "@/components/loading";
 import { api_image } from "@/constants/api";
 
-import { DetailsContent } from ".";
+import { AlbumList, DetailsContent } from ".";
 import { useGetArtist } from "../hooks/use-queries";
 
 const ArtistHero = () => {
   const { id } = useParams();
   const { data: artist, isPending } = useGetArtist(id?.toString() || "");
-  const [coverImage, setCoverImage] = useState<string | any>(cover);
-  const [date, setDate] = useState<any>();
+  const [coverImage, setCoverImage] = useState<string | StaticImageData>(cover);
+  const [date, setDate] = useState<string | Date>("");
 
   const [scrollY, setScrollY] = useState(0);
 
@@ -68,14 +68,17 @@ const ArtistHero = () => {
             {artist?.data.name}
           </h1>
           <p className="text-lg text-white/90 max-w-xl mb-8">
-            Member since {date}
+            Member since {date.toString()}
           </p>
         </div>
       </div>
-      <DetailsContent
-        artist={artist?.data}
-        profileImage={artist?.data?.profile_image}
-      />
+      <div className="flex flex-col space-y-8">
+        <DetailsContent
+          artist={artist?.data}
+          profileImage={artist?.data?.profile_image}
+        />
+        <AlbumList id={artist?.data?.id} />
+      </div>
     </div>
   );
 };
