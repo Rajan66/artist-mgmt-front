@@ -8,7 +8,7 @@ import { FaUserTie } from "react-icons/fa6";
 import { LuLogOut, LuSettings } from "react-icons/lu";
 import { toast } from "react-toastify";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,7 +48,7 @@ const UserAvatar = () => {
         <div className="bg-primary-foreground/30 flex size-10 items-center justify-center rounded-full cursor-pointer">
           <Avatar>
             <AvatarFallback>
-              {user?.email.charAt(0).toUpperCase()}
+              {user?.email?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </div>

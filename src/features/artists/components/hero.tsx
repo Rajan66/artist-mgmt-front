@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -9,29 +9,22 @@ import { LuCircleCheck } from "react-icons/lu";
 
 import cover from "@/assets/weeknd.jpeg";
 import Loading from "@/components/loading";
+import { api_image } from "@/constants/api";
 
-import { DetailsContent } from ".";
+import { AlbumList, DetailsContent } from ".";
 import { useGetArtist } from "../hooks/use-queries";
 
 const ArtistHero = () => {
   const { id } = useParams();
   const { data: artist, isPending } = useGetArtist(id?.toString() || "");
-  const [coverImage, setCoverImage] = useState<string | any>(cover);
-  const [profileImage, setProfileImage] = useState<string | any>(cover);
-  const [date, setDate] = useState<any>();
+  const [coverImage, setCoverImage] = useState<string | StaticImageData>(cover);
+  const [date, setDate] = useState<string | Date>("");
 
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     if (artist?.data?.cover_image) {
-      setCoverImage(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}${artist?.data.cover_image}`
-      );
-    }
-    if (artist?.data?.profile_image) {
-      setProfileImage(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}${artist?.data.profile_image}`
-      );
+      setCoverImage(`${api_image}/${artist?.data.cover_image}`);
     }
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -75,11 +68,17 @@ const ArtistHero = () => {
             {artist?.data.name}
           </h1>
           <p className="text-lg text-white/90 max-w-xl mb-8">
-            Member since {date}
+            Member since {date.toString()}
           </p>
         </div>
       </div>
-      <DetailsContent artist={artist?.data} profileImage={profileImage} />
+      <div className="flex flex-col space-y-8">
+        <DetailsContent
+          artist={artist?.data}
+          profileImage={artist?.data?.profile_image}
+        />
+        <AlbumList id={artist?.data?.id} />
+      </div>
     </div>
   );
 };

@@ -35,7 +35,7 @@ export const ArtistEditSchema = z.object({
       required_error: "Date of birth is required.",
     })
     .optional(),
-  gender: z.enum(["M", "F"], { required_error: "Gender is required." }),
+  gender: z.enum(["M", "F", "O"], { required_error: "Gender is required." }),
 
   // ---- optional fields -----
   address: z.string().optional(),

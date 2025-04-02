@@ -8,6 +8,7 @@ export type TSong = {
   artist?: TArtist;
   release_date: Date;
   genre: TGenre;
+  cover_image?: string;
 };
 
 export type TGenre =

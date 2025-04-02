@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -28,10 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  useGetAlbums,
-  useGetManagerAlbums,
-} from "@/features/albums/hooks/use-queries";
+import { useGetManagerAlbums } from "@/features/albums/hooks/use-queries";
 import { TAlbum } from "@/features/albums/types/album.type";
 import { getUser } from "@/utils/get-user";
 
@@ -53,8 +49,8 @@ const SongEditForm = () => {
     resolver: zodResolver(SongSchema),
     defaultValues: {
       title: song?.data.title || "",
-      genre: song?.data.genre || "",
-      album_id: song?.data.album_id || "",
+      genre: song?.data?.genre,
+      album_id: song?.data?.album_id,
       release_date: new Date(),
     },
   });
@@ -79,14 +75,12 @@ const SongEditForm = () => {
 
   useEffect(() => {
     if (song?.data) {
-      form.reset({
-        title: song?.data?.title,
-        genre: song?.data?.genre,
-        album_id: song?.data?.album_id,
-        release_date: new Date(song?.data?.release_date),
-      });
+      form.setValue("title", song.data.title || "");
+      form.setValue("genre", song.data.genre || "");
+      form.setValue("album_id", song.data.album_id || "");
+      form.setValue("release_date", new Date(song.data.release_date));
     }
-  }, [song]);
+  }, [song, form]);
 
   if (isLoading) {
     return <Loading />;
@@ -119,11 +113,7 @@ const SongEditForm = () => {
             <FormItem>
               <FormLabel>Genre**</FormLabel>
               <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger className="w-full h-full">
                     <SelectValue placeholder="Select a genre" />
                   </SelectTrigger>
