@@ -106,6 +106,11 @@ export const columns: ColumnDef<TAlbum>[] = [
             >
               Copy album title
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push(`/albums/detail/${album.id}`)}
+            >
+              View details
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => router.push(`/albums/${album.id}`)}
