@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
+  getAlbumSongs,
   getArtistSongs,
   getManagerSongs,
   getSong,
@@ -28,6 +29,15 @@ export const useGetArtistSongs = (id: string) => {
   const { data, isPending, error } = useQuery({
     queryKey: ["artistSongs"],
     queryFn: () => getArtistSongs(id),
+  });
+
+  return { data, isPending, error };
+};
+
+export const useGetAlbumSongs = (id: string) => {
+  const { data, isPending, error } = useQuery({
+    queryKey: ["albumSongs"],
+    queryFn: () => getAlbumSongs(id),
   });
 
   return { data, isPending, error };

@@ -28,6 +28,7 @@ export const useGetArtistAlbums = (id: string) => {
   const { data, isPending, error } = useQuery({
     queryKey: ["artistAlbums"],
     queryFn: () => getArtistAlbums(id),
+    enabled: !!id,
   });
 
   return { data, isPending, error };

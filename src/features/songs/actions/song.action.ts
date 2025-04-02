@@ -18,6 +18,10 @@ export const getArtistSongs = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/songs/artists/${id}`));
 };
 
+export const getAlbumSongs = async (id: string) => {
+  return asyncHandler(() => GetRequest(`/api/v1/songs/albums/${id}`));
+};
+
 export const getManagerSongs = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/songs/managers/${id}`));
 };
