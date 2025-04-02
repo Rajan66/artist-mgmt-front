@@ -1,10 +1,9 @@
-import Image, { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image";
 import React from "react";
 
 import moment from "moment";
-import { LuUser } from "react-icons/lu";
 
-import { api_image } from "@/constants/api";
+import Avatar from "@/components/avatar";
 
 import { TArtist } from "../types/artist.type";
 
@@ -18,19 +17,12 @@ const DetailsProfile = ({ profileImage, artist }: DetailsProfileProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-4">
       <div className="mb-4 md:mb-0">
-        {profileImage ? (
-          <Image
-            src={`${api_image}/${profileImage}`}
-            alt="Profile Image"
-            width={1280}
-            height={720}
-            className="size-50"
-          />
-        ) : (
-          <div className="bg-primary/80 text-background size-50 flex justify-center items-center">
-            <LuUser className="size-30" />
-          </div>
-        )}
+        <Avatar
+          profileImage={profileImage}
+          imageSize="50"
+          iconSize="30"
+          avatar={false}
+        />
       </div>
       <div className="flex flex-col space-y-4">
         <div className="grid grid-cols-2">
@@ -63,7 +55,7 @@ const DetailsProfile = ({ profileImage, artist }: DetailsProfileProps) => {
         </div>
         <div className="grid grid-cols-2">
           <span className="font-semibold opacity-90 col-span-1">
-            Total releases:{" "}
+            Total releases:
           </span>
           <span className="col-span-1">{artist?.no_of_albums_released}</span>
         </div>
