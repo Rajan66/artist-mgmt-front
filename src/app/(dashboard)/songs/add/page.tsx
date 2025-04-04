@@ -8,12 +8,7 @@ import { SongForm } from "@/features/songs/components";
 const page = () => {
   return (
     <div className="flex flex-col space-y-4">
-      <PageTitle
-        title="Add Song"
-        url="/songs"
-        btnTitle="Go Back"
-        Icon={LuArrowLeft}
-      />
+      <PageTitle title="Add Song" btnTitle="Go Back" Icon={<LuArrowLeft />} />
       <SongForm />
     </div>
   );

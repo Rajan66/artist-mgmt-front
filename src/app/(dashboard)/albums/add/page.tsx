@@ -12,7 +12,7 @@ const page = () => {
         title="Add Album"
         url="/albums"
         btnTitle="Go Back"
-        Icon={LuArrowLeft}
+        Icon={<LuArrowLeft />}
       />
       <AlbumForm />
     </div>

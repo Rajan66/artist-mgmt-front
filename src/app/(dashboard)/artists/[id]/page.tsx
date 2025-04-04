@@ -10,9 +10,8 @@ const page = () => {
     <div className="flex flex-col space-y-4">
       <PageTitle
         title="Edit Artist"
-        url="/artists"
         btnTitle="Go Back"
-        Icon={LuArrowLeft}
+        Icon={<LuArrowLeft />}
       />
       <ArtistEditForm />
     </div>
