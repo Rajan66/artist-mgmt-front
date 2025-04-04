@@ -9,11 +9,11 @@ import { TArtist } from "../types/artist.type";
 
 type DetailsContentProps = {
   artist: TArtist;
-  profileImage: StaticImageData;
+  profileImage: string;
 };
 
 const DetailsContent = ({ artist, profileImage }: DetailsContentProps) => {
-  const { data: songs } = useGetArtistSongs(artist.id);
+  const { data: songs } = useGetArtistSongs(artist?.id);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 2xl:grid-cols-5">

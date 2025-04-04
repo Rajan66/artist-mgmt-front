@@ -10,7 +10,7 @@ const page = () => {
         title="Artists"
         url="/artists/add"
         btnTitle="Add Artist"
-        Icon={LuCirclePlus}
+        Icon={<LuCirclePlus />}
       />
       <ArtistTable />
     </div>

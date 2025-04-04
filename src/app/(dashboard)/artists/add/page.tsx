@@ -11,7 +11,7 @@ const page = () => {
       <PageTitle
         title="Add Artist"
         url="/artists"
-        Icon={LuArrowLeft}
+        Icon={<LuArrowLeft />}
         btnTitle="Go Back"
       />
       <ArtistForm />
