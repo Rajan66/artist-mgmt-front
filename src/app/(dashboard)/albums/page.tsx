@@ -12,7 +12,7 @@ const page = () => {
         title="Albums"
         url="/albums/add"
         btnTitle="Add Album"
-        Icon={LuCirclePlus}
+        Icon={<LuCirclePlus />}
       />
       <AlbumTable />
     </div>

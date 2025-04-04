@@ -1,6 +1,6 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import React from "react";
 
 import { LuUser } from "react-icons/lu";
@@ -9,17 +9,13 @@ import { api_image } from "@/constants/api";
 import { cn } from "@/utils/response";
 
 interface AvatarProps {
-  profileImage: StaticImageData;
-  imageSize?: string;
-  iconSize?: string;
+  profileImage: string;
   rounded?: boolean;
   avatar?: boolean;
 }
 
 const Avatar = ({
   profileImage,
-  iconSize = "4",
-  imageSize = "10",
   avatar = true,
   rounded = true,
 }: AvatarProps) => {

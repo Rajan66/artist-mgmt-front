@@ -19,6 +19,7 @@ export const useGetArtist = (id: string) => {
   const { data, isPending, error } = useQuery({
     queryKey: ["artist", id],
     queryFn: () => getArtist(id),
+    enabled: !!id,
   });
   return { data, isPending, error };
 };
@@ -27,6 +28,7 @@ export const useGetManagerArtists = (id: string) => {
   const { data, isPending, error } = useQuery({
     queryKey: ["artists"],
     queryFn: () => getManagerArtists(id),
+    enabled: !!id,
   });
 
   return { data, isPending, error };

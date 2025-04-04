@@ -8,12 +8,7 @@ import { AlbumEditForm } from "@/features/albums/components";
 const page = () => {
   return (
     <div className="flex flex-col space-y-4">
-      <PageTitle
-        title="Edit Album"
-        url="/albums"
-        btnTitle="Go Back"
-        Icon={LuArrowLeft}
-      />
+      <PageTitle title="Edit Album" btnTitle="Go Back" Icon={<LuArrowLeft />} />
       <AlbumEditForm />
     </div>
   );

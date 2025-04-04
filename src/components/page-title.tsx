@@ -1,28 +1,40 @@
-import Link from "next/link";
+"use client";
 
-import { IconType } from "react-icons/lib";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 import { Button } from "./ui/button";
 
 interface PageTitleProps {
   title: string;
-  url: string;
+  url?: string;
   btnTitle: string;
-  Icon: IconType;
+  Icon: React.ReactNode;
 }
 
 const PageTitle = ({ title, url, btnTitle, Icon }: PageTitleProps) => {
+  const router = useRouter();
   return (
     <div className="flex justify-between w-full">
-      <div>
-        <h2 className="font-semibold text-2xl opacity-90">{title}</h2>
-      </div>
-      <Link href={url}>
-        <Button variant="outline" className="flex gap-2 cursor-pointer">
-          <Icon />
+      <h2 className="font-semibold text-2xl opacity-90">{title}</h2>
+      {url ? (
+        <Link href={url}>
+          <Button variant="outline" className="flex gap-2 cursor-pointer">
+            {Icon}
+            {btnTitle}
+          </Button>
+        </Link>
+      ) : (
+        <Button
+          variant="outline"
+          className="flex gap-2 cursor-pointer"
+          onClick={() => router.back()}
+        >
+          {Icon}
           {btnTitle}
         </Button>
-      </Link>
+      )}
     </div>
   );
 };
