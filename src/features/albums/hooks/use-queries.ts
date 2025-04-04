@@ -20,6 +20,7 @@ export const useGetAlbum = (id: string) => {
   const { data, isPending, error } = useQuery({
     queryKey: ["album", id],
     queryFn: () => getAlbum(id),
+    enabled: !!id,
   });
   return { data, isPending, error };
 };
@@ -38,6 +39,7 @@ export const useGetManagerAlbums = (id: string) => {
   const { data, isPending, error } = useQuery({
     queryKey: ["albums"],
     queryFn: () => getManagerAlbums(id),
+    enabled: !!id,
   });
 
   return { data, isPending, error };
