@@ -8,7 +8,7 @@ import { FaUserTie } from "react-icons/fa6";
 import { LuLogOut, LuSettings } from "react-icons/lu";
 import { toast } from "react-toastify";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useGetArtist } from "@/features/artists/hooks/use-queries";
 import { logout } from "@/features/auth/actions/logout.action";
 
 const UserAvatar = () => {
@@ -24,7 +25,8 @@ const UserAvatar = () => {
 
   const userCookie = getCookie("user");
   const user = typeof userCookie === "string" ? JSON.parse(userCookie) : "";
-  // TODO hit profile based on the role, i need to get image and the initials
+  const { data: profile } =
+    user?.role === "artist" ? useGetArtist(user?.id) : useGetArtist(user?.id);
 
   const handleLogout = async () => {
     try {
@@ -47,17 +49,24 @@ const UserAvatar = () => {
       <DropdownMenuTrigger>
         <div className="bg-primary-foreground/30 flex size-10 items-center justify-center rounded-full cursor-pointer">
           <Avatar>
+            <AvatarImage src={profile?.data.profile_image} />
             <AvatarFallback>
-              {user?.email?.charAt(0).toUpperCase()}
+              {profile?.data
+                ? profile?.data.name
+                : user?.email?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-xs">
         <DropdownMenuGroup>
-          <DropdownMenuItem className="flex cursor-pointer items-center gap-2">
-            rajan
-          </DropdownMenuItem>
+          {profile?.data ? (
+            <DropdownMenuItem className="flex cursor-pointer items-center gap-2">
+              {profile?.data?.name}
+            </DropdownMenuItem>
+          ) : (
+            <></>
+          )}
           <DropdownMenuItem className="flex cursor-pointer items-center gap-2">
             {user?.email}
           </DropdownMenuItem>

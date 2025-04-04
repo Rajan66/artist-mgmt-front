@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetArtistAlbums } from "@/features/albums/hooks/use-queries";
 import { TAlbum } from "@/features/albums/types/album.type";
@@ -19,8 +21,14 @@ const AlbumList = ({ id }: { id: string }) => {
     <>
       {albums?.data?.length > 0 && (
         <div className="flex flex-col space-y-2">
-          <div className="md:p-2">
+          <div className="md:p-2 flex justify-between items-center">
             <h2 className="font-bold text-2xl">Discography</h2>
+            <Link
+              href={`/artists/${id}/albums`}
+              className="hover:underline text-sm font-semibold"
+            >
+              <p>Show all</p>
+            </Link>
           </div>
           <Tabs defaultValue="all">
             <TabsList className=" bg-background space-x-2">
