@@ -120,7 +120,7 @@ export const columns: ColumnDef<TAlbum>[] = [
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  {Deleting ? "Deleting..." : "Delete Album"}
+                  {Deleting ? "Deleting..." : "Delete album"}
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
