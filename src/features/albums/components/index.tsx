@@ -1,7 +1,11 @@
 export { default as AlbumTable } from "../components/table";
 export { default as AlbumForm } from "../components/form";
 export { default as AlbumEditForm } from "../components/edit-form";
-export { default as AlbumDetail } from "../components/album-detail";
 export { default as AlbumSongTable } from "../components/album-song-table";
 export { default as AlbumMore } from "../components/album-more";
+export { default as AlbumDetail } from "../components/album-detail";
+export { default as AlbumDetailHeader } from "../components/album-detail-header";
+export { default as AllAlbums } from "../components/all-albums";
+export { default as AllAlbumsDetail } from "../components/all-albums-detail";
+export { default as AllAlbumsDetailHeader } from "../components/all-albums-detail-header";
 export { columns } from "../components/columns";

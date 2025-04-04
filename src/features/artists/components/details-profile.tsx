@@ -1,4 +1,3 @@
-import { StaticImageData } from "next/image";
 import React from "react";
 
 import moment from "moment";
@@ -8,7 +7,7 @@ import Avatar from "@/components/avatar";
 import { TArtist } from "../types/artist.type";
 
 interface DetailsProfileProps {
-  profileImage: StaticImageData;
+  profileImage: string;
   artist: TArtist;
 }
 
@@ -17,12 +16,7 @@ const DetailsProfile = ({ profileImage, artist }: DetailsProfileProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-4">
       <div className="mb-4 md:mb-0">
-        <Avatar
-          profileImage={profileImage}
-          imageSize="50"
-          iconSize="30"
-          avatar={false}
-        />
+        <Avatar profileImage={profileImage} avatar={false} />
       </div>
       <div className="flex flex-col space-y-4">
         <div className="grid grid-cols-2">

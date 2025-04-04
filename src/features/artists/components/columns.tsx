@@ -134,7 +134,7 @@ export const columns: ColumnDef<TArtist>[] = [
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  {Deleting ? "Deleting..." : "Delete Artist"}
+                  {Deleting ? "Deleting..." : "Delete artist"}
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
