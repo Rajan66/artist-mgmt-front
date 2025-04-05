@@ -86,7 +86,7 @@ const LoginForm = () => {
                         <Input
                           id="email"
                           type="email"
-                          placeholder="Enter your email address..."
+                          placeholder="your@example.com"
                           {...field}
                         />
                       </FormControl>
