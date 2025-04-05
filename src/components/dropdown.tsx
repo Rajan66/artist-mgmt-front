@@ -28,21 +28,29 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { deleteSong } from "@/features/songs/actions/song.action";
 import { TSong } from "@/features/songs/types/song.type";
+import { getUser } from "@/utils/get-user";
 import { cn } from "@/utils/response";
 
 interface CustomDropdownProps {
   song: TSong;
+  artistId: string;
 }
-const CustomDropdown = ({ song }: CustomDropdownProps) => {
+const CustomDropdown = ({ song, artistId }: CustomDropdownProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const manager = getUser();
 
   const { mutate, isPending: Deleting } = useMutation({
     mutationFn: deleteSong,
     onSuccess: () => {
       toast.success("Song deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["artistSongs"] });
-      queryClient.invalidateQueries({ queryKey: ["songs"] });
+      queryClient.invalidateQueries({ queryKey: ["artistSongs", artistId] });
+      queryClient.invalidateQueries({
+        //@ts-ignore
+        queryKey: ["albumSongs", song.album_id],
+      });
+      queryClient.invalidateQueries({ queryKey: ["songs", manager.id] });
+      queryClient.invalidateQueries({ queryKey: ["artistAlbums"] });
     },
   });
   return (
