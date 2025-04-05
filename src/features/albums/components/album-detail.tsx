@@ -38,7 +38,10 @@ const AlbumDetail = () => {
         <AlbumDetailHeader album={album?.data} />
       </div>
       <div className="mt-10">
-        <AlbumSongTable songs={songs?.data} />
+        <AlbumSongTable
+          songs={songs?.data}
+          artistId={album?.data?.artist?.id}
+        />
       </div>
       <div className="opacity-90 p-2 mt-2">
         {moment(album?.data.release_date).format("ll")}

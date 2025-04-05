@@ -12,9 +12,10 @@ import { TSong } from "@/features/songs/types/song.type";
 
 interface AlbumSongTableProps {
   songs: TSong[];
+  artistId: string;
 }
 
-const AlbumSongTable = ({ songs }: AlbumSongTableProps) => {
+const AlbumSongTable = ({ songs, artistId }: AlbumSongTableProps) => {
   return (
     <Table>
       <thead>
@@ -32,7 +33,7 @@ const AlbumSongTable = ({ songs }: AlbumSongTableProps) => {
             <TableCell className="text-left py-4">{song?.title}</TableCell>
             <TableCell className="text-center py-4">{song?.genre}</TableCell>
             <TableCell className="text-right py-4">
-              <CustomDropdown song={song} />
+              <CustomDropdown song={song} artistId={artistId} />
             </TableCell>
           </TableRow>
         ))}

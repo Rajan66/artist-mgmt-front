@@ -1,9 +1,12 @@
 import Image from "next/image";
 import React from "react";
 
+import { RegisterHome } from "@/features/auth/components";
+
 const page = () => {
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
+      <RegisterHome />
       <div className="hidden p-6 md:block md:w-1/2">
         <Image
           src="/images/login.jpg"
