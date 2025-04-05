@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -36,6 +36,7 @@ import { genreList } from "../utils/genre";
 
 const SongForm = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const manager = getUser();
   const { data: albums } = useGetManagerAlbums(manager.id);
 
@@ -52,6 +53,7 @@ const SongForm = () => {
     mutationFn: createSong,
     onSuccess: () => {
       toast.success("Song created successfully");
+      queryClient.invalidateQueries({ queryKey: ["artistAlbums"] });
       form.reset();
       router.replace("/songs");
     },

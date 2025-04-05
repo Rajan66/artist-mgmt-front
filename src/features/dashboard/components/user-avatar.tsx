@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useGetArtist } from "@/features/artists/hooks/use-queries";
 import { logout } from "@/features/auth/actions/logout.action";
+import { useGetUserProfile } from "@/features/users/hooks/use-queries";
 
 const UserAvatar = () => {
   const router = useRouter();
@@ -26,7 +27,10 @@ const UserAvatar = () => {
   const userCookie = getCookie("user");
   const user = typeof userCookie === "string" ? JSON.parse(userCookie) : "";
   const { data: profile } =
-    user?.role === "artist" ? useGetArtist(user?.id) : useGetArtist(user?.id);
+    user?.role === "artist"
+      ? useGetArtist(user?.id)
+      : useGetUserProfile(user?.id);
+  console.log(profile);
 
   const handleLogout = async () => {
     try {
@@ -51,7 +55,7 @@ const UserAvatar = () => {
           <Avatar>
             <AvatarImage src={profile?.data.profile_image} />
             <AvatarFallback>
-              {profile?.data
+              {profile?.data.name
                 ? profile?.data.name
                 : user?.email?.charAt(0).toUpperCase()}
             </AvatarFallback>
@@ -60,7 +64,7 @@ const UserAvatar = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-xs">
         <DropdownMenuGroup>
-          {profile?.data ? (
+          {profile?.data.name ? (
             <DropdownMenuItem className="flex cursor-pointer items-center gap-2">
               {profile?.data?.name}
             </DropdownMenuItem>
