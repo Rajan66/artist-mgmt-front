@@ -9,8 +9,9 @@ import { TSong } from "../types/song.type";
 interface SongListProps {
   index: number;
   song: TSong;
+  artistId: string;
 }
-const SongList = ({ index, song }: SongListProps) => {
+const SongList = ({ index, song, artistId }: SongListProps) => {
   return (
     <div
       key={index}
@@ -31,7 +32,7 @@ const SongList = ({ index, song }: SongListProps) => {
         <span>{song?.genre}</span>
       </div>
       <div className="col-span-1 flex justify-end">
-        <CustomDropdown song={song} />
+        <CustomDropdown song={song} artistId={artistId} />
       </div>
     </div>
   );

@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 import { SongList } from "@/features/songs/components";
 import { useGetArtistSongs } from "@/features/songs/hooks/use-queries";
 import { TSong } from "@/features/songs/types/song.type";
@@ -29,7 +27,12 @@ const DetailsContent = ({ artist, profileImage }: DetailsContentProps) => {
               ) // sort by release_date (newest first)
               .slice(0, 5)
               .map((song: TSong, index: number) => (
-                <SongList song={song} key={index} index={index + 1} />
+                <SongList
+                  song={song}
+                  key={index}
+                  index={index + 1}
+                  artistId={artist?.id}
+                />
               ))
           ) : (
             <div className="flex h-full px-4 pt-10  items-center">

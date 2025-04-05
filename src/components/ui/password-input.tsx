@@ -20,7 +20,7 @@ const PasswordInput = forwardRef<
     <div className="relative">
       <Input
         type={showPassword ? "text" : "password"}
-        className={cn("hide-password-toggle h-12 pr-10", className)}
+        className={cn("hide-password-toggle pr-10", className)}
         ref={ref}
         {...props}
       />
