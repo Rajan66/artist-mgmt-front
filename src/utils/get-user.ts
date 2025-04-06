@@ -1,7 +1,14 @@
 import { getCookie } from "cookies-next";
 
 export const getUser = () => {
-  const userCookie = getCookie("user");
-  const user = typeof userCookie === "string" ? JSON.parse(userCookie) : "";
-  return user;
+  try {
+    const userCookie = getCookie("user");
+    if (typeof userCookie === "string") {
+      return JSON.parse(userCookie);
+    }
+  } catch (error) {
+    console.error("Error parsing user cookie:", error);
+  }
+
+  return null;
 };
