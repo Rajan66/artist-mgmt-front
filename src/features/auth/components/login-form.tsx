@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { cookieExpiry } from "@/constants/app";
 
 import { login } from "../actions";
 import { LoginSchema, TLogin } from "../schemas/login.schema";
@@ -44,7 +45,12 @@ const LoginForm = () => {
           id: user?.id,
           email: user?.email,
           role: user?.role,
-        })
+        }),
+        {
+          expires: new Date(cookieExpiry.ACCESS),
+          sameSite: true,
+          httpOnly: false,
+        }
       );
       toast.success("Login successful");
       router.replace("/");

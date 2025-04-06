@@ -61,6 +61,18 @@ export async function middleware(request: NextRequest) {
             data?.refresh_token,
             (refresh_token_exp ?? 0) * 1000 || cookieExpiry.REFRESH
           );
+
+          const user = data;
+          await setCookie(
+            "user",
+            JSON.stringify({
+              id: user?.id,
+              email: user?.email,
+              role: user?.role,
+            }),
+            (access_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS,
+            false
+          );
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
           return NextResponse.redirect(new URL("/login", request.nextUrl));
