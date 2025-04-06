@@ -1,8 +1,16 @@
-import React from "react";
+"use client";
 
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+
+import { getCookie } from "cookies-next";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 import Avatar from "@/components/avatar";
+import { Button } from "@/components/ui/button";
+import { useProfileStore } from "@/lib/zustand/store";
+import { getUser } from "@/utils/get-user";
 
 import { TArtist } from "../types/artist.type";
 
@@ -12,7 +20,53 @@ interface DetailsProfileProps {
 }
 
 const DetailsProfile = ({ profileImage, artist }: DetailsProfileProps) => {
-  const dob = moment(artist.dob).format("ll");
+  const user = getUser();
+  const router = useRouter();
+  const { profileSkipped, setProfileSkipped } = useProfileStore();
+  const dob = artist?.dob ? moment(artist.dob).format("ll") : "";
+
+  useEffect(() => {
+    const isIncomplete =
+      !artist?.first_name ||
+      !artist?.last_name ||
+      !artist?.dob ||
+      !artist?.gender ||
+      !artist?.first_release_year ||
+      !artist?.no_of_albums_released;
+
+    if (isIncomplete && profileSkipped === false) {
+      toast.info(({ closeToast }) => (
+        <div className="flex flex-col gap-2">
+          <p>Some details are missing. Let’s get that profile complete!</p>
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              className="w-fit bg-background/50 text-foreground"
+              onClick={() => {
+                setProfileSkipped(true);
+                closeToast?.();
+              }}
+            >
+              Skip
+            </Button>
+            <Button
+              size="sm"
+              className="w-fit bg-green-600 text-foreground hover:bg-green-700"
+              onClick={() => {
+                user?.role === "artist"
+                  ? router.push("/settings")
+                  : router.push(`/artists/${artist?.id}`);
+                closeToast?.();
+              }}
+            >
+              Let’s go →
+            </Button>
+          </div>
+        </div>
+      ));
+    }
+  }, [artist, profileSkipped, router, setProfileSkipped]);
+
   return (
     <div className="flex flex-col md:flex-row gap-4">
       <div className="mb-4 md:mb-0">
