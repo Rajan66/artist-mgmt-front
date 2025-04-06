@@ -33,7 +33,7 @@ import { cn } from "@/utils/response";
 
 interface CustomDropdownProps {
   song: TSong;
-  artistId: string;
+  artistId?: string;
 }
 const CustomDropdown = ({ song, artistId }: CustomDropdownProps) => {
   const router = useRouter();

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import {
   getArtist,
+  getArtistWithUser,
   getArtists,
   getManagerArtists,
 } from "@/features/artists/actions/artist.action";
@@ -19,6 +20,15 @@ export const useGetArtist = (id: string) => {
   const { data, isPending, error } = useQuery({
     queryKey: ["artist", id],
     queryFn: () => getArtist(id),
+    enabled: !!id,
+  });
+  return { data, isPending, error };
+};
+
+export const useGetArtistWithUser = (id: string) => {
+  const { data, isPending, error } = useQuery({
+    queryKey: ["userArtist", id],
+    queryFn: () => getArtistWithUser(id),
     enabled: !!id,
   });
   return { data, isPending, error };

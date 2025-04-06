@@ -15,6 +15,10 @@ export const getArtist = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/artists/${id}/`));
 };
 
+export const getArtistWithUser = async (id: string) => {
+  return asyncHandler(() => GetRequest(`/api/v1/artists/users/${id}/`));
+};
+
 export const getManagerArtists = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/artists/managers/${id}`));
 };
