@@ -12,7 +12,7 @@ import { TSong } from "@/features/songs/types/song.type";
 
 interface AlbumSongTableProps {
   songs: TSong[];
-  artistId: string;
+  artistId?: string;
 }
 
 const AlbumSongTable = ({ songs, artistId }: AlbumSongTableProps) => {

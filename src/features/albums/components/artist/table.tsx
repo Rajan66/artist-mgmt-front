@@ -4,13 +4,15 @@ import React from "react";
 
 import DataTable from "@/components/data-table";
 import { columns } from "@/features/albums/components";
+import { useGetArtistWithUser } from "@/features/artists/hooks/use-queries";
 import { TCookieUser } from "@/types/user.type";
 
 import { useGetArtistAlbums } from "../../hooks/use-queries";
 import { TAlbum } from "../../types/album.type";
 
 const AlbumTable = ({ user }: { user: TCookieUser }) => {
-  const { data } = useGetArtistAlbums(user.id);
+  const { data: artist } = useGetArtistWithUser(user.id);
+  const { data } = useGetArtistAlbums(artist?.data?.id);
 
   return (
     <DataTable<TAlbum, string[]>

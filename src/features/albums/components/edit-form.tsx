@@ -29,7 +29,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { api_image } from "@/constants/api";
-import { useGetManagerArtists } from "@/features/artists/hooks/use-queries";
+import {
+  useGetArtistWithUser,
+  useGetManagerArtists,
+} from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
 import { getUser } from "@/utils/get-user";
 
@@ -42,8 +45,12 @@ const AlbumEditForm = () => {
   const { id: id } = useParams();
   const albumId = id?.toString();
 
-  const manager = getUser();
-  const { data: artists } = useGetManagerArtists(manager.id);
+  const user = getUser();
+
+  const { data: artists } =
+    user?.role === "artist"
+      ? useGetArtistWithUser(user?.id)
+      : useGetManagerArtists(user?.id);
 
   const { data: album, isPending: isLoading } = useGetAlbum(albumId || "");
   const [image, setImage] = useState<string | null>("");
@@ -112,36 +119,40 @@ const AlbumEditForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="artist"
-          render={({ field }) => (
-            <FormItem className="w-full ">
-              <FormLabel>Artist**</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-full h-full">
-                    <SelectValue placeholder="Select an artist" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {artists?.data.map((artist: TArtist) => {
-                      return (
-                        <SelectItem value={artist?.id} key={artist?.id}>
-                          {artist?.name}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+        {user.role === "artist_manager" && (
+          <FormField
+            control={form.control}
+            name="artist"
+            render={({ field }) => (
+              <FormItem className="w-full ">
+                <FormLabel>Artist**</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full h-full">
+                      <SelectValue placeholder="Select an artist" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {artists?.data.map((artist: TArtist) => {
+                        return (
+                          <SelectItem value={artist?.id} key={artist?.id}>
+                            {artist?.name}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
         <FormField
           control={form.control}
           name="release_date"
