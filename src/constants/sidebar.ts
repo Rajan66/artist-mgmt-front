@@ -13,11 +13,7 @@ export const items = [
     url: "/",
     icon: LuHouse,
   },
-  {
-    title: "Users",
-    url: "/users",
-    icon: LuUser,
-  },
+
   {
     title: "Artists",
     url: "/artists",

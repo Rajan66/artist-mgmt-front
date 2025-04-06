@@ -78,24 +78,13 @@ const UserAvatar = () => {
           <DropdownMenuItem>
             <Link
               href={"/settings"}
-              className="flex cursor-pointer items-center gap-2"
-            >
-              <FaUserTie />
-              Profile
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <Link
-              href={"/settings"}
-              className="flex cursor-pointer items-center gap-2"
+              className="w-full flex cursor-pointer items-center gap-2"
             >
               <LuSettings />
               Settings
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
