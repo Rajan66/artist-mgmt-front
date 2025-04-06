@@ -10,7 +10,7 @@ export const logout = async () => {
     const token = getCookie("refresh_token");
     removeCookie("access_token");
     removeCookie("refresh_token");
-    removeCookie("user_id");
+    removeCookie("user");
 
     const response = await PostRequest(
       "/api/v1/auth/token/blacklist/",
