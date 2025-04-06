@@ -8,14 +8,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { items } from "@/constants/sidebar";
+import { useGetItems } from "@/constants/sidebar";
 import { cn } from "@/lib/utils";
+
+import { TItem } from "../types/sidebar.type";
 
 const SidebarItems = () => {
   const pathname = usePathname();
+  const items = useGetItems();
   return (
     <SidebarMenu className="mt-2 space-y-4 overflow-hidden">
-      {items.map((item) => (
+      {items.map((item: TItem) => (
         <SidebarMenuItem key={item.title} className="w-full">
           <SidebarMenuButton
             asChild
