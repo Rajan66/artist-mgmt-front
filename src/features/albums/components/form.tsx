@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
@@ -26,7 +26,10 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { useGetManagerArtists } from "@/features/artists/hooks/use-queries";
+import {
+  useGetArtistWithUser,
+  useGetManagerArtists,
+} from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
 import { getUser } from "@/utils/get-user";
 
@@ -36,8 +39,12 @@ import { AlbumSchema, TAlbumSchema } from "../schemas/album.schema";
 const AlbumForm = () => {
   const router = useRouter();
 
-  const manager = getUser();
-  const { data: artists } = useGetManagerArtists(manager.id);
+  const user = getUser();
+
+  const { data: artists } =
+    user?.role === "artist"
+      ? useGetArtistWithUser(user?.id)
+      : useGetManagerArtists(user?.id);
 
   const form = useForm<TAlbumSchema>({
     resolver: zodResolver(AlbumSchema),
@@ -56,6 +63,12 @@ const AlbumForm = () => {
     },
     onError: (error) => toast.error(`Failed to create a new album: ${error}.`),
   });
+
+  useEffect(() => {
+    if (user?.role === "artist" && artists?.data?.id) {
+      form.setValue("artist", artists.data.id);
+    }
+  }, [user, artists]);
 
   const onSubmit = async (data: TAlbumSchema) => {
     mutate(data);
@@ -81,36 +94,38 @@ const AlbumForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="artist"
-          render={({ field }) => (
-            <FormItem className="w-full ">
-              <FormLabel>Artist**</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-full h-full">
-                    <SelectValue placeholder="Select an artist" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {artists?.data.map((artist: TArtist) => {
-                      return (
-                        <SelectItem value={artist?.id} key={artist?.id}>
-                          {artist?.name}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {user.role === "artist_manager" && (
+          <FormField
+            control={form.control}
+            name="artist"
+            render={({ field }) => (
+              <FormItem className="w-full ">
+                <FormLabel>Artist**</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full h-full">
+                      <SelectValue placeholder="Select an artist" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {artists?.data.map((artist: TArtist) => {
+                        return (
+                          <SelectItem value={artist?.id} key={artist?.id}>
+                            {artist?.name}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="release_date"

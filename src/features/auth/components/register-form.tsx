@@ -24,9 +24,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { createArtist } from "@/features/artists/actions/artist.action";
 
-import { createManager, registerWithProfile } from "../actions/register.action";
+import { registerWithProfile } from "../actions/register.action";
 import { RegisterSchema, TRegister } from "../schemas/register.schema";
 
 interface RegisterFormProps {
@@ -40,16 +39,17 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
   const form = useForm<TRegister>({
     resolver: zodResolver(RegisterSchema(role)),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      confirm_password: "",
       phone: "",
     },
   });
 
-  const { mutate, isPending: isArtistPending } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: registerWithProfile,
     onSuccess: () => {
       toast.success("Registration successful");
@@ -105,10 +105,25 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {role === "artist" && (
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name**</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Johnny" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <div className="flex items-center gap-4">
               <FormField
                 control={form.control}
-                name="firstName"
+                name="first_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
@@ -121,7 +136,7 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
               />
               <FormField
                 control={form.control}
-                name="lastName"
+                name="last_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
@@ -154,7 +169,7 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email**</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
@@ -172,7 +187,7 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Password**</FormLabel>
                   <FormControl>
                     <PasswordInput placeholder="********" {...field} />
                   </FormControl>
@@ -182,10 +197,10 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
             />
             <FormField
               control={form.control}
-              name="confirmPassword"
+              name="confirm_password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel>Confirm Password**</FormLabel>
                   <FormControl>
                     <PasswordInput placeholder="********" {...field} />
                   </FormControl>
@@ -195,7 +210,11 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
             />
 
             <div className="flex flex-col items-center space-y-4">
-              <Button type="submit" className="w-full text-background">
+              <Button
+                type="submit"
+                className="w-full text-background"
+                disabled={isPending}
+              >
                 Register
               </Button>
               <div className="text-center text-sm flex gap-1">

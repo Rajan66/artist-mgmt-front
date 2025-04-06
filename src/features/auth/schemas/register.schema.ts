@@ -3,6 +3,12 @@ import { z } from "zod";
 export const RegisterSchema = (role: string) =>
   z
     .object({
+      name: z
+        .string({
+          message: "Invalid name.",
+          required_error: "Name is required.",
+        })
+        .min(3, { message: "Must be at least 3 characters." }),
       email: z
         .string()
         .min(1, { message: "Email cannot be empty." })
@@ -19,17 +25,17 @@ export const RegisterSchema = (role: string) =>
         })
         .trim(),
 
-      confirmPassword: z.string().trim(),
+      confirm_password: z.string().trim(),
 
-      firstName: z.string().min(1, "First name is required"),
-      lastName: z.string().min(1, "Last name is required"),
+      first_name: z.string().optional(),
+      last_name: z.string().optional(),
 
       phone:
         role === "artist_manager"
           ? z.string().min(10, "Phone number is required")
           : z.string().optional(),
     })
-    .refine((data) => data.password === data.confirmPassword, {
+    .refine((data) => data.password === data.confirm_password, {
       message: "Passwords don't match",
       path: ["confirmPassword"],
     });

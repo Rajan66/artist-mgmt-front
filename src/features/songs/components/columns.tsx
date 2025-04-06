@@ -88,6 +88,9 @@ export const columns: ColumnDef<TSong>[] = [
         onSuccess: () => {
           toast.success("Song deleted successfully");
           queryClient.invalidateQueries({ queryKey: ["songs"] });
+          queryClient.invalidateQueries({
+            queryKey: ["artistSongs", song.album?.artist.id],
+          });
         },
       });
 

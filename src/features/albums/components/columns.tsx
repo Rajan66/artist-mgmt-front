@@ -61,7 +61,7 @@ export const columns: ColumnDef<TAlbum>[] = [
   {
     accessorKey: "artist",
     header: "Artist",
-    cell: ({ row }) => row.original.artist.name,
+    cell: ({ row }) => row.original.artist?.name,
   },
   {
     accessorKey: "release_date",
@@ -86,6 +86,9 @@ export const columns: ColumnDef<TAlbum>[] = [
         onSuccess: () => {
           toast.success("Album deleted successfully");
           queryClient.invalidateQueries({ queryKey: ["albums"] });
+          queryClient.invalidateQueries({
+            queryKey: ["artistAlbums", album?.artist?.id],
+          });
         },
       });
 

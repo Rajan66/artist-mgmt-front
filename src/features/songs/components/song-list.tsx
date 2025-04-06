@@ -20,7 +20,7 @@ const SongList = ({ index, song, artistId }: SongListProps) => {
       <div className="col-span-4 flex items-center space-x-4">
         <span>{index}</span>
         <Image
-          src={`${api_image}/${song?.cover_image}`}
+          src={`${api_image}/${song?.album?.cover_image}`}
           alt="Profile Image"
           width={80}
           height={50}

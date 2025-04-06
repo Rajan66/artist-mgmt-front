@@ -21,7 +21,7 @@ export const getRefreshToken = async (token: string) => {
       console.error(error.response?.data?.message || "An error occurred");
       removeCookie("refresh_token");
       removeCookie("access_token");
-      removeCookie("user_id");
+      removeCookie("user");
       return error.response?.data.message;
     } else {
       console.error("Something went wrong", error);

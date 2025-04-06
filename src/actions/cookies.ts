@@ -4,12 +4,17 @@ import { cookies } from "next/headers";
 
 import { TCookie } from "@/types";
 
-export const setCookie = async (name: TCookie, value: string, date: number) => {
+export const setCookie = async (
+  name: TCookie,
+  value: string,
+  date: number,
+  httpOnly: boolean = true
+) => {
   const cookieStore = await cookies();
   cookieStore?.set(name, value, {
     expires: new Date(date),
     secure: false, // true in production, cookie sent over only HTTPs
-    httpOnly: true,
+    httpOnly: httpOnly,
     sameSite: "strict",
     path: "/",
   });

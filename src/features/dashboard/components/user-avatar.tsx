@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { getCookie } from "cookies-next";
-import { FaUserTie } from "react-icons/fa6";
 import { LuLogOut, LuSettings } from "react-icons/lu";
 import { toast } from "react-toastify";
 
@@ -17,20 +15,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useGetArtist } from "@/features/artists/hooks/use-queries";
+import { useGetArtistWithUser } from "@/features/artists/hooks/use-queries";
 import { logout } from "@/features/auth/actions/logout.action";
 import { useGetUserProfile } from "@/features/users/hooks/use-queries";
+import { getUser } from "@/utils/get-user";
 
 const UserAvatar = () => {
   const router = useRouter();
 
-  const userCookie = getCookie("user");
-  const user = typeof userCookie === "string" ? JSON.parse(userCookie) : "";
+  const user = getUser();
   const { data: profile } =
     user?.role === "artist"
-      ? useGetArtist(user?.id)
+      ? useGetArtistWithUser(user?.id)
       : useGetUserProfile(user?.id);
-  console.log(profile);
 
   const handleLogout = async () => {
     try {
@@ -56,7 +53,7 @@ const UserAvatar = () => {
             <AvatarImage src={profile?.data.profile_image} />
             <AvatarFallback>
               {profile?.data.name
-                ? profile?.data.name
+                ? profile?.data.name.charAt(0).toUpperCase()
                 : user?.email?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -78,24 +75,13 @@ const UserAvatar = () => {
           <DropdownMenuItem>
             <Link
               href={"/settings"}
-              className="flex cursor-pointer items-center gap-2"
-            >
-              <FaUserTie />
-              Profile
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <Link
-              href={"/settings"}
-              className="flex cursor-pointer items-center gap-2"
+              className="w-full flex cursor-pointer items-center gap-2"
             >
               <LuSettings />
               Settings
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
             className="cursor-pointer gap-2"
