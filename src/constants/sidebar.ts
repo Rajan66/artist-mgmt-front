@@ -35,7 +35,7 @@ export const useGetItems = (): TItem[] => {
     },
   ];
 
-  if (user?.role === "artistManager") {
+  if (user?.role === "artist_manager") {
     navItems.splice(1, 0, {
       title: "Artists",
       url: "/artists",

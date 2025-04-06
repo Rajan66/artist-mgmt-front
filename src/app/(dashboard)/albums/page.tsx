@@ -5,6 +5,7 @@ import { AlbumTable } from "@/features/albums/components";
 import { ArtistAlbumTable } from "@/features/albums/components/artist";
 import { getUser } from "@/utils/get-user-server";
 
+export const dynamic = "force-dynamic";
 const page = async () => {
   const user = await getUser();
 
