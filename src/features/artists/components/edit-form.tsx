@@ -59,8 +59,6 @@ const ArtistEditForm = () => {
       last_name: artist?.last_name || "",
       address: artist?.address || "",
       gender: artist?.gender || "",
-      cover_image: artist?.cover_image || "",
-      profile_image: artist?.profile_image || "",
     },
   });
 
@@ -89,11 +87,11 @@ const ArtistEditForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: updateArtist,
     onSuccess: () => {
-      toast.success("Artist created successful");
+      toast.success("Artist updated successfully");
       form.reset();
       router.replace("/artists");
     },
-    onError: (error) => toast.error(`Failed to create a new artist: ${error}.`),
+    onError: (error) => toast.error(`Failed to update the artist: ${error}.`),
   });
 
   const onSubmit = async (formData: TArtistEditSchema) => {
@@ -231,6 +229,7 @@ const ArtistEditForm = () => {
                     <SelectContent>
                       <SelectItem value="M">Male</SelectItem>
                       <SelectItem value="F">Female</SelectItem>
+                      <SelectItem value="O">Others</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>

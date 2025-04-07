@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { api_image } from "@/constants/api";
 import { deleteArtist } from "@/features/artists/actions/artist.action";
+import { useGetUserProfile } from "@/features/users/hooks/use-queries";
 import { cn } from "@/utils/response";
 
 import { TArtist } from "../types/artist.type";
@@ -68,11 +69,33 @@ export const columns: ColumnDef<TArtist>[] = [
     header: "Last name",
   },
   {
+    accessorKey: "manager",
+    header: "Manager",
+    cell: ({ row }) => {
+      const { data: manager } = useGetUserProfile(row.original.manager_id);
+      return (
+        <div>
+          {manager?.data ? (
+            <>
+              {manager?.data?.first_name} {manager?.data?.last_name}
+            </>
+          ) : (
+            ""
+          )}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "gender",
     header: "Gender",
     cell: ({ row }) => (
       <div className="rounded-xl bg-primary/10 w-fit py-1 px-3">
-        {row.original.gender === "M" ? "Male" : "Female"}
+        {row.original.gender === "M"
+          ? "Male"
+          : row.original.gender === "F"
+            ? "Female"
+            : "Others"}
       </div>
     ),
   },

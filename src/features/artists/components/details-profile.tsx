@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-import { getCookie } from "cookies-next";
 import moment from "moment";
 import { toast } from "react-toastify";
 
@@ -97,7 +96,7 @@ const DetailsProfile = ({ profileImage, artist }: DetailsProfileProps) => {
         </div>
         <div className="grid grid-cols-2">
           <span className="font-semibold opacity-90 col-span-1">
-            Debut release:
+            Debut year:
           </span>
           <span className="col-span-1">{artist?.first_release_year}</span>
         </div>
