@@ -19,5 +19,9 @@ export const protectedRoutes = [
   "/songs",
   "/songs/add",
   "/songs/[id]",
-  "profile",
+  "/settings",
+  "/help",
+  "/artists/detail/:id",
+  "/albums/detail/:id",
+  "/managers",
 ];

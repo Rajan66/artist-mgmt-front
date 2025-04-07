@@ -77,8 +77,7 @@ const CustomDropdown = ({ song, artistId }: CustomDropdownProps) => {
               <AlertDialogHeader>
                 <AlertDialogTitle>Delete song?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Are you sure you want to delete this song? This will also
-                  delete all the songs inside the song!
+                  Are you sure you want to delete this song?
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
