@@ -16,8 +16,6 @@ import {
 
 import RegisterForm from "./register-form";
 
-// Make sure the file is spelled correctly!
-
 const RegisterHome = () => {
   const [role, setRole] = useState("");
   const [step, setStep] = useState(1);
@@ -34,7 +32,6 @@ const RegisterHome = () => {
     <div className="p-6 max-w-xl mx-auto space-y-6">
       {step === 1 ? (
         <div className="flex flex-col items-center justify-center h-full space-y-6">
-          {/* Heading */}
           <div className="text-center space-y-1">
             <h1 className="text-2xl font-bold">Welcome to VoxCloud</h1>
             <p className="text-muted-foreground">
@@ -43,7 +40,6 @@ const RegisterHome = () => {
             <p className="text-sm text-muted-foreground">Step 1 of 2</p>
           </div>
 
-          {/* Role Select */}
           <Select onValueChange={(value) => setRole(value)}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select your role" />
@@ -56,7 +52,6 @@ const RegisterHome = () => {
             </SelectContent>
           </Select>
 
-          {/* Role Descriptions */}
           <div className="text-sm text-muted-foreground space-y-1 w-full">
             <p>
               <strong>Artist:</strong> Upload tracks, connect with fans, and
@@ -68,7 +63,6 @@ const RegisterHome = () => {
             </p>
           </div>
 
-          {/* Confirm Button */}
           <div className="flex flex-col items-center space-y-4 w-full">
             <Button
               type="submit"

@@ -37,21 +37,9 @@ const LoginForm = () => {
 
   const onSubmit = async (data: TLogin) => {
     try {
+      //TODO fix this unused variable error
       const response = await login(data);
-      const user = await response?.data;
-      setCookie(
-        "user",
-        JSON.stringify({
-          id: user?.id,
-          email: user?.email,
-          role: user?.role,
-        }),
-        {
-          expires: new Date(cookieExpiry.ACCESS),
-          sameSite: true,
-          httpOnly: false,
-        }
-      );
+      // const user = await response?.data;
       toast.success("Login successful");
       router.replace("/");
     } catch (error) {
