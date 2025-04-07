@@ -77,8 +77,9 @@ export const columns: ColumnDef<TArtist>[] = [
     accessorKey: "manager",
     header: "Manager",
     cell: ({ row }) => {
-      const { data: manager } = useGetUserProfile(row.original.manager_id);
-      console.log(manager);
+      const { data: manager } = useGetUserProfile(
+        row.original.manager_id ?? ""
+      );
       return (
         <div>
           {manager?.data ? (

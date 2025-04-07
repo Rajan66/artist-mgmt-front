@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  useGetAlbums,
   useGetArtistAlbums,
   useGetManagerAlbums,
 } from "@/features/albums/hooks/use-queries";
@@ -46,7 +47,9 @@ const SongForm = () => {
   const { data: albums } =
     user?.role === "artist"
       ? useGetArtistAlbums(artist?.data?.id)
-      : useGetManagerAlbums(user?.id);
+      : user?.role === "artist_manager"
+        ? useGetManagerAlbums(user?.id)
+        : useGetAlbums();
 
   const form = useForm<TSongSchema>({
     resolver: zodResolver(SongSchema),
