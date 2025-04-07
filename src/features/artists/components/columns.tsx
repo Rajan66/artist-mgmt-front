@@ -31,7 +31,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { api_image } from "@/constants/api";
-import { deleteArtist } from "@/features/artists/actions/artist.action";
+import {
+  deleteArtist,
+  hardDeleteArtist,
+  softDeleteArtist,
+  unbanArtist,
+} from "@/features/artists/actions/artist.action";
 import { useGetUserProfile } from "@/features/users/hooks/use-queries";
 import { cn } from "@/utils/response";
 
@@ -73,6 +78,7 @@ export const columns: ColumnDef<TArtist>[] = [
     header: "Manager",
     cell: ({ row }) => {
       const { data: manager } = useGetUserProfile(row.original.manager_id);
+      console.log(manager);
       return (
         <div>
           {manager?.data ? (
@@ -109,8 +115,9 @@ export const columns: ColumnDef<TArtist>[] = [
     header: "Album count",
   },
   {
-    accessorKey: "address",
-    header: "Address",
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => <div>{row.original.user?.is_active.toString()}</div>,
   },
   {
     id: "actions",
@@ -118,10 +125,27 @@ export const columns: ColumnDef<TArtist>[] = [
       const artist = row.original;
       const router = useRouter();
       const queryClient = useQueryClient();
+
       const { mutate, isPending: Deleting } = useMutation({
-        mutationFn: deleteArtist,
+        mutationFn: hardDeleteArtist,
         onSuccess: () => {
           toast.success("Artist deleted successfully");
+          queryClient.invalidateQueries({ queryKey: ["artists"] });
+        },
+      });
+
+      const { mutate: ban, isPending: isBanning } = useMutation({
+        mutationFn: softDeleteArtist,
+        onSuccess: () => {
+          toast.success("Artist banned successfully");
+          queryClient.invalidateQueries({ queryKey: ["artists"] });
+        },
+      });
+
+      const { mutate: unban, isPending: isUnbanning } = useMutation({
+        mutationFn: unbanArtist,
+        onSuccess: () => {
+          toast.success("Artist unbanned successfully");
           queryClient.invalidateQueries({ queryKey: ["artists"] });
         },
       });
@@ -172,6 +196,43 @@ export const columns: ColumnDef<TArtist>[] = [
                   <AlertDialogAction
                     onClick={() => mutate(artist.id)}
                     disabled={Deleting}
+                    className={cn(buttonVariants({ variant: "destructive" }))}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  {!row.original?.user?.is_active
+                    ? isUnbanning
+                      ? "Unbanning..."
+                      : "Unban artist"
+                    : isBanning
+                      ? "Banning..."
+                      : "Ban artist"}
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Ban manager?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to ban this manager?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      if (artist?.user?.is_active) {
+                        ban(artist?.id);
+                      } else {
+                        unban(artist?.id);
+                      }
+                    }}
+                    disabled={isBanning}
                     className={cn(buttonVariants({ variant: "destructive" }))}
                   >
                     Continue

@@ -20,6 +20,9 @@ export const ManagerSchema = z.object({
     })
     .optional(),
   gender: z.enum(["M", "F", "O"], { required_error: "Gender is required." }),
+  role: z.enum(["super_admin", "artist_manager"], {
+    required_error: "Role is required.",
+  }),
 
   // ---- optional fields -----
   address: z.string().optional(),

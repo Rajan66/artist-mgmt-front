@@ -1,6 +1,11 @@
-import { HelpFAQ, HelpFooter, HelpHeader } from ".";
+"use client";
+
+import { getUser } from "@/utils/get-user";
+
+import { AdminFAQ, ArtistFAQ, HelpFAQ, HelpFooter, HelpHeader } from ".";
 
 const Help = () => {
+  const user = getUser();
   return (
     <div className="mx-auto pb-10 max-w-4xl">
       <div className="space-y-8">
@@ -11,11 +16,14 @@ const Help = () => {
             artists effectively.
           </p>
         </div>
-
         <HelpHeader />
-
-        <HelpFAQ />
-
+        {user?.role === "artist_manager" ? (
+          <HelpFAQ />
+        ) : user?.role === "super_admin" ? (
+          <AdminFAQ />
+        ) : (
+          <ArtistFAQ />
+        )}
         <HelpFooter />
       </div>
     </div>
