@@ -6,4 +6,5 @@ export { default as DetailsContent } from "./details-content";
 export { default as DetailsProfile } from "./details-profile";
 export { default as AlbumList } from "./detail-album-list";
 export { default as AlbumCard } from "./details-album-card";
+export { default as ManagerDetail } from "./manager-detail";
 export { columns } from "./columns";

@@ -3,7 +3,12 @@ import { z } from "zod";
 import { zodInputStringPipe } from "@/utils/zod-number";
 
 const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
 
 export const ArtistSchema = z.object({
   email: z

@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -28,19 +28,18 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { api_image } from "@/constants/api";
-
-import { updateArtist } from "../actions/artist.action";
-import { useGetArtist } from "../hooks/use-queries";
+import { updateArtist } from "@/features/artists/actions/artist.action";
+import { useGetArtistWithUser } from "@/features/artists/hooks/use-queries";
 import {
   ArtistEditSchema,
   TArtistEditSchema,
-} from "../schemas/artist-edit.schema";
+} from "@/features/artists/schemas/artist-edit.schema";
+import { getUser } from "@/utils/get-user";
 
-const ArtistEditForm = () => {
-  const router = useRouter();
-  const { id: id } = useParams();
-  const artistId = id as string;
-  const { data, error } = useGetArtist(artistId);
+const ArtistForm = () => {
+  const queryClient = useQueryClient();
+  const user = getUser();
+  const { data, error } = useGetArtistWithUser(user?.id);
 
   const [profileImage, setProfileImage] = useState<string | null>("");
   const [coverImage, setCoverImage] = useState<string | null>("");
@@ -87,15 +86,15 @@ const ArtistEditForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: updateArtist,
     onSuccess: () => {
-      toast.success("Artist updated successfully");
+      toast.success("Profile updated successfully");
       form.reset();
-      router.replace("/artists");
+      queryClient.invalidateQueries({ queryKey: ["userArtist", user?.id] });
     },
-    onError: (error) => toast.error(`Failed to update the artist: ${error}.`),
+    onError: (error) => toast.error(`Failed to update the profile: ${error}.`),
   });
 
   const onSubmit = async (formData: TArtistEditSchema) => {
-    mutate({ id: artistId, payload: formData });
+    mutate({ id: artist?.id, payload: formData });
   };
 
   if (error) {
@@ -358,4 +357,4 @@ const ArtistEditForm = () => {
   );
 };
 
-export default ArtistEditForm;
+export default ArtistForm;

@@ -29,6 +29,17 @@ export const login = async (payload: TLogin) => {
       (refresh_token_exp ?? 0) * 1000 || cookieExpiry.REFRESH
     );
 
+    await setCookie(
+      "user",
+      JSON.stringify({
+        id: obj?.id,
+        email: obj?.email,
+        role: obj?.role,
+      }),
+      (access_token_exp ?? 0) * 1000 || cookieExpiry.ACCESS,
+      false
+    );
+
     return data;
   } catch (error) {
     console.error(error);

@@ -1,1 +1,2 @@
-export { default as UserTable } from "./user-table";
+export { default as ManagerTable } from "./table";
+export { columns } from "./columns";
