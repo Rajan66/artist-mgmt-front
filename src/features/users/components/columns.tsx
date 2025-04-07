@@ -29,7 +29,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/utils/response";
 
-import { softDeleteUserProfile } from "../actions/user.action";
+import {
+  hardDeleteUserProfile,
+  softDeleteUserProfile,
+  unbanUserProfile,
+} from "../actions/user.action";
 import { TManager } from "../types/user-profile";
 
 export const columns: ColumnDef<TManager>[] = [
@@ -61,8 +65,14 @@ export const columns: ColumnDef<TManager>[] = [
     header: "Phone",
   },
   {
-    accessorKey: "address",
-    header: "Address",
+    accessorKey: "role",
+    header: "Role",
+    cell: ({ row }) => <div>{row.original.user?.role.toString()}</div>,
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => <div>{row.original.user?.is_active.toString()}</div>,
   },
   {
     id: "actions",
@@ -70,10 +80,27 @@ export const columns: ColumnDef<TManager>[] = [
       const manager = row.original;
       const router = useRouter();
       const queryClient = useQueryClient();
+
       const { mutate, isPending: Deleting } = useMutation({
-        mutationFn: softDeleteUserProfile,
+        mutationFn: hardDeleteUserProfile,
         onSuccess: () => {
           toast.success("Manager deleted successfully");
+          queryClient.invalidateQueries({ queryKey: ["userProfiles"] });
+        },
+      });
+
+      const { mutate: ban, isPending: isBanning } = useMutation({
+        mutationFn: softDeleteUserProfile,
+        onSuccess: () => {
+          toast.success("Manager banned successfully");
+          queryClient.invalidateQueries({ queryKey: ["userProfiles"] });
+        },
+      });
+
+      const { mutate: unban, isPending: isUnbanning } = useMutation({
+        mutationFn: unbanUserProfile,
+        onSuccess: () => {
+          toast.success("Manager unbanned successfully");
           queryClient.invalidateQueries({ queryKey: ["userProfiles"] });
         },
       });
@@ -102,7 +129,7 @@ export const columns: ColumnDef<TManager>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => router.push(`/managers/${manager?.id}`)}
+              onClick={() => router.push(`/managers/${manager?.user?.id}`)}
             >
               Edit manager
             </DropdownMenuItem>
@@ -116,7 +143,9 @@ export const columns: ColumnDef<TManager>[] = [
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete manager?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete this manager?
+                    Are you sure you want to delete this manager? This will also
+                    delete all the artist associated with the manager!!! You can
+                    choose to ban them instead!
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -124,6 +153,43 @@ export const columns: ColumnDef<TManager>[] = [
                   <AlertDialogAction
                     onClick={() => mutate(manager?.id)}
                     disabled={Deleting}
+                    className={cn(buttonVariants({ variant: "destructive" }))}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  {!row.original?.user?.is_active
+                    ? isUnbanning
+                      ? "Unbanning..."
+                      : "Unban manager"
+                    : isBanning
+                      ? "Banning..."
+                      : "Ban manager"}
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Ban manager?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to ban this manager?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      if (manager?.user?.is_active) {
+                        ban(manager?.id);
+                      } else {
+                        unban(manager?.id);
+                      }
+                    }}
+                    disabled={isBanning}
                     className={cn(buttonVariants({ variant: "destructive" }))}
                   >
                     Continue

@@ -1,7 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
@@ -20,77 +19,56 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { updateUserProfile } from "@/features/users/actions/user.action";
-import { useGetUserProfile } from "@/features/users/hooks/use-queries";
 import {
-  ManagerEditSchema,
-  TManagerEditSchema,
+  ManagerSchema,
+  TManagerSchema,
 } from "@/features/users/schemas/user-profile.schema";
-import { getUser } from "@/utils/get-user";
 
-const ManagerEditForm = () => {
+import { createUserProfile } from "../actions/user.action";
+
+const ManagerForm = () => {
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const { id } = useParams();
-  const userId = id?.toString();
-
-  const user = getUser();
-  const { data, error } = useGetUserProfile(userId ? userId : user?.id);
-
-  const manager = data?.data;
-
-  const form = useForm<TManagerEditSchema>({
-    resolver: zodResolver(ManagerEditSchema),
+  const form = useForm<TManagerSchema>({
+    resolver: zodResolver(ManagerSchema),
     defaultValues: {
-      email: manager?.user.email || "",
-      first_name: manager?.first_name || "",
-      last_name: manager?.last_name || "",
-      phone: manager?.phone || "",
-      dob: manager?.dob || "",
-      address: manager?.address || "",
-      gender: manager?.gender || "",
+      email: "",
+      password: "",
+      first_name: "",
+      last_name: "",
+      phone: "",
+      address: "",
     },
   });
 
-  useEffect(() => {
-    if (manager) {
-      form.reset({
-        email: manager?.user.email || "",
-        phone: manager?.phone || "",
-        dob: new Date(manager?.dob) || "",
-        first_name: manager?.first_name || "",
-        last_name: manager?.last_name || "",
-        address: manager?.address || "",
-        gender: manager?.gender || "",
-      });
-    }
-  }, [manager, form]);
-
   const { mutate, isPending } = useMutation({
-    mutationFn: updateUserProfile,
+    mutationFn: createUserProfile,
     onSuccess: () => {
-      toast.success("Profile updated successfully");
-      queryClient.invalidateQueries({ queryKey: ["userProfile", user?.id] });
-      queryClient.invalidateQueries({ queryKey: ["userProfiles"] });
-      if (userId) router.replace("/managers");
+      toast.success("Manager created successfully");
       form.reset();
+      router.replace("/managers");
     },
     onError: (error) => toast.error(`Failed to update the profile: ${error}.`),
   });
 
-  const onSubmit = async (formData: TManagerEditSchema) => {
-    mutate({ id: user?.id, payload: formData });
+  const onSubmit = async (formData: TManagerSchema) => {
+    const formattedData = {
+      email: formData.email,
+      password: formData.password,
+      role: formData.role,
+      is_active: true,
+      is_superstaff: formData.role === "super_admin" ? true : false,
+      is_staff: true,
+      manager: { ...formData },
+    };
+    mutate(formattedData);
   };
-
-  if (error) {
-    toast.error("Failed to fetch manager! Please try again later.");
-  }
 
   return (
     <Form {...form}>
@@ -100,13 +78,30 @@ const ManagerEditForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email**</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter manager email..."
                   {...field}
                   value={field.value}
-                  disabled
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password**</FormLabel>
+              <FormControl>
+                <PasswordInput
+                  placeholder="Enter manager password..."
+                  {...field}
+                  value={field.value}
+                  className="h-10"
                 />
               </FormControl>
               <FormMessage />
@@ -161,6 +156,33 @@ const ManagerEditForm = () => {
                   {...field}
                   value={field.value || ""}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem className="w-full ">
+              <FormLabel>Role**</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full h-full">
+                    <SelectValue placeholder="Select a role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="artist_manager">
+                      Artist Manager
+                    </SelectItem>
+                    <SelectItem value="super_admin">Super Admin</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -233,11 +255,11 @@ const ManagerEditForm = () => {
         </div>
 
         <Button type="submit" variant="outline" disabled={isPending}>
-          {isPending ? `Updating` : `Update`}
+          {isPending ? `Submitting` : `Submit`}
         </Button>
       </form>
     </Form>
   );
 };
 
-export default ManagerEditForm;
+export default ManagerForm;

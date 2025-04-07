@@ -25,7 +25,6 @@ export const getManagerArtists = async (id: string) => {
 
 export const createArtist = async (payload: any) => {
   const formData = convertPayloadToFormData(payload);
-  console.log(formData);
   return asyncHandler(() =>
     PostRequest("/api/v1/users/", formData, {
       headers: {
@@ -48,4 +47,20 @@ export const updateArtist = async (data: { payload: any; id: string }) => {
 
 export const deleteArtist = async (id: string) => {
   return asyncHandler(() => DeleteRequest(`/api/v1/artists/${id}/`));
+};
+
+export const softDeleteArtist = async (id: string) => {
+  return asyncHandler(() =>
+    DeleteRequest(`/api/v1/artists/${id}/delete/soft/`)
+  );
+};
+
+export const hardDeleteArtist = async (id: string) => {
+  return asyncHandler(() =>
+    DeleteRequest(`/api/v1/artists/${id}/delete/hard/`)
+  );
+};
+
+export const unbanArtist = async (id: string) => {
+  return asyncHandler(() => PutRequest(`/api/v1/artists/${id}/unban`));
 };

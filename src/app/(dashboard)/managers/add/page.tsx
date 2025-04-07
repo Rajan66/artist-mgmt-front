@@ -4,7 +4,7 @@ import React from "react";
 import { LuArrowLeft } from "react-icons/lu";
 
 import PageTitle from "@/components/page-title";
-import { ManagerForm } from "@/features/settings/components";
+import { ManagerForm } from "@/features/users/components";
 import { getUser } from "@/utils/get-user-server";
 
 export const dynamic = "force-dynamic";
