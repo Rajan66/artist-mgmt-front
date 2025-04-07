@@ -6,12 +6,16 @@ import DataTable from "@/components/data-table";
 import { columns } from "@/features/albums/components";
 import { getUser } from "@/utils/get-user";
 
-import { useGetManagerAlbums } from "../hooks/use-queries";
+import { useGetAlbums, useGetManagerAlbums } from "../hooks/use-queries";
 import { TAlbum } from "../types/album.type";
 
 const AlbumTable = () => {
-  const manager = getUser();
-  const { data } = useGetManagerAlbums(manager.id);
+  const user = getUser();
+
+  const { data } =
+    user?.role === "artist_manager"
+      ? useGetManagerAlbums(user?.id)
+      : useGetAlbums();
 
   return (
     <DataTable<TAlbum, string[]>

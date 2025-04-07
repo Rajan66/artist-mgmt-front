@@ -17,7 +17,7 @@ const AlbumCard = ({ album }: { album: TAlbum }) => {
               src={
                 album.cover_image
                   ? `${api_image}/${album.cover_image}`
-                  : `/images/weeknd.jpeg`
+                  : `/images/album.png`
               }
               alt="Album Cover"
               width={500}
