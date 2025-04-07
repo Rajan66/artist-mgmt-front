@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,9 +35,13 @@ import {
 import { getUser } from "@/utils/get-user";
 
 const ManagerEditForm = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+  const { id } = useParams();
+  const userId = id?.toString();
+
   const user = getUser();
-  const { data, error } = useGetUserProfile(user?.id);
+  const { data, error } = useGetUserProfile(userId ? userId : user?.id);
 
   const manager = data?.data;
 
@@ -72,6 +77,8 @@ const ManagerEditForm = () => {
     onSuccess: () => {
       toast.success("Profile updated successfully");
       queryClient.invalidateQueries({ queryKey: ["userProfile", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["userProfiles"] });
+      if (userId) router.replace("/managers");
       form.reset();
     },
     onError: (error) => toast.error(`Failed to update the profile: ${error}.`),
