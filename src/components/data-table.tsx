@@ -30,12 +30,16 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchFilter?: TSearchFilter;
+  isPagination?: boolean;
+  isSearch?: boolean;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
   searchFilter,
+  isSearch = true,
+  isPagination = true,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -62,24 +66,26 @@ const DataTable = <TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center pb-4 w-full">
-          <Input
-            placeholder={searchFilter?.placeholder}
-            value={
-              (table
-                .getColumn(`${searchFilter?.column}`)
-                ?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table
-                .getColumn(`${searchFilter?.column}`)
-                ?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
+      {isSearch && (
+        <div className="flex justify-between items-center">
+          <div className="flex items-center pb-4 w-full">
+            <Input
+              placeholder={searchFilter?.placeholder}
+              value={
+                (table
+                  .getColumn(`${searchFilter?.column}`)
+                  ?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn(`${searchFilter?.column}`)
+                  ?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="rounded-md border">
         <Table>
@@ -99,10 +105,6 @@ const DataTable = <TData, TValue>({
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                        {{
-                          asc: " 🔼",
-                          desc: " 🔽",
-                        }[header.column.getIsSorted() as string] ?? null}
                       </div>
                     )}
                   </TableHead>
@@ -139,28 +141,30 @@ const DataTable = <TData, TValue>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"Previous"}
-        </Button>
+      {isPagination && (
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {"Previous"}
+          </Button>
 
-        <Button size="sm" variant="outline">
-          {table.getState().pagination.pageIndex}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {"Next"}
-        </Button>
-      </div>
+          <Button size="sm" variant="outline">
+            {table.getState().pagination.pageIndex}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            {"Next"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

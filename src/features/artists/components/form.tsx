@@ -178,24 +178,7 @@ const ArtistForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="no_of_albums_released"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Number of Albums Released**</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter the albums released..."
-                  {...field}
-                  value={field.value ?? ""}
-                  type="number"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <div className="flex space-x-4">
           <FormField
             control={form.control}

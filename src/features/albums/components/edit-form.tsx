@@ -31,6 +31,7 @@ import {
 import { api_image } from "@/constants/api";
 import {
   useGetArtistWithUser,
+  useGetArtists,
   useGetManagerArtists,
 } from "@/features/artists/hooks/use-queries";
 import { TArtist } from "@/features/artists/types/artist.type";
@@ -50,7 +51,9 @@ const AlbumEditForm = () => {
   const { data: artists } =
     user?.role === "artist"
       ? useGetArtistWithUser(user?.id)
-      : useGetManagerArtists(user?.id);
+      : user?.role === "artist_manager"
+        ? useGetManagerArtists(user?.id)
+        : useGetArtists();
 
   const { data: album, isPending: isLoading } = useGetAlbum(albumId || "");
   const [image, setImage] = useState<string | null>("");
@@ -120,7 +123,7 @@ const AlbumEditForm = () => {
           )}
         />
 
-        {user.role === "artist_manager" && (
+        {(user?.role === "artist_manager" || user?.role === "super_admin") && (
           <FormField
             control={form.control}
             name="artist"

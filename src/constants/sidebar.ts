@@ -1,4 +1,4 @@
-import { FaUser } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { GrUserManager } from "react-icons/gr";
 import { LuAlbum, LuCircleHelp, LuHouse, LuMusic } from "react-icons/lu";
 
@@ -35,7 +35,7 @@ export const useGetItems = (): TItem[] => {
     navItems.splice(1, 0, {
       title: "Artists",
       url: "/artists",
-      icon: FaUser,
+      icon: FaRegUser,
     });
   }
   if (user?.role === "artist" || user?.role === "super_admin") {

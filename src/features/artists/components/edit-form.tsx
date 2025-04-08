@@ -53,7 +53,6 @@ const ArtistEditForm = () => {
       email: artist?.user.email || "",
       name: artist?.name || "",
       first_release_year: artist?.first_release_year || "",
-      no_of_albums_released: artist?.no_of_albums_released || "",
       dob: artist?.dob || "",
       first_name: artist?.first_name || "",
       last_name: artist?.last_name || "",
@@ -74,7 +73,6 @@ const ArtistEditForm = () => {
         email: artist?.user.email || "",
         name: artist?.name || "",
         first_release_year: artist?.first_release_year.toString() || "",
-        no_of_albums_released: artist?.no_of_albums_released.toString() || "",
         dob: new Date(artist?.dob) || "",
         first_name: artist?.first_name || "",
         last_name: artist?.last_name || "",
@@ -192,24 +190,7 @@ const ArtistEditForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="no_of_albums_released"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Number of Albums Released**</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter the albums released..."
-                  {...field}
-                  value={field.value ?? ""}
-                  type="number"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <div className="flex space-x-4">
           <FormField
             control={form.control}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { LuUser } from "react-icons/lu";
 import { toast } from "react-toastify";
 
@@ -66,7 +66,17 @@ export const columns: ColumnDef<TArtist>[] = [
   },
   {
     accessorKey: "name",
-    header: "Artist Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Artist Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   { accessorKey: "first_name", header: "First Name" },
   {
@@ -77,8 +87,9 @@ export const columns: ColumnDef<TArtist>[] = [
     accessorKey: "manager",
     header: "Manager",
     cell: ({ row }) => {
-      const { data: manager } = useGetUserProfile(row.original.manager_id);
-      console.log(manager);
+      const { data: manager } = useGetUserProfile(
+        row.original.manager_id ?? ""
+      );
       return (
         <div>
           {manager?.data ? (
@@ -107,12 +118,32 @@ export const columns: ColumnDef<TArtist>[] = [
   },
   {
     accessorKey: "first_release_year",
-    header: "First release year",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          First release year
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
 
   {
     accessorKey: "no_of_albums_released",
-    header: "Album count",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Album count
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "status",
