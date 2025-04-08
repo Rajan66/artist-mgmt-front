@@ -12,7 +12,7 @@ import { TAlbum } from "../../types/album.type";
 
 const AlbumTable = ({ user }: { user: TCookieUser }) => {
   const { data: artist } = useGetArtistWithUser(user.id);
-  const { data } = useGetArtistAlbums(artist?.data?.id);
+  const { data } = useGetArtistAlbums({ id: artist?.data?.id });
 
   return (
     <DataTable<TAlbum, string[]>

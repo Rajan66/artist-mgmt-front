@@ -7,7 +7,7 @@ import { TAlbum } from "@/features/albums/types/album.type";
 import AlbumCard from "./details-album-card";
 
 const AlbumList = ({ id }: { id: string }) => {
-  const { data: albums } = useGetArtistAlbums(id);
+  const { data: albums } = useGetArtistAlbums({ id: id });
   const albumLists = albums?.data?.filter(
     (album: TAlbum) => album.album_type === "album"
   );

@@ -21,24 +21,32 @@ const AlbumsPerArtistChart = ({ className }: AlbumsPerArtistChartProps) => {
 
   return (
     <div className={className}>
-      <BarChart
-        width={500}
-        height={300}
-        data={data?.data}
-        margin={{ top: 5, right: 5, left: 5, bottom: 40 }}
-      >
-        <CartesianGrid vertical={false} strokeDasharray="3 3" />
-        <XAxis
-          dataKey="artist_name"
-          tickLine={false}
-          axisLine={false}
-          angle={-45}
-          textAnchor="end"
-          height={60}
-        />
-        <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
-        <Bar dataKey="albums" fill="var(--chart-2)" radius={[4, 4, 0, 0]} />
-      </BarChart>
+      {data?.data?.length > 0 ? (
+        <BarChart
+          width={500}
+          height={300}
+          data={data?.data}
+          margin={{ top: 5, right: 5, left: 5, bottom: 40 }}
+        >
+          <CartesianGrid vertical={false} strokeDasharray="3 3" />
+          <XAxis
+            dataKey="artist_name"
+            tickLine={false}
+            axisLine={false}
+            angle={-45}
+            textAnchor="end"
+            height={60}
+          />
+          <YAxis tickLine={false} axisLine={false} allowDecimals={false} />
+          <Bar dataKey="albums" fill="var(--chart-2)" radius={[4, 4, 0, 0]} />
+        </BarChart>
+      ) : (
+        <div className="justify-center items-center flex h-[200px]">
+          <h2 className="opacity-90">
+            No data available... add new albums to view analytics
+          </h2>
+        </div>
+      )}
     </div>
   );
 };
