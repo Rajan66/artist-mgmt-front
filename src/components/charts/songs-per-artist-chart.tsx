@@ -2,30 +2,29 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
+import {
+  useGetAdminArtistSongsStats,
+  useGetManagerArtistSongsStats,
+} from "@/features/dashboard/hooks/use-queries";
+import { getUser } from "@/utils/get-user";
+
 interface SongsPerArtistChartProps {
   className?: string;
 }
 
 const SongsPerArtistChart = ({ className }: SongsPerArtistChartProps) => {
-  const data = [
-    { artist: "Taylor Swift", songs: 120 },
-    { artist: "Drake", songs: 95 },
-    { artist: "Ed Sheeran", songs: 87 },
-    { artist: "Ariana Grande", songs: 76 },
-    { artist: "The Weeknd", songs: 72 },
-    { artist: "Billie Eilish", songs: 65 },
-    { artist: "Post Malone", songs: 58 },
-    { artist: "Dua Lipa", songs: 52 },
-    { artist: "Justin Bieber", songs: 48 },
-    { artist: "BTS", songs: 45 },
-  ];
+  const user = getUser();
+  const { data } =
+    user?.role === "artist_manager"
+      ? useGetManagerArtistSongsStats(user?.id)
+      : useGetAdminArtistSongsStats();
 
   return (
     <div className={className}>
       <BarChart
         width={500}
         height={300}
-        data={data}
+        data={data?.data}
         margin={{ top: 5, right: 5, left: 5, bottom: 40 }}
       >
         <CartesianGrid vertical={false} strokeDasharray="3 3" />

@@ -9,6 +9,8 @@ import { getUserProfile } from "@/features/users/actions/user.action";
 import { ManagerTable } from "@/features/users/components";
 import { getUser } from "@/utils/get-user-server";
 
+export const dynamic = "force-dynamic";
+
 const page = async () => {
   const user = await getUser();
 
