@@ -4,23 +4,45 @@ import {
   PostRequest,
   PutRequest,
 } from "@/lib/axios/axios";
+import { TPaginationProps } from "@/types/page.type";
 import { convertPayloadToFormData } from "@/utils/form-data";
 import { asyncHandler } from "@/utils/response";
 
-export const getAlbums = async () => {
-  return asyncHandler(() => GetRequest("/api/v1/albums/"));
+export const getAlbums = async ({
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(`/api/v1/albums/?page=${page}&page_size=${page_size}`)
+  );
 };
 
 export const getAlbum = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/albums/${id}/`));
 };
 
-export const getArtistAlbums = async (id: string) => {
-  return asyncHandler(() => GetRequest(`/api/v1/albums/artists/${id}`));
+export const getArtistAlbums = async ({
+  id,
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(
+      `/api/v1/albums/artists/${id}?page=${page}&page_size=${page_size}`
+    )
+  );
 };
 
-export const getManagerAlbums = async (id: string) => {
-  return asyncHandler(() => GetRequest(`/api/v1/albums/managers/${id}`));
+export const getManagerAlbums = async ({
+  id,
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(
+      `/api/v1/albums/managers/${id}?page=${page}&page_size=${page_size}`
+    )
+  );
 };
 
 export const createAlbum = async (payload: any) => {

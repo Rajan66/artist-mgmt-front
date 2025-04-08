@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import DataTable from "@/components/data-table";
 import { columns } from "@/features/albums/components";
@@ -11,11 +11,19 @@ import { TAlbum } from "../types/album.type";
 
 const AlbumTable = () => {
   const user = getUser();
+  const [pageIndex, setPageIndex] = useState(1);
 
   const { data } =
     user?.role === "artist_manager"
-      ? useGetManagerAlbums(user?.id)
-      : useGetAlbums();
+      ? useGetManagerAlbums({
+          id: user?.id,
+          page: pageIndex,
+        })
+      : useGetAlbums(pageIndex);
+
+  const handlePageChange = (newPageIndex: number) => {
+    setPageIndex(newPageIndex);
+  };
 
   return (
     <DataTable<TAlbum, string[]>
@@ -25,6 +33,8 @@ const AlbumTable = () => {
         column: "title",
         placeholder: "Search by title...",
       }}
+      pageIndex={pageIndex}
+      onPaginationChange={handlePageChange}
     />
   );
 };

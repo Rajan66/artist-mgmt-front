@@ -4,10 +4,16 @@ import {
   PostRequest,
   PutRequest,
 } from "@/lib/axios/axios";
+import { TPaginationProps } from "@/types/page.type";
 import { asyncHandler } from "@/utils/response";
 
-export const getUserProfiles = async () => {
-  return asyncHandler(() => GetRequest(`/api/v1/users/profile/`));
+export const getUserProfiles = async ({
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(`/api/v1/users/profile/?page=${page}&page_size=${page_size}`)
+  );
 };
 
 export const getUserProfile = async (id: string) => {

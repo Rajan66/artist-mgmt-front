@@ -9,7 +9,6 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -32,6 +31,9 @@ interface DataTableProps<TData, TValue> {
   searchFilter?: TSearchFilter;
   isPagination?: boolean;
   isSearch?: boolean;
+  pageIndex?: number;
+  pageSize?: number;
+  onPaginationChange: (pageIndex: number, pageSize: number) => void;
 }
 
 const DataTable = <TData, TValue>({
@@ -40,13 +42,12 @@ const DataTable = <TData, TValue>({
   searchFilter,
   isSearch = true,
   isPagination = true,
+  pageIndex = 1,
+  pageSize = 10,
+  onPaginationChange,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  // const [pagination, setPagination] = useState({
-  //   pageIndex: 0, // change to 1
-  //   pageSize: 10,
-  // });
 
   const table = useReactTable({
     data,
@@ -54,13 +55,11 @@ const DataTable = <TData, TValue>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       columnFilters,
-      // pagination,
     },
   });
 
@@ -86,7 +85,6 @@ const DataTable = <TData, TValue>({
           </div>
         </div>
       )}
-
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -140,26 +138,26 @@ const DataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
       {isPagination && (
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => onPaginationChange(pageIndex - 1, pageSize)}
+            disabled={pageIndex === 1}
           >
             {"Previous"}
           </Button>
 
           <Button size="sm" variant="outline">
-            {table.getState().pagination.pageIndex}
+            {pageIndex}
           </Button>
+
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => onPaginationChange(pageIndex + 1, pageSize)}
+            disabled={data.length < pageSize}
           >
             {"Next"}
           </Button>

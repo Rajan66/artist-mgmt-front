@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import DataTable from "@/components/data-table";
 import { columns } from "@/features/songs/components";
@@ -11,11 +11,16 @@ import { TSong } from "../types/song.type";
 
 const SongTable = () => {
   const user = getUser();
+  const [pageIndex, setPageIndex] = useState(1);
+
+  const handlePageChange = (newPageIndex: number) => {
+    setPageIndex(newPageIndex);
+  };
 
   const { data } =
     user?.role === "artist_manager"
-      ? useGetManagerSongs(user?.id)
-      : useGetSongs();
+      ? useGetManagerSongs({ id: user?.id, page: pageIndex })
+      : useGetSongs(pageIndex);
 
   return (
     <DataTable<TSong, string[]>
@@ -25,6 +30,8 @@ const SongTable = () => {
         column: "title",
         placeholder: "Search by title...",
       }}
+      pageIndex={pageIndex}
+      onPaginationChange={handlePageChange}
     />
   );
 };

@@ -4,11 +4,17 @@ import {
   PostRequest,
   PutRequest,
 } from "@/lib/axios/axios";
+import { TPaginationProps } from "@/types/page.type";
 import { convertPayloadToFormData } from "@/utils/form-data";
 import { asyncHandler } from "@/utils/response";
 
-export const getArtists = async () => {
-  return asyncHandler(() => GetRequest("/api/v1/artists/"));
+export const getArtists = async ({
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(`/api/v1/artists/?page=${page}&page_size=${page_size}`)
+  );
 };
 
 export const getArtist = async (id: string) => {
@@ -19,8 +25,16 @@ export const getArtistWithUser = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/artists/users/${id}/`));
 };
 
-export const getManagerArtists = async (id: string) => {
-  return asyncHandler(() => GetRequest(`/api/v1/artists/managers/${id}`));
+export const getManagerArtists = async ({
+  id,
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(
+      `/api/v1/artists/managers/${id}/?page=${page}&page_size=${page_size}`
+    )
+  );
 };
 
 export const createArtist = async (payload: any) => {

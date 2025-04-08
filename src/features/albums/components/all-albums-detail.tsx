@@ -6,7 +6,7 @@ import { AlbumSongTable, AllAlbumsDetailHeader } from ".";
 import { TAlbum } from "../types/album.type";
 
 const AllAlbumsDetail = ({ album }: { album: TAlbum }) => {
-  const { data: songs, isPending } = useGetAlbumSongs(album.id);
+  const { data: songs, isPending } = useGetAlbumSongs({ id: album.id });
 
   if (isPending) return null;
 
