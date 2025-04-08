@@ -27,6 +27,7 @@ const RecentSongsTable = () => {
       }}
       isPagination={false}
       isSearch={false}
+      onPaginationChange={() => {}}
     />
   );
 };
