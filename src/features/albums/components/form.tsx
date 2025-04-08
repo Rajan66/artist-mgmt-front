@@ -46,7 +46,7 @@ const AlbumForm = () => {
     user?.role === "artist"
       ? useGetArtistWithUser(user?.id)
       : user?.role === "artist_manager"
-        ? useGetManagerArtists(user?.id)
+        ? useGetManagerArtists({ id: user?.id })
         : useGetArtists();
 
   const form = useForm<TAlbumSchema>({

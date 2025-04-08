@@ -14,7 +14,7 @@ const AllAlbums = () => {
   const router = useRouter();
   const { id } = useParams();
   const artistId = id?.toString() || "";
-  const { data: albums } = useGetArtistAlbums(artistId);
+  const { data: albums } = useGetArtistAlbums({ id: artistId });
 
   return (
     <div>

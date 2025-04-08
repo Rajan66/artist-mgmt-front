@@ -46,10 +46,10 @@ const SongForm = () => {
   const { data: artist } = useGetArtistWithUser(user.id);
   const { data: albums } =
     user?.role === "artist"
-      ? useGetArtistAlbums(artist?.data?.id)
+      ? useGetArtistAlbums({ id: artist?.data?.id, page_size: 100 })
       : user?.role === "artist_manager"
-        ? useGetManagerAlbums(user?.id)
-        : useGetAlbums();
+        ? useGetManagerAlbums({ id: user?.id, page_size: 100 })
+        : useGetAlbums(1, 100);
 
   const form = useForm<TSongSchema>({
     resolver: zodResolver(SongSchema),

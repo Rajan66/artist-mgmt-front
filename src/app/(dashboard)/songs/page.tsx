@@ -18,6 +18,7 @@ const page = async () => {
         url="/songs/add"
         btnTitle="Add Song"
         Icon={<LuCirclePlus />}
+        isCSV={true}
       />
       {user && (
         <>

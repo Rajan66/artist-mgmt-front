@@ -4,26 +4,56 @@ import {
   PostRequest,
   PutRequest,
 } from "@/lib/axios/axios";
+import { TPaginationProps } from "@/types/page.type";
 import { asyncHandler } from "@/utils/response";
 
-export const getSongs = async () => {
-  return asyncHandler(() => GetRequest("/api/v1/songs/"));
+export const getSongs = async ({
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(`/api/v1/songs/?page=${page}&page_size=${page_size}`)
+  );
 };
 
 export const getSong = async (id: string) => {
   return asyncHandler(() => GetRequest(`/api/v1/songs/${id}/`));
 };
 
-export const getArtistSongs = async (id: string) => {
-  return asyncHandler(() => GetRequest(`/api/v1/songs/artists/${id}`));
+export const getArtistSongs = async ({
+  id,
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(
+      `/api/v1/songs/artists/${id}/?page=${page}&page_size=${page_size}`
+    )
+  );
 };
 
-export const getAlbumSongs = async (id: string) => {
-  return asyncHandler(() => GetRequest(`/api/v1/songs/albums/${id}`));
+export const getAlbumSongs = async ({
+  id,
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(
+      `/api/v1/songs/albums/${id}/?page=${page}&page_size=${page_size}`
+    )
+  );
 };
 
-export const getManagerSongs = async (id: string) => {
-  return asyncHandler(() => GetRequest(`/api/v1/songs/managers/${id}`));
+export const getManagerSongs = async ({
+  id,
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(
+      `/api/v1/songs/managers/${id}/?page=${page}&page_size=${page_size}`
+    )
+  );
 };
 
 export const createSong = async (payload: any) => {

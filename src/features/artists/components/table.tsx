@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import DataTable from "@/components/data-table";
 import { columns } from "@/features/artists/components";
@@ -11,10 +11,16 @@ import { TArtist } from "../types/artist.type";
 
 const ArtistTable = () => {
   const user = getUser();
+  const [pageIndex, setPageIndex] = useState(1);
+
+  const handlePageChange = (newPageIndex: number) => {
+    setPageIndex(newPageIndex);
+  };
+
   const { data } =
     user?.role === "artist_manager"
-      ? useGetManagerArtists(user?.id)
-      : useGetArtists();
+      ? useGetManagerArtists({ id: user?.id, page: pageIndex })
+      : useGetArtists(pageIndex);
 
   return (
     <DataTable<TArtist, string[]>
@@ -24,6 +30,8 @@ const ArtistTable = () => {
         column: "name",
         placeholder: "Search by artist name...",
       }}
+      pageIndex={pageIndex}
+      onPaginationChange={handlePageChange}
     />
   );
 };

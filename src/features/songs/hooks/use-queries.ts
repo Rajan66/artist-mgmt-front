@@ -7,11 +7,12 @@ import {
   getSong,
   getSongs,
 } from "@/features/songs/actions/song.action";
+import { TPaginationProps } from "@/types/page.type";
 
-export const useGetSongs = () => {
+export const useGetSongs = (page?: number, page_size?: number) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["allSongs"],
-    queryFn: getSongs,
+    queryKey: ["allSongs", page],
+    queryFn: () => getSongs({ page, page_size }),
   });
 
   return { data, isPending, error };
@@ -26,30 +27,38 @@ export const useGetSong = (id: string) => {
   return { data, isPending, error };
 };
 
-export const useGetArtistSongs = (id: string) => {
+export const useGetArtistSongs = ({
+  id,
+  page,
+  page_size,
+}: TPaginationProps) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["artistSongs", id],
-    queryFn: () => getArtistSongs(id),
+    queryKey: ["artistSongs", id, page],
+    queryFn: () => getArtistSongs({ id, page, page_size }),
     enabled: !!id,
   });
 
   return { data, isPending, error };
 };
 
-export const useGetAlbumSongs = (id: string) => {
+export const useGetAlbumSongs = ({ id, page, page_size }: TPaginationProps) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["albumSongs", id],
-    queryFn: () => getAlbumSongs(id),
+    queryKey: ["albumSongs", id, page],
+    queryFn: () => getAlbumSongs({ id, page, page_size }),
     enabled: !!id,
   });
 
   return { data, isPending, error };
 };
 
-export const useGetManagerSongs = (id: string) => {
+export const useGetManagerSongs = ({
+  id,
+  page,
+  page_size,
+}: TPaginationProps) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["songs", id],
-    queryFn: () => getManagerSongs(id),
+    queryKey: ["songs", id, page],
+    queryFn: () => getManagerSongs({ id, page, page_size }),
     enabled: !!id,
   });
 

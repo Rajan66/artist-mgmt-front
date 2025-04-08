@@ -50,9 +50,9 @@ const SongEditForm = () => {
   const { data: artist } = useGetArtistWithUser(user.id);
   const { data: albums } =
     user?.role === "artist"
-      ? useGetArtistAlbums(artist?.data?.id)
+      ? useGetArtistAlbums({ id: artist?.data?.id })
       : user?.role === "artist_manager"
-        ? useGetManagerAlbums(user?.id)
+        ? useGetManagerAlbums({ id: user?.id })
         : useGetAlbums();
 
   const { data: song, isPending: isLoading } = useGetSong(songId || "");

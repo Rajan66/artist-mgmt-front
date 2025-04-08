@@ -6,11 +6,12 @@ import {
   getArtists,
   getManagerArtists,
 } from "@/features/artists/actions/artist.action";
+import { TPaginationProps } from "@/types/page.type";
 
-export const useGetArtists = () => {
+export const useGetArtists = (page?: number, page_size?: number) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["artists"],
-    queryFn: getArtists,
+    queryKey: ["artists", page],
+    queryFn: () => getArtists({ page, page_size }),
   });
 
   return { data, isPending, error };
@@ -34,10 +35,14 @@ export const useGetArtistWithUser = (id: string) => {
   return { data, isPending, error };
 };
 
-export const useGetManagerArtists = (id: string) => {
+export const useGetManagerArtists = ({
+  id,
+  page,
+  page_size,
+}: TPaginationProps) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["artists"],
-    queryFn: () => getManagerArtists(id),
+    queryKey: ["artists", page],
+    queryFn: () => getManagerArtists({ id, page, page_size }),
     enabled: !!id,
   });
 

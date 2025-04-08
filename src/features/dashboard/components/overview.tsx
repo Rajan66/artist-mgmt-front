@@ -125,7 +125,7 @@ const Overview = () => {
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">
-                <ResponsiveContainer width="50%" height="100%">
+                <ResponsiveContainer width="100%" height="100%">
                   <GenreDistributionChart />
                 </ResponsiveContainer>
               </div>
@@ -152,9 +152,9 @@ const Overview = () => {
         <div className="mt-4 grid gap-4 md:grid-cols-1 lg:grid-cols-7">
           <Card className="lg:col-span-3">
             <CardHeader>
-              <CardTitle>Recently Released Songs</CardTitle>
+              <CardTitle>Recently Added Songs</CardTitle>
               <CardDescription>
-                Latest songs released on the platform
+                Latest songs added on the platform
               </CardDescription>
             </CardHeader>
             <CardContent>

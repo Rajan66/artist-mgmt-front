@@ -23,7 +23,7 @@ const AlbumDetail = () => {
     data: songs,
     isPending,
     error: songError,
-  } = useGetAlbumSongs(albumId);
+  } = useGetAlbumSongs({ id: albumId });
 
   if (isPending) return <Loading />;
 
