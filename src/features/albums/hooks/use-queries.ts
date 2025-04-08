@@ -10,7 +10,7 @@ import { TPaginationProps } from "@/types/page.type";
 
 export const useGetAlbums = (page?: number, page_size?: number) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["albums"],
+    queryKey: ["albums", page],
     queryFn: () => getAlbums({ page, page_size }),
   });
 
@@ -32,7 +32,7 @@ export const useGetArtistAlbums = ({
   page,
 }: TPaginationProps) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["artistAlbums", id],
+    queryKey: ["artistAlbums", id, page],
     queryFn: () => getArtistAlbums({ id, page, page_size }),
     enabled: !!id,
   });
@@ -40,10 +40,14 @@ export const useGetArtistAlbums = ({
   return { data, isPending, error };
 };
 
-export const useGetManagerAlbums = (id: string) => {
+export const useGetManagerAlbums = ({
+  id,
+  page,
+  page_size,
+}: TPaginationProps) => {
   const { data, isPending, error } = useQuery({
-    queryKey: ["albums"],
-    queryFn: () => getManagerAlbums(id),
+    queryKey: ["albums", page],
+    queryFn: () => getManagerAlbums({ id, page, page_size }),
     enabled: !!id,
   });
 

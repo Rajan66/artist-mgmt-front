@@ -33,8 +33,16 @@ export const getArtistAlbums = async ({
   );
 };
 
-export const getManagerAlbums = async (id: string) => {
-  return asyncHandler(() => GetRequest(`/api/v1/albums/managers/${id}`));
+export const getManagerAlbums = async ({
+  id,
+  page = 1,
+  page_size = 10,
+}: TPaginationProps) => {
+  return asyncHandler(() =>
+    GetRequest(
+      `/api/v1/albums/managers/${id}?page=${page}&page_size=${page_size}`
+    )
+  );
 };
 
 export const createAlbum = async (payload: any) => {
