@@ -32,7 +32,7 @@ const Footer = () => {
         <div className="flex items-center gap-3">
           <PhoneIcon className="h-5 w-5 text-muted-foreground" />
           <div>
-            <p className="font-medium">Live Chat</p>
+            <p className="font-medium">Contact Number</p>
             <p className="text-sm text-muted-foreground">+977 9811131089</p>
           </div>
         </div>
