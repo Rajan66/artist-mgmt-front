@@ -35,7 +35,7 @@ export const ArtistSchema = z.object({
       .number({ required_error: "Debut year is required." })
       .positive({ message: "Year cannot be a negative value." })
       .int()
-      .min(1980, { message: "Year must be at least 1980." })
+      .min(1914, { message: "Year must be at least 1914." })
       .max(new Date().getFullYear(), {
         message: "Year cannot be in the future.",
       })

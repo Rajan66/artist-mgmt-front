@@ -37,7 +37,8 @@ export const ManagerEditSchema = z.object({
   email: z
     .string({ required_error: "Email is required." })
     .email({ message: "Invalid email." })
-    .min(1, "Must not be empty."),
+    .min(1, "Must not be empty.")
+    .trim(),
   dob: z
     .date({
       required_error: "Date of birth is required.",
