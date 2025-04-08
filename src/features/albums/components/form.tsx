@@ -54,6 +54,7 @@ const AlbumForm = () => {
     defaultValues: {
       title: "",
       cover_image: "",
+      release_date: new Date(),
     },
   });
 
@@ -64,7 +65,7 @@ const AlbumForm = () => {
       form.reset();
       router.replace("/albums");
     },
-    onError: (error) => toast.error(`Failed to create a new album: ${error}.`),
+    onError: () => toast.error(`Failed to create a new album.`),
   });
 
   useEffect(() => {

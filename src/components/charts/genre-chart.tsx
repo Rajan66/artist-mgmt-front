@@ -20,8 +20,8 @@ const GenreDistributionChart = ({ className }: GenreDistributionChartProps) => {
       : useGetAdminGenreStats();
 
   const COLORS = [
-    "var(--chart-1)",
     "var(--chart-2)",
+    "var(--chart-1)",
     "var(--chart-3)",
     "var(--chart-4)",
     "var(--chart-5)",
@@ -44,6 +44,7 @@ const GenreDistributionChart = ({ className }: GenreDistributionChartProps) => {
             `${name} ${(percent * 100).toFixed(0)}%`
           }
         >
+          {/*//@ts-ignore*/}
           {data?.data.map((_, index: number) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}

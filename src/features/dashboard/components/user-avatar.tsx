@@ -72,14 +72,12 @@ const UserAvatar = () => {
             {user?.email}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Link
-              href={"/settings"}
-              className="w-full flex cursor-pointer items-center gap-2"
-            >
-              <LuSettings />
-              Settings
-            </Link>
+          <DropdownMenuItem
+            onClick={() => router.push("/settings")}
+            className="gap-2 cursor-pointer"
+          >
+            <LuSettings />
+            Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuGroup>
