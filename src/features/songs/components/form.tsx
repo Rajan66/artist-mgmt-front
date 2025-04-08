@@ -68,7 +68,7 @@ const SongForm = () => {
       form.reset();
       router.replace("/songs");
     },
-    onError: (error) => toast.error(`Failed to create a new song: ${error}.`),
+    onError: () => toast.error(`Failed to create a new song.`),
   });
 
   const onSubmit = async (data: TSongSchema) => {

@@ -57,7 +57,7 @@ const ArtistForm = () => {
       form.reset();
       router.replace("/artists");
     },
-    onError: (error) => toast.error(`Failed to create a new artist: ${error}.`),
+    onError: () => toast.error(`Failed to create a new artist.`),
   });
 
   const onSubmit = async (data: TArtistSchema) => {
@@ -140,6 +140,7 @@ const ArtistForm = () => {
                     value={field.value}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -156,6 +157,7 @@ const ArtistForm = () => {
                     value={field.value}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />

@@ -90,7 +90,7 @@ const ArtistForm = () => {
       form.reset();
       queryClient.invalidateQueries({ queryKey: ["userArtist", user?.id] });
     },
-    onError: (error) => toast.error(`Failed to update the profile: ${error}.`),
+    onError: () => toast.error(`Failed to update the profile.`),
   });
 
   const onSubmit = async (formData: TArtistEditSchema) => {
@@ -203,6 +203,7 @@ const ArtistForm = () => {
                   {...field}
                   value={field.value ?? ""}
                   type="number"
+                  disabled
                 />
               </FormControl>
               <FormMessage />

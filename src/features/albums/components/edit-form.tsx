@@ -75,7 +75,7 @@ const AlbumEditForm = () => {
       form.reset();
       router.replace("/albums");
     },
-    onError: (error) => toast.error(`Failed to update album: ${error}.`),
+    onError: () => toast.error(`Failed to update album.`),
   });
 
   const onSubmit = async (data: TAlbumSchema) => {

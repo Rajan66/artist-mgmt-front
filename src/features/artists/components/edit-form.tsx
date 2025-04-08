@@ -89,7 +89,7 @@ const ArtistEditForm = () => {
       form.reset();
       router.replace("/artists");
     },
-    onError: (error) => toast.error(`Failed to update the artist: ${error}.`),
+    onError: () => toast.error(`Failed to update the artist.`),
   });
 
   const onSubmit = async (formData: TArtistEditSchema) => {
@@ -152,6 +152,7 @@ const ArtistEditForm = () => {
                     value={field.value}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -168,6 +169,7 @@ const ArtistEditForm = () => {
                     value={field.value}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -252,6 +254,7 @@ const ArtistEditForm = () => {
                     value={field.value}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
