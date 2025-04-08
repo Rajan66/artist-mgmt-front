@@ -7,6 +7,7 @@ import {
   AlbumsPerArtistChart,
   GenreDistributionChart,
   MonthlySongsChart,
+  RecentSongsTable,
   SongsPerArtistChart,
 } from "@/components/charts";
 import {
@@ -44,7 +45,7 @@ const Overview = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex min-h-screen w-full flex-col overflow-hidden">
       <main className="flex-1">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
@@ -117,21 +118,6 @@ const Overview = () => {
 
         {/* Charts */}
         <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="lg:col-span-4">
-            <CardHeader>
-              <CardTitle>Songs Released Monthly</CardTitle>
-              <CardDescription>
-                Number of songs released per month
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <MonthlySongsChart />
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
           <Card className="lg:col-span-3">
             <CardHeader>
               <CardTitle>Genre Distribution</CardTitle>
@@ -139,16 +125,12 @@ const Overview = () => {
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="50%" height="100%">
                   <GenreDistributionChart />
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
-        </div>
-
-        {/* More Charts */}
-        <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-7">
           <Card className="lg:col-span-4">
             <CardHeader>
               <CardTitle>Songs per Artist</CardTitle>
@@ -164,7 +146,22 @@ const Overview = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* More Charts */}
+        <div className="mt-4 grid gap-4 md:grid-cols-1 lg:grid-cols-7">
           <Card className="lg:col-span-3">
+            <CardHeader>
+              <CardTitle>Recently Released Songs</CardTitle>
+              <CardDescription>
+                Latest songs released on the platform
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <RecentSongsTable />
+            </CardContent>
+          </Card>
+          <Card className="lg:col-span-4">
             <CardHeader>
               <CardTitle>Albums per Artist</CardTitle>
               <CardDescription>
@@ -178,28 +175,6 @@ const Overview = () => {
                 </ResponsiveContainer>
               </div>
             </CardContent>
-          </Card>
-        </div>
-
-        {/* Tables */}
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Artist Overview</CardTitle>
-              <CardDescription>
-                List of top artists and their stats
-              </CardDescription>
-            </CardHeader>
-            <CardContent>{/* <ArtistTable /> */}</CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Recently Released Songs</CardTitle>
-              <CardDescription>
-                Latest songs released on the platform
-              </CardDescription>
-            </CardHeader>
-            <CardContent>{/* <RecentSongsTable /> */}</CardContent>
           </Card>
         </div>
       </main>
