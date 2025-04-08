@@ -62,5 +62,5 @@ export const hardDeleteArtist = async (id: string) => {
 };
 
 export const unbanArtist = async (id: string) => {
-  return asyncHandler(() => PutRequest(`/api/v1/artists/${id}/unban`));
+  return asyncHandler(() => PutRequest(`/api/v1/artists/${id}/unban/`));
 };
