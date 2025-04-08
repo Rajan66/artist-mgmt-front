@@ -81,7 +81,7 @@ const ManagerEditForm = () => {
       if (userId) router.replace("/managers");
       form.reset();
     },
-    onError: (error) => toast.error(`Failed to update the profile: ${error}.`),
+    onError: () => toast.error(`Failed to update the profile.`),
   });
 
   const onSubmit = async (formData: TManagerEditSchema) => {

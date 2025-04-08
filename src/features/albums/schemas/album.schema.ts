@@ -6,7 +6,11 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 export const AlbumSchema = z.object({
   title: z
     .string({ required_error: "Title is required." })
-    .min(1, { message: "Must be at least 1 character long." }),
+    .min(1, { message: "Must be at least 1 character long." })
+    .trim()
+    .refine((value) => value.trim().length > 0, {
+      message: "Title cannot be just empty spaces.",
+    }),
   artist: z
     .string({ required_error: "Artist is required." })
     .min(1, { message: "Must be at least 1 character long" }),

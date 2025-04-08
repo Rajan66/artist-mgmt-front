@@ -133,17 +133,7 @@ export const columns: ColumnDef<TArtist>[] = [
 
   {
     accessorKey: "no_of_albums_released",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Album count
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Album count",
   },
   {
     accessorKey: "status",

@@ -56,7 +56,7 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
       form.reset();
       router.replace("/login");
     },
-    onError: (error) => toast.error(`Failed to register: ${error}.`),
+    onError: () => toast.error(`Failed to register.`),
   });
 
   const onSubmit = async (data: TRegister) => {

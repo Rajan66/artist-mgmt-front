@@ -74,7 +74,7 @@ const SongEditForm = () => {
       form.reset();
       router.replace("/songs");
     },
-    onError: (error) => toast.error(`Failed to update song: ${error}.`),
+    onError: () => toast.error(`Failed to update song.`),
   });
 
   const onSubmit = async (data: TSongSchema) => {
