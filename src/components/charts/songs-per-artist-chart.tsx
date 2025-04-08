@@ -37,7 +37,7 @@ const SongsPerArtistChart = ({ className }: SongsPerArtistChartProps) => {
           height={60}
         />
         <YAxis tickLine={false} axisLine={false} />
-        <Bar dataKey="songs" fill="var(--chart-1)" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="songs" fill="var(--chart-4)" radius={[4, 4, 0, 0]} />
       </BarChart>
     </div>
   );
