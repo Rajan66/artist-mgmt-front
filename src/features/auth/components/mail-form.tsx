@@ -30,7 +30,7 @@ const MailForm = () => {
     },
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
       const response = await sendMail(data);
       if (response.status == 200) {

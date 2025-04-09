@@ -216,7 +216,7 @@ const ArtistForm = () => {
                 <FormItem className="w-full">
                   <FormLabel>DOB**</FormLabel>
                   <FormControl>
-                    <DatePicker field={field} startYear={1800} endYear={2012} />
+                    <DatePicker field={field} startYear={1900} endYear={2012} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

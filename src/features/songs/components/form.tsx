@@ -55,7 +55,6 @@ const SongForm = () => {
     resolver: zodResolver(SongSchema),
     defaultValues: {
       title: "",
-      genre: "",
       release_date: new Date(),
     },
   });

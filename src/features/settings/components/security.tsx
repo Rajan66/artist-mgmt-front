@@ -46,7 +46,7 @@ const SecuritySettings = () => {
       form.reset();
       toast.success("Password changed successfully");
     },
-    onError: () => toast.error("Failed to change password!"),
+    onError: () => toast.error("Invalid password"),
   });
 
   const onSubmit = async (data: TChangePassword) => {
