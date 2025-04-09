@@ -12,12 +12,14 @@ import {
   publicRoutes,
 } from "@/utils/routes";
 
+import { matchProtectedRoute } from "./utils/router-matcher";
+
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const isAuthRoute = authRoutes.includes(pathname);
   // const isAdminRoute = adminRoutes.includes(pathname);
-  const isProtectedRoute = protectedRoutes.includes(pathname);
+  const isProtectedRoute = matchProtectedRoute(pathname);
   const isPublicRoute = publicRoutes.includes(pathname);
 
   if (isPublicRoute) {

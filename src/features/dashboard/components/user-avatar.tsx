@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { LuLogOut, LuSettings } from "react-icons/lu";
@@ -29,7 +28,6 @@ const UserAvatar = () => {
     user?.role === "artist"
       ? useGetArtistWithUser(user?.id)
       : useGetUserProfile(user?.id);
-  console.log(profile?.data?.profile_image);
 
   const handleLogout = async () => {
     try {
