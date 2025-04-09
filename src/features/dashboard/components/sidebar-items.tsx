@@ -10,11 +10,17 @@ import {
 } from "@/components/ui/sidebar";
 import { useGetItems } from "@/constants/sidebar";
 import { cn } from "@/lib/utils";
+import { getUser } from "@/utils/get-user";
 
 import { TItem } from "../types/sidebar.type";
 
 const SidebarItems = () => {
-  const pathname = usePathname();
+  const user = getUser();
+  let pathname = usePathname();
+  pathname =
+    user?.role === "artist" && pathname.startsWith("/artists/detail/")
+      ? "/"
+      : pathname;
   const items = useGetItems();
   return (
     <SidebarMenu className="mt-2 space-y-4 overflow-hidden">

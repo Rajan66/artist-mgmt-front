@@ -30,7 +30,10 @@ const ExportButton = () => {
 
   return (
     <div>
-      <Button className="bg-green-500 text-black" onClick={handleExport}>
+      <Button
+        className="bg-green-500 text-black hover:bg-green-600"
+        onClick={handleExport}
+      >
         Export CSV
       </Button>
     </div>

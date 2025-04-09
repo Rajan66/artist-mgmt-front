@@ -56,17 +56,7 @@ export const columns: ColumnDef<TAlbum>[] = [
   },
   {
     accessorKey: "title",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Title
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Title",
   },
   {
     accessorKey: "artist",
@@ -75,7 +65,17 @@ export const columns: ColumnDef<TAlbum>[] = [
   },
   {
     accessorKey: "release_date",
-    header: "Release Date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Release Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "album_type",

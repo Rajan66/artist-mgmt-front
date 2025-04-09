@@ -52,7 +52,6 @@ const ArtistForm = () => {
       email: artist?.user.email || "",
       name: artist?.name || "",
       first_release_year: artist?.first_release_year || "",
-      no_of_albums_released: artist?.no_of_albums_released || "",
       dob: artist?.dob || "",
       first_name: artist?.first_name || "",
       last_name: artist?.last_name || "",
@@ -73,7 +72,6 @@ const ArtistForm = () => {
         email: artist?.user.email || "",
         name: artist?.name || "",
         first_release_year: artist?.first_release_year.toString() || "",
-        no_of_albums_released: artist?.no_of_albums_released.toString() || "",
         dob: new Date(artist?.dob) || "",
         first_name: artist?.first_name || "",
         last_name: artist?.last_name || "",
@@ -185,25 +183,6 @@ const ArtistForm = () => {
                   {...field}
                   value={field.value ?? ""}
                   type="number"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="no_of_albums_released"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Number of Albums Released**</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter the albums released..."
-                  {...field}
-                  value={field.value ?? ""}
-                  type="number"
-                  disabled
                 />
               </FormControl>
               <FormMessage />

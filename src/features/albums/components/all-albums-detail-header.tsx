@@ -19,12 +19,6 @@ import { TAlbum } from "../types/album.type";
 const AllAlbumsDetailHeader = ({ album }: { album: TAlbum }) => {
   const router = useRouter();
 
-  const { data: artistResponse } = useGetArtist(
-    //@ts-ignore
-    !album?.artist ? album?.artist_id : null
-  );
-  const artist = artistResponse?.data;
-
   return (
     <>
       <div className="flex gap-8">
@@ -51,10 +45,10 @@ const AllAlbumsDetailHeader = ({ album }: { album: TAlbum }) => {
 
           <div className="flex gap-2 items-center opacity-90">
             <Link
-              href={`/artists/detail/${artist?.id}`}
+              href={`/artists/detail/${album?.artist?.id}`}
               className="hover:underline"
             >
-              <p className="font-semibold opacity-100">{artist?.name}</p>
+              <p className="font-semibold opacity-100">{album?.artist?.name}</p>
             </Link>
             <Dot />
             <p className="text-sm capitalize">{album?.album_type}</p>

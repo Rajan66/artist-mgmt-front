@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { LuCircleCheck } from "react-icons/lu";
 
-import cover from "@/assets/weeknd.jpeg";
+import cover from "@/assets/default.jpg";
 import Loading from "@/components/loading";
 import { api_image } from "@/constants/api";
 

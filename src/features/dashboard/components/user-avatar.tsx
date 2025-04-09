@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { LuLogOut, LuSettings } from "react-icons/lu";
@@ -15,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { api_image } from "@/constants/api";
 import { useGetArtistWithUser } from "@/features/artists/hooks/use-queries";
 import { logout } from "@/features/auth/actions/logout.action";
 import { useGetUserProfile } from "@/features/users/hooks/use-queries";
@@ -35,6 +35,8 @@ const UserAvatar = () => {
       if (status !== 204) {
         throw new Error("Logout failed! Please try again.");
       }
+
+      localStorage.removeItem("profile-skip");
       router.replace("/login");
     } catch (error) {
       if (error instanceof Error) {
@@ -50,7 +52,7 @@ const UserAvatar = () => {
       <DropdownMenuTrigger>
         <div className="bg-primary-foreground/30 flex size-10 items-center justify-center rounded-full cursor-pointer">
           <Avatar>
-            <AvatarImage src={profile?.data.profile_image} />
+            <AvatarImage src={`${api_image}/${profile?.data?.profile_image}`} />
             <AvatarFallback>
               {profile?.data.name
                 ? profile?.data.name.charAt(0).toUpperCase()

@@ -76,12 +76,14 @@ export const columns: ColumnDef<TSong>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => router.push(`/songs/${song?.album?.artist?.id}`)}
+              onClick={() =>
+                router.push(`/artists/detail/${song?.album?.artist?.id}`)
+              }
             >
               View artist
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => router.push(`/songs/${song?.album?.id}`)}
+              onClick={() => router.push(`/albums/detail/${song?.album?.id}`)}
             >
               View album
             </DropdownMenuItem>

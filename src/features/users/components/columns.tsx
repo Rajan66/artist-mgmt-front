@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { toast } from "react-toastify";
 
 import {
@@ -39,17 +39,7 @@ import { TManager } from "../types/user-profile";
 export const columns: ColumnDef<TManager>[] = [
   {
     accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Email",
     cell: ({ row }) => <div>{row.original.user?.email}</div>,
   },
   { accessorKey: "first_name", header: "First Name" },
