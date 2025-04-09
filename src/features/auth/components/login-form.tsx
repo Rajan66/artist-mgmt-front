@@ -36,20 +36,14 @@ const LoginForm = () => {
   const onSubmit = async (data: TLogin) => {
     try {
       const response = await login(data);
-      if (response.status !== 200) {
-        throw new Error("Invalid credentials!");
-      }
       toast.success("Login successful");
       router.replace("/");
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.error("Axios error:", error.message);
-        toast.error(error.message || "Login failed. Please try again.");
+        toast.error("Invalid credential");
       } else if (error instanceof Error) {
-        console.error("Custom error:", error.message);
         toast.error(error.message);
       } else {
-        console.error("Unknown error:", error);
         toast.error("Something went wrong...");
       }
     }

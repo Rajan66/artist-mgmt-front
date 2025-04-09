@@ -7,8 +7,7 @@ import { useGetArtistAlbums } from "../hooks/use-queries";
 import { TAlbum } from "../types/album.type";
 
 const AlbumMore = ({ artist }: { artist: TArtist }) => {
-  const { data: albums } = useGetArtistAlbums({ id: artist.id });
-  console.log(artist?.id);
+  const { data: albums } = useGetArtistAlbums({ id: artist?.id });
 
   return (
     <div className="">

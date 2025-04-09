@@ -32,10 +32,7 @@ export const RegisterSchema = (role: string) =>
       first_name: z.string().optional(),
       last_name: z.string().optional(),
 
-      phone:
-        role === "artist_manager"
-          ? z.string().min(10, "Phone number is required")
-          : z.string().optional(),
+      phone: z.string().optional(),
     })
     .refine((data) => data.password === data.confirm_password, {
       message: "Passwords don't match",

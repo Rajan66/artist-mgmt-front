@@ -32,7 +32,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { api_image } from "@/constants/api";
 import {
-  deleteArtist,
   hardDeleteArtist,
   softDeleteArtist,
   unbanArtist,
@@ -66,22 +65,12 @@ export const columns: ColumnDef<TArtist>[] = [
   },
   {
     accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Artist Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Aritst Name",
   },
   { accessorKey: "first_name", header: "First Name" },
   {
     accessorKey: "last_name",
-    header: "Last name",
+    header: "Last Name",
   },
   {
     accessorKey: "manager",
@@ -124,7 +113,7 @@ export const columns: ColumnDef<TArtist>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          First release year
+          Debut Year
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -133,7 +122,17 @@ export const columns: ColumnDef<TArtist>[] = [
 
   {
     accessorKey: "no_of_albums_released",
-    header: "Album count",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Album Count
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "status",

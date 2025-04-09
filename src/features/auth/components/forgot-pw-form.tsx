@@ -37,18 +37,12 @@ const ForgotPWForm = () => {
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: forgotPassword,
-    onSuccess: (response) => {
+    onSuccess: () => {
       form.reset();
-      if (response?.status !== 200) {
-        throw new Error();
-      }
-      if (response?.status == 410) {
-        throw new Error("Link has been expired!");
-      }
       toast.success("Password changed successfully");
       router.push("/login");
     },
-    onError: (err) => toast.error(err?.message ?? "Failed to change password!"),
+    onError: () => toast.error("Failed to change password!"),
   });
 
   const onSubmit = async (data: TForgotPW) => {

@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { api_image } from "@/constants/api";
 import { useGetArtistWithUser } from "@/features/artists/hooks/use-queries";
 import { logout } from "@/features/auth/actions/logout.action";
 import { useGetUserProfile } from "@/features/users/hooks/use-queries";
@@ -28,6 +29,7 @@ const UserAvatar = () => {
     user?.role === "artist"
       ? useGetArtistWithUser(user?.id)
       : useGetUserProfile(user?.id);
+  console.log(profile?.data?.profile_image);
 
   const handleLogout = async () => {
     try {
@@ -52,7 +54,7 @@ const UserAvatar = () => {
       <DropdownMenuTrigger>
         <div className="bg-primary-foreground/30 flex size-10 items-center justify-center rounded-full cursor-pointer">
           <Avatar>
-            <AvatarImage src={profile?.data.profile_image} />
+            <AvatarImage src={`${api_image}/${profile?.data?.profile_image}`} />
             <AvatarFallback>
               {profile?.data.name
                 ? profile?.data.name.charAt(0).toUpperCase()
