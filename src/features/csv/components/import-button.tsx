@@ -42,7 +42,6 @@ const ImportButton = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    let response;
     let url = "/api/v1/songs/csv/import/admin/";
 
     if (user?.role === "artist_manager") {
@@ -51,7 +50,7 @@ const ImportButton = () => {
       url = `/api/v1/songs/csv/import/artist/${user.id}/`;
     }
 
-    response = await importCSV(url, formData);
+    const response = await importCSV(url, formData);
     if (response) {
       toast.success("CSV imported successfully");
       queryClient.invalidateQueries({ queryKey: ["allSongs", 1] });
@@ -59,6 +58,7 @@ const ImportButton = () => {
         queryKey: ["artistSongs", artist?.data?.id],
       });
       queryClient.invalidateQueries({ queryKey: ["songs", user?.id] });
+      setIsDialogOpen(false);
     } else {
       toast.error("Failed to import songs from CSV.");
     }
@@ -67,7 +67,9 @@ const ImportButton = () => {
     <div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-green-500 text-black">Import CSV</Button>
+          <Button className="bg-blue-500 text-black hover:bg-blue-600">
+            Import CSV
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogTitle>Import CSV File</DialogTitle>
@@ -75,7 +77,10 @@ const ImportButton = () => {
             Please select a CSV file to import.
           </DialogDescription>
           <Input type="file" accept=".csv" onChange={handleFileChange} />
-          <Button className="bg-green-500 text-black" onClick={handleImport}>
+          <Button
+            className="bg-blue-500 text-black hover:bg-blue-600"
+            onClick={handleImport}
+          >
             Import CSV
           </Button>
         </DialogContent>
