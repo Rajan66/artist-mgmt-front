@@ -91,7 +91,6 @@ const RegisterForm = ({ role, setStep }: RegisterFormProps) => {
   };
 
   return (
-    // {/*TODO fix the image size changing when going from step 1 to 2*/}
     <div className="flex flex-1 items-center justify-center px-6 py-4 mx-auto 2xl:p-12">
       <div className="w-full max-w-md">
         <div className="mb-8 space-y-2">

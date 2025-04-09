@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
-import { setCookie } from "cookies-next";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -20,7 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { cookieExpiry } from "@/constants/app";
 
 import { login } from "../actions";
 import { LoginSchema, TLogin } from "../schemas/login.schema";
@@ -37,9 +35,10 @@ const LoginForm = () => {
 
   const onSubmit = async (data: TLogin) => {
     try {
-      //TODO fix this unused variable error
       const response = await login(data);
-      // const user = await response?.data;
+      if (response.status !== 200) {
+        throw new Error("Invalid credentials!");
+      }
       toast.success("Login successful");
       router.replace("/");
     } catch (error) {
@@ -92,11 +91,19 @@ const LoginForm = () => {
                   control={form.control}
                   name="password"
                   render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <PasswordInput placeholder="********" {...field} />
-                      </FormControl>
+                    <FormItem>
+                      <div className="space-y-4">
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <PasswordInput placeholder="********" {...field} />
+                        </FormControl>
+                      </div>
+                      <Link
+                        href="/forgot/password"
+                        className="text-primary text-xs text-end hover:text-primary/90 hover:underline"
+                      >
+                        Forgot password?
+                      </Link>
                       <FormMessage />
                     </FormItem>
                   )}
