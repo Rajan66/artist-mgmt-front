@@ -5,9 +5,10 @@ export function matchProtectedRoute(pathname: string): boolean {
     const regexPattern =
       "^" +
       pattern
-        .replace(/\[(.*?)\]/g, "[^/]+") // turns [id] → [^/]+
-        .replace(/\//g, "\\/") +
+        .replace(/\[(.*?)\]/g, "[^/]+") 
+        .replace(/\//g, "\\/") + 
       "$";
+
     const regex = new RegExp(regexPattern);
     return regex.test(pathname);
   });

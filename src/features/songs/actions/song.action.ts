@@ -5,6 +5,7 @@ import {
   PutRequest,
 } from "@/lib/axios/axios";
 import { TPaginationProps } from "@/types/page.type";
+import { convertPayloadToFormData } from "@/utils/form-data";
 import { asyncHandler } from "@/utils/response";
 
 export const getSongs = async ({
@@ -57,13 +58,13 @@ export const getManagerSongs = async ({
 };
 
 export const createSong = async (payload: any) => {
-  return asyncHandler(() => PostRequest("/api/v1/songs/", payload));
+  const formData = convertPayloadToFormData(payload);
+  return asyncHandler(() => PostRequest("/api/v1/songs/", formData));
 };
 
 export const updateSong = async (data: { payload: any; id: string }) => {
-  return asyncHandler(() =>
-    PutRequest(`/api/v1/songs/${data.id}/`, data.payload)
-  );
+  const formData = convertPayloadToFormData(data.payload);
+  return asyncHandler(() => PutRequest(`/api/v1/songs/${data.id}/`, formData));
 };
 
 export const deleteSong = async (id: string) => {

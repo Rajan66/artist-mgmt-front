@@ -56,11 +56,13 @@ const DatePicker = ({
   const handleMonthChange = (month: string) => {
     const newDate = setMonth(date, months.indexOf(month));
     setDate(newDate);
+    field.onChange(newDate);
   };
 
   const handleYearChange = (year: string) => {
     const newDate = setYear(date, parseInt(year));
     setDate(newDate);
+    field.onChange(newDate);
   };
 
   const handleSelect = (selectedData: Date | undefined) => {
@@ -88,7 +90,6 @@ const DatePicker = ({
           <Select
             onValueChange={(value) => {
               handleMonthChange(value);
-              field.onChange(value);
             }}
             value={months[getMonth(date)]}
           >
@@ -106,7 +107,6 @@ const DatePicker = ({
           <Select
             onValueChange={(value) => {
               handleYearChange(value);
-              field.onChange(value);
             }}
             value={getYear(date).toString()}
           >

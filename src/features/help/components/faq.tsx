@@ -48,6 +48,49 @@ const FAQ = () => {
           </AccordionContent>
         </AccordionItem>
 
+        <AccordionItem value="item-5">
+          <AccordionTrigger className="cursor-pointer">
+            What is the CSV import format for songs, and what format do I get
+            when exporting?
+          </AccordionTrigger>
+          <AccordionContent>
+            <p className="mb-2">
+              For importing songs via CSV, the required format is as follows:
+            </p>
+            <ol className="list-decimal pl-5 space-y-1">
+              <li>Song Title</li>
+              <li>Genre</li>
+              <li>Song Release Date (in YYYY-MM-DD format)</li>
+              <li>Album Title</li>
+              <li>Artist Name</li>
+              <li>Artist Email</li>
+            </ol>
+            <p className="mt-2">
+              Ensure each song entry follows this structure for a successful
+              import. Each row in the CSV file corresponds to a song with the
+              required fields.
+            </p>
+
+            <p className="mt-4">
+              When exporting your songs, the CSV format will include the
+              following columns:
+            </p>
+            <ol className="list-decimal pl-5 space-y-1">
+              <li>Song Title</li>
+              <li>Genre</li>
+              <li>Song Release Date</li>
+              <li>Album Title</li>
+              <li>Album Type</li>
+              <li>Artist Name</li>
+              <li>Artist Email</li>
+            </ol>
+            <p className="mt-2">
+              This format allows you to easily re-import or manage your song
+              library.
+            </p>
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="item-3">
           <AccordionTrigger className="cursor-pointer">
             Can I edit album details later?

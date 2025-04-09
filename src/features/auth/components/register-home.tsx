@@ -54,12 +54,12 @@ const RegisterHome = () => {
 
           <div className="text-sm text-muted-foreground space-y-1 w-full">
             <p>
-              <strong>Artist:</strong> Upload tracks, connect with fans, and
-              grow your brand.
+              <strong>Artist:</strong> Upload tracks, albums, and grow your
+              brand.
             </p>
             <p>
               <strong>Artist Manager:</strong> Oversee artist activity and
-              performance metrics.
+              analytics.
             </p>
           </div>
 
