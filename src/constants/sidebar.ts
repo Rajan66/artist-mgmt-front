@@ -1,6 +1,6 @@
 import { FaRegUser } from "react-icons/fa";
 import { GrUserManager } from "react-icons/gr";
-import { LuAlbum, LuCircleHelp, LuHouse, LuMusic } from "react-icons/lu";
+import { LuCircleHelp, LuDiscAlbum, LuHouse, LuMusic } from "react-icons/lu";
 
 import { TItem } from "@/features/dashboard/types/sidebar.type";
 import { getUser } from "@/utils/get-user";
@@ -17,7 +17,7 @@ export const useGetItems = (): TItem[] => {
     {
       title: "Albums",
       url: "/albums",
-      icon: LuAlbum,
+      icon: LuDiscAlbum,
     },
     {
       title: "Songs",
