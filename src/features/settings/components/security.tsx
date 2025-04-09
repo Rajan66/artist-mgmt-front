@@ -1,26 +1,68 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
+import { changePassword } from "@/features/users/actions/password.action";
+import {
+  ChangePasswordSchema,
+  TChangePassword,
+} from "@/features/users/schemas/change-password.schema";
+import { getUser } from "@/utils/get-user";
 
 const SecuritySettings = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const handleSubmit = async (e: React.FormEvent) => {};
+  const user = getUser();
+
+  const form = useForm<TChangePassword>({
+    resolver: zodResolver(ChangePasswordSchema),
+    defaultValues: {
+      old_password: "",
+      new_password: "",
+      confirm_password: "",
+    },
+  });
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      form.reset();
+      toast.success("Password changed successfully");
+    },
+    onError: () => toast.error("Failed to change password!"),
+  });
+
+  const onSubmit = async (data: TChangePassword) => {
+    const formattedData = {
+      email: user?.email,
+      ...data,
+    };
+    mutate(formattedData);
+  };
+
+  if (error) {
+    toast.error("Failed to change password");
+  }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <Card>
         <CardHeader>
           <CardTitle>Change Password</CardTitle>
@@ -28,35 +70,63 @@ const SecuritySettings = () => {
             Update your password to keep your account secure.
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="currentPassword">Current Password</Label>
-              <div className="relative">
-                <PasswordInput />
-              </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="newPassword">New Password</Label>
-              <div className="relative">
-                <PasswordInput />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="space-y-4 p-6">
+              <div className="space-y-6 ">
+                <FormField
+                  control={form.control}
+                  name="old_password"
+                  render={({ field }) => (
+                    <FormItem className="space-y-2">
+                      <FormLabel>Current Password**</FormLabel>
+                      <FormControl>
+                        <PasswordInput placeholder="********" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="new_password"
+                  render={({ field }) => (
+                    <FormItem className="space-y-2">
+                      <FormLabel>New Password**</FormLabel>
+                      <FormControl>
+                        <PasswordInput placeholder="********" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirm_password"
+                  render={({ field }) => (
+                    <FormItem className="space-y-2">
+                      <FormLabel>Confirm Password**</FormLabel>
+                      <FormControl>
+                        <PasswordInput placeholder="********" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm New Password</Label>
-              <div className="relative">
-                <PasswordInput />
-              </div>
+            <div className="flex flex-col p-6">
+              <Button
+                type="submit"
+                className="text-background w-full"
+                disabled={isPending}
+              >
+                Change Password
+              </Button>
             </div>
-          </CardContent>
-          <CardFooter className="mt-4">
-            <Button type="submit" disabled={isLoading} variant="outline">
-              {isLoading ? "Updating..." : "Update Password"}
-            </Button>
-          </CardFooter>
-        </form>
+          </form>
+        </Form>
       </Card>
     </div>
   );
