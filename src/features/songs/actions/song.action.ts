@@ -58,13 +58,13 @@ export const getManagerSongs = async ({
 };
 
 export const createSong = async (payload: any) => {
-  const formData = convertPayloadToFormData(payload);
-  return asyncHandler(() => PostRequest("/api/v1/songs/", formData));
+  return asyncHandler(() => PostRequest("/api/v1/songs/", payload));
 };
 
 export const updateSong = async (data: { payload: any; id: string }) => {
-  const formData = convertPayloadToFormData(data.payload);
-  return asyncHandler(() => PutRequest(`/api/v1/songs/${data.id}/`, formData));
+  return asyncHandler(() =>
+    PutRequest(`/api/v1/songs/${data.id}/`, data.payload)
+  );
 };
 
 export const deleteSong = async (id: string) => {
