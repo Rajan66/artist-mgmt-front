@@ -1,17 +1,14 @@
 "use client";
 
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -21,40 +18,41 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
-import { changePassword } from "@/features/users/actions/password.action";
-import {
-  ChangePasswordSchema,
-  TChangePassword,
-} from "@/features/users/schemas/change-password.schema";
-import { getUser } from "@/utils/get-user";
 
-const SecuritySettings = () => {
-  const user = getUser();
+import { forgotPassword } from "../actions/password.action";
+import { ForgotPWSchema, TForgotPW } from "../schemas/forgot-pw.schema";
 
-  const form = useForm<TChangePassword>({
-    resolver: zodResolver(ChangePasswordSchema),
+const ForgotPWForm = () => {
+  const router = useRouter();
+  let { id: token } = useParams();
+  token = token?.toString() ?? "";
+
+  const form = useForm<TForgotPW>({
+    resolver: zodResolver(ForgotPWSchema),
     defaultValues: {
-      old_password: "",
-      new_password: "",
+      password: "",
       confirm_password: "",
     },
   });
 
   const { mutate, isPending, error } = useMutation({
-    mutationFn: changePassword,
-    onSuccess: () => {
+    mutationFn: forgotPassword,
+    onSuccess: (response) => {
       form.reset();
+      if (response?.status !== 200) {
+        throw new Error();
+      }
+      if (response?.status == 410) {
+        throw new Error("Link has been expired!");
+      }
       toast.success("Password changed successfully");
+      router.push("/login");
     },
-    onError: () => toast.error("Failed to change password!"),
+    onError: (err) => toast.error(err?.message ?? "Failed to change password!"),
   });
 
-  const onSubmit = async (data: TChangePassword) => {
-    const formattedData = {
-      email: user?.email,
-      ...data,
-    };
-    mutate(formattedData);
+  const onSubmit = async (data: TForgotPW) => {
+    mutate({ token: token, ...data });
   };
 
   if (error) {
@@ -62,35 +60,22 @@ const SecuritySettings = () => {
   }
 
   return (
-    <div className="space-y-6 ">
-      <Card>
-        <CardHeader>
-          <CardTitle>Change Password</CardTitle>
-          <CardDescription>
-            Update your password to keep your account secure.
-          </CardDescription>
-        </CardHeader>
-
+    <div className="flex flex-1 items-center justify-center p-6 md:p-12">
+      <div className="w-full max-w-md">
+        <div className="mb-6 space-y-2">
+          <h2 className="text-3xl font-bold">Change your password</h2>
+          <p className="text-primary text-base">{`You're just one step away.`}</p>
+          <p className="text-muted-foreground">
+            Enter a new password to regain access to your account.
+          </p>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="space-y-4 p-6">
+            <div className="space-y-4 ">
               <div className="space-y-6 ">
                 <FormField
                   control={form.control}
-                  name="old_password"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel>Current Password**</FormLabel>
-                      <FormControl>
-                        <PasswordInput placeholder="********" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="new_password"
+                  name="password"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
                       <FormLabel>New Password**</FormLabel>
@@ -116,7 +101,7 @@ const SecuritySettings = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col p-6">
+            <div className="flex flex-col mt-6">
               <Button
                 type="submit"
                 className="text-background w-full"
@@ -124,12 +109,20 @@ const SecuritySettings = () => {
               >
                 Change Password
               </Button>
+              <div className="mt-4 text-center text-sm">
+                <Link
+                  href="/login"
+                  className="text-primary hover:text-primary/90 underline"
+                >
+                  Back to login?
+                </Link>
+              </div>
             </div>
           </form>
         </Form>
-      </Card>
+      </div>
     </div>
   );
 };
 
-export default SecuritySettings;
+export default ForgotPWForm;

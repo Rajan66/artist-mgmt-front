@@ -35,6 +35,8 @@ const UserAvatar = () => {
       if (status !== 204) {
         throw new Error("Logout failed! Please try again.");
       }
+
+      localStorage.removeItem("profile-skip");
       router.replace("/login");
     } catch (error) {
       if (error instanceof Error) {
